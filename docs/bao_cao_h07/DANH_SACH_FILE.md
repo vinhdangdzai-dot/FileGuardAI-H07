@@ -1,6 +1,6 @@
 # Danh sách file thay đổi trong đợt nghiệm thu
 
-So với commit0306333; A=tạo mới, M=chỉnh sửa. Không có xóa file hoặc ghi đè model triển khai. File SQLite fixture không đưa vào Git; bằng chứng JSON/CSV/JUnit đã lưu. Bản kê này cũng là file mới.
+So với commit0306333; A=tạo mới, M=chỉnh sửa. Không xóa file hoặc ghi đè model triển khai. SQLite fixture không đưa vào Git; bằng chứng JSON/CSV/JUnit được lưu.
 
 | Trạng thái | File |
 |---|---|
@@ -29,6 +29,7 @@ So với commit0306333; A=tạo mới, M=chỉnh sửa. Không có xóa file ho�
 | A | docs/bao_cao_h07/10_DANH_GIA_MO_HINH.md |
 | A | docs/bao_cao_h07/11_DU_LIEU_HUAN_LUYEN.md |
 | A | docs/bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md |
+| A | docs/bao_cao_h07/DANH_SACH_FILE.md |
 | A | docs/bao_cao_h07/PR_DESCRIPTION.md |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/audit.stderr.txt |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/audit.stdout.txt |
@@ -50,6 +51,7 @@ So với commit0306333; A=tạo mới, M=chỉnh sửa. Không có xóa file ho�
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/summary.json |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/symlinks.stderr.txt |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/symlinks.stdout.txt |
+| A | docs/bao_cao_h07/evidence/clean_ef545f2.xml |
 | A | docs/evaluations/20261116T181019Z_dea9ec/confusion_matrix.png |
 | A | docs/evaluations/20261116T181019Z_dea9ec/external_predictions.csv |
 | A | docs/evaluations/20261116T181019Z_dea9ec/holdout_predictions.csv |
@@ -108,7 +110,7 @@ So với commit0306333; A=tạo mới, M=chỉnh sửa. Không có xóa file ho�
 | A | docs/evidence/tcp_20261116T182321Z_e9d112/test_cases.md |
 | A | docs/h07/evidence/20261116T182323Z_0090f9/fixtures/secret.txt |
 | A | docs/h07/evidence/20261116T182323Z_0090f9/fixtures/shared_files/ok.txt |
-| A | "docs/h07/evidence/20261116T182323Z_0090f9/fixtures/shared_files/t\303\240i li\341\273\207u/b\303\241o c\303\241o.txt" |
+| A | docs/h07/evidence/20261116T182323Z_0090f9/fixtures/shared_files/tài liệu/báo cáo.txt |
 | A | docs/h07/evidence/20261116T182323Z_0090f9/performance.json |
 | A | ml/strict_groups.py |
 | A | tests/test_acceptance_extensions.py |

@@ -7,6 +7,7 @@ Môi trường: Windows 11, Python venv hiện tại, scikit-learn1.9.1, Flask/S
 | Nhóm | Thực tế | Kết luận / bằng chứng |
 |---|---|---|
 | Pytest | 109 PASS, 3 SKIP, 15 subtests PASS; 22.66s | [stdout](evidence/20261116T182248Z_5acba3/pytest.stdout.txt), [JUnit](evidence/20261116T182248Z_5acba3/pytest.xml) |
+| Checkout sạch ef545f2 + prepare_workspace | 109 PASS, 3 SKIP, 15 subtests PASS; 38.38s | [JUnit](evidence/clean_ef545f2.xml); cùng venv, không phải cài dependency mới |
 | Dashboard/auth/CSV TCP | 41 PASS, 0 FAIL | [JSON](../evaluations/dashboard_http_20261116T172733Z_800c38_http_5badd2c18bb5.json) |
 | Download TCP | 33 PASS, 0 FAIL, 3 SKIP | [summary](../evidence/tcp_20261116T182321Z_e9d112/summary.json) |
 | Hiệu năng và SQLite | 144 request, 0 lỗi, 144 dòng; integrity ok | [performance](../h07/evidence/20261116T182323Z_0090f9/performance.json) |
@@ -18,6 +19,6 @@ Bảng máy đọc có từng mã TC, đầu vào, expected, actual, trạng th�
 
 Kiểm thử bổ sung: AI benign không vượt policy; AI suspicious không ép403; AI lỗi; log lỗi503 không đọc body; RBAC guest/auditor/admin; CSRF; mật khẩu; invalid time/status/probability; query thống kê và export cùng scope; CSV formula injection; model checksum trước unpickle; private storage startup guard; canonical split không giao nhau.
 
-Chưa chạy: symlink thật với Developer Mode/SeCreateSymbolicLinkPrivilege, SMB/reparse provider khác, Linux runtime cho nhánh POSIX, kiểm thử mạng production và trình duyệt thủ công. Cần chạy lại trên môi trường tương ứng; không điền PASS trước khi có kết quả. Các fixture/bằng chứng cũ và DB người dùng được giữ nguyên SHA trong summary.
+Chưa chạy: Python3.11 (đã chạy3.12.10), symlink thật với Developer Mode/SeCreateSymbolicLinkPrivilege, SMB/reparse provider khác, Linux runtime cho nhánh POSIX, kiểm thử mạng production và trình duyệt thủ công. Cần chạy lại trên môi trường tương ứng; không điền PASS trước khi có kết quả. Các fixture/bằng chứng cũ và DB người dùng được giữ nguyên SHA trong summary.
 
 **Trạng thái: PARTIAL — symlink thật SKIP.** Đối chiếu [ma trận tổng hợp](12_MA_TRAN_NGHIEM_THU.md). Bằng chứng chạy thực tế: [summary](evidence/20261116T182248Z_5acba3/summary.json), [pytest](evidence/20261116T182248Z_5acba3/pytest.stdout.txt), [bảng HTTP](evidence/20261116T182248Z_5acba3/http_test_cases.csv).

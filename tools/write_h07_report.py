@@ -184,6 +184,7 @@ Môi trường: Windows 11, Python venv hiện tại, scikit-learn1.9.1, Flask/S
 |---|---|---|
 | Pytest | 109 PASS, 3 SKIP, 15 subtests PASS; 22.66s | [stdout]({E}/pytest.stdout.txt), [JUnit]({E}/pytest.xml) |
 | Checkout sạch ef545f2 + prepare_workspace | 109 PASS, 3 SKIP, 15 subtests PASS; 38.38s | [JUnit](evidence/clean_ef545f2.xml); cùng venv, không phải cài dependency mới |
+| GitHub CI3839f3d Windows Server2025 | 112 PASS,0 SKIP,15 subtests PASS;40.91s | [bằng chứng](evidence/ci_3839f3d.json); dependencies cài mới;3 symlink thật chạy được |
 | Dashboard/auth/CSV TCP | 41 PASS, 0 FAIL | [JSON](../evaluations/dashboard_http_20261116T172733Z_800c38_http_5badd2c18bb5.json) |
 | Download TCP | 33 PASS, 0 FAIL, 3 SKIP | [summary](../evidence/tcp_20261116T182321Z_e9d112/summary.json) |
 | Hiệu năng và SQLite | 144 request, 0 lỗi, 144 dòng; integrity ok | [performance]({P}) |
@@ -208,7 +209,7 @@ Chưa chạy: Python3.11 (đã chạy3.12.10), symlink thật với Developer Mo
 
 Nguyên tắc giải mã để truy cập khác góc nhìn ML: ML v2 có raw+hai view hữu hạn để phát hiện, nhưng không được biến view thành đường dẫn tải. Ví dụ `%252e%252e%252f...` qua transport còn `%2e%2e%2f...` bị policy từ chối, không giải mã rồi mở lần nữa.
 
-Test Windows hoán đổi junction sau check trước open chứng minh handle cuối cùng ra ngoài bị chặn; test lỗi API chứng minh đóng handle. Ba symlink thật vẫn SKIP vì quyền OS: không lấy kết quả junction thay thế bằng chứng symlink.
+Test Windows hoán đổi junction sau check trước open chứng minh handle cuối cùng ra ngoài bị chặn; test lỗi API chứng minh đóng handle. Ba symlink thật vẫn SKIP trên Windows11 cục bộ vì quyền OS. CI Windows Server2025 đã chạy cả112 tests,0 SKIP, bao gồm3 symlink thật: [bằng chứng CI](evidence/ci_3839f3d.json). Không thay kết quả cục bộ bằng kết quả OS khác, không lấy junction thay thế symlink. PI3.1 vẫn PARTIAL cho yêu cầu trình diễn symlink trên Windows11 đích; bằng chứng nhánh Windows có tiến bộ rõ ràng.
 
 Giới hạn: không bảo vệ trước đối thủ có quyền thay public root/ACL, hardlink tới dữ liệu nhạy cảm, kernel/provider không tin cậy hoặc cấu hình filesystem mạng chưa kiểm thử. Cần root chỉ đọc với tài khoản phục vụ, cấm upload ghi tùy ý, tách private storage. Không tuyên bố hết mọi TOCTOU trên mọi nền tảng.
 
@@ -357,6 +358,8 @@ Kiểm chứng: [strict_groups.py](../../ml/strict_groups.py), [tests](../../tes
     write('12_MA_TRAN_NGHIEM_THU.md', '12 — Ma trận12 tiêu chí và hồ sơ bốn chương', matrix + f'''
 
 **Tổng:11 PASS,1 PARTIAL,0 FAIL ở mức minimum MVP. Không xác nhận12/12 đã hoàn tất.** PI3.1 chỉ đổi PASS sau khi có bằng chứng chạy symlink thật; không tính SKIP thành PASS. PASS nghĩa có triển khai/bằng chứng trong phạm vi ghi rõ, không phải hội đồng đã chấm Đạt hoặc chất lượng production. Những tài liệu06/07 có PARTIAL chi tiết không phải hai PI khác nhau.
+
+Bổ sung sau CI: [run3839f3d](evidence/ci_3839f3d.json) thành công trên Windows Server2025 với112 PASS,0 SKIP,15 subtests PASS;3 symlink thật đã chạy. Windows11 cục bộ/TCP vẫn3 SKIP. Giữ PI3.1 PARTIAL theo môi trường trình diễn Windows11 đích, không phủ nhận bằng chứng symlink trên CI và không tự đổi3 SKIP cũ thành PASS.
 
 Hồ sơ khóa luận: Chương1 dùng01+02 (bài toán/rủi ro/cơ sở LR); Chương2 dùng03+04+05+08 (phân tích/thiết kế); Chương3 dùng07+09 và mã nguồn (cài đặt/bảo vệ); Chương4 dùng06+10+11+12 (thực nghiệm, tái lập, giới hạn). Bộ bốn chương trước tại [docs/h07](../h07) được giữ làm nền, các số/quyền hiện hành theo hồ sơ này.
 

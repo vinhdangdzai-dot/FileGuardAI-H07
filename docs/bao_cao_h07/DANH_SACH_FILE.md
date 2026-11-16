@@ -51,6 +51,7 @@ So với commit0306333; A=tạo mới, M=chỉnh sửa. Không xóa file hoặc 
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/summary.json |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/symlinks.stderr.txt |
 | A | docs/bao_cao_h07/evidence/20261116T182248Z_5acba3/symlinks.stdout.txt |
+| A | docs/bao_cao_h07/evidence/ci_3839f3d.json |
 | A | docs/bao_cao_h07/evidence/clean_ef545f2.xml |
 | A | docs/evaluations/20261116T181019Z_dea9ec/confusion_matrix.png |
 | A | docs/evaluations/20261116T181019Z_dea9ec/external_predictions.csv |

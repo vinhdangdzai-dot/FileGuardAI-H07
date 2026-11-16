@@ -20,6 +20,8 @@ Bản nghiệm thu ngày 17/11/2026 (giờ Việt Nam). Phạm vi: MVP localhost
 
 **Tổng:11 PASS,1 PARTIAL,0 FAIL ở mức minimum MVP. Không xác nhận12/12 đã hoàn tất.** PI3.1 chỉ đổi PASS sau khi có bằng chứng chạy symlink thật; không tính SKIP thành PASS. PASS nghĩa có triển khai/bằng chứng trong phạm vi ghi rõ, không phải hội đồng đã chấm Đạt hoặc chất lượng production. Những tài liệu06/07 có PARTIAL chi tiết không phải hai PI khác nhau.
 
+Bổ sung sau CI: [run3839f3d](evidence/ci_3839f3d.json) thành công trên Windows Server2025 với112 PASS,0 SKIP,15 subtests PASS;3 symlink thật đã chạy. Windows11 cục bộ/TCP vẫn3 SKIP. Giữ PI3.1 PARTIAL theo môi trường trình diễn Windows11 đích, không phủ nhận bằng chứng symlink trên CI và không tự đổi3 SKIP cũ thành PASS.
+
 Hồ sơ khóa luận: Chương1 dùng01+02 (bài toán/rủi ro/cơ sở LR); Chương2 dùng03+04+05+08 (phân tích/thiết kế); Chương3 dùng07+09 và mã nguồn (cài đặt/bảo vệ); Chương4 dùng06+10+11+12 (thực nghiệm, tái lập, giới hạn). Bộ bốn chương trước tại [docs/h07](../h07) được giữ làm nền, các số/quyền hiện hành theo hồ sơ này.
 
 Chạy lại từ root project với venv: `python -m pytest -q -rs`, `python tools/run_h07_acceptance.py`. Thí nghiệm mới chỉ đọc dữ liệu, lưu artifact thư mục duy nhất: `python tools/evaluate_strict_groups.py`. Không dùng train_model để khởi động demo hoặc tự thay deployed model.

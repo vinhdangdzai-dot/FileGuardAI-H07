@@ -8,6 +8,7 @@ Môi trường: Windows 11, Python venv hiện tại, scikit-learn1.9.1, Flask/S
 |---|---|---|
 | Pytest | 109 PASS, 3 SKIP, 15 subtests PASS; 22.66s | [stdout](evidence/20261116T182248Z_5acba3/pytest.stdout.txt), [JUnit](evidence/20261116T182248Z_5acba3/pytest.xml) |
 | Checkout sạch ef545f2 + prepare_workspace | 109 PASS, 3 SKIP, 15 subtests PASS; 38.38s | [JUnit](evidence/clean_ef545f2.xml); cùng venv, không phải cài dependency mới |
+| GitHub CI3839f3d Windows Server2025 | 112 PASS,0 SKIP,15 subtests PASS;40.91s | [bằng chứng](evidence/ci_3839f3d.json); dependencies cài mới;3 symlink thật chạy được |
 | Dashboard/auth/CSV TCP | 41 PASS, 0 FAIL | [JSON](../evaluations/dashboard_http_20261116T172733Z_800c38_http_5badd2c18bb5.json) |
 | Download TCP | 33 PASS, 0 FAIL, 3 SKIP | [summary](../evidence/tcp_20261116T182321Z_e9d112/summary.json) |
 | Hiệu năng và SQLite | 144 request, 0 lỗi, 144 dòng; integrity ok | [performance](../h07/evidence/20261116T182323Z_0090f9/performance.json) |

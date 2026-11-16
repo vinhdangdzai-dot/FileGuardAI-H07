@@ -12,7 +12,7 @@ Bản nghiệm thu ngày 17/11/2026 (giờ Việt Nam). Phạm vi: MVP localhost
 
 Nguyên tắc giải mã để truy cập khác góc nhìn ML: ML v2 có raw+hai view hữu hạn để phát hiện, nhưng không được biến view thành đường dẫn tải. Ví dụ `%252e%252e%252f...` qua transport còn `%2e%2e%2f...` bị policy từ chối, không giải mã rồi mở lần nữa.
 
-Test Windows hoán đổi junction sau check trước open chứng minh handle cuối cùng ra ngoài bị chặn; test lỗi API chứng minh đóng handle. Ba symlink thật vẫn SKIP vì quyền OS: không lấy kết quả junction thay thế bằng chứng symlink.
+Test Windows hoán đổi junction sau check trước open chứng minh handle cuối cùng ra ngoài bị chặn; test lỗi API chứng minh đóng handle. Ba symlink thật vẫn SKIP trên Windows11 cục bộ vì quyền OS. CI Windows Server2025 đã chạy cả112 tests,0 SKIP, bao gồm3 symlink thật: [bằng chứng CI](evidence/ci_3839f3d.json). Không thay kết quả cục bộ bằng kết quả OS khác, không lấy junction thay thế symlink. PI3.1 vẫn PARTIAL cho yêu cầu trình diễn symlink trên Windows11 đích; bằng chứng nhánh Windows có tiến bộ rõ ràng.
 
 Giới hạn: không bảo vệ trước đối thủ có quyền thay public root/ACL, hardlink tới dữ liệu nhạy cảm, kernel/provider không tin cậy hoặc cấu hình filesystem mạng chưa kiểm thử. Cần root chỉ đọc với tài khoản phục vụ, cấm upload ghi tùy ý, tách private storage. Không tuyên bố hết mọi TOCTOU trên mọi nền tảng.
 

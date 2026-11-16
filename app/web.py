@@ -9,6 +9,7 @@ import secrets
 import time
 import csv
 import io
+import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -19,8 +20,10 @@ from werkzeug.security import check_password_hash
 from .database import (init_db, insert_log, recent_logs, summary, insert_security_event,
                        recent_security_events, failed_login_count)
 from .auth import configure_auth, roles_required
+from .log_filters import normalize_filters
 from .evaluation_results import validate_evaluation
 from .ml_features import extract_features
+from .training_view import read_dataset, dataset_stats, inspect_models, evaluation_history
 from .security import RejectedPath, list_allowed_files, open_authorized
 
 BASE = Path(__file__).resolve().parent.parent
@@ -38,6 +41,8 @@ def create_app(config=None):
         DATABASE=BASE / 'instance' / 'events.sqlite3',
         MODEL_PATH=BASE / 'artifacts' / 'model.joblib',
         EVALUATION_ROOT=BASE / 'docs' / 'evaluations',
+        TRAINING_DATA_PATH=BASE / 'data/paths_synthetic.csv',
+        EXPERIMENTAL_MODEL_PATH=BASE / 'docs/evaluations/20261116T154448Z_7a27a7/improved_model.joblib',
         ADMIN_PASSWORD=os.environ.get('ADMIN_PASSWORD') or secrets.token_urlsafe(12),
         ADMIN_PASSWORD_HASH=os.environ.get('ADMIN_PASSWORD_HASH'),
         AUDITOR_PASSWORD_HASH=os.environ.get('AUDITOR_PASSWORD_HASH'),
@@ -50,7 +55,8 @@ def create_app(config=None):
     configure_auth(app, BASE)
 
     root = Path(app.config['FILES_ROOT'])
-    for private in (app.config['DATABASE'], app.config['MODEL_PATH'],
+    for private in (app.config['DATABASE'], app.config['MODEL_PATH'], app.config['TRAINING_DATA_PATH'],
+                    app.config['EXPERIMENTAL_MODEL_PATH'], app.config['EVALUATION_ROOT'],
                     app.config.get('ADMIN_HASH_FILE', BASE / 'instance/admin_password.hash'),
                     app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash')):
         if Path(private).resolve().is_relative_to(root.resolve()):
@@ -90,7 +96,7 @@ def create_app(config=None):
             app.logger.exception('Advisory ML inference failed')
             return None, 'error'
 
-    admin_required = roles_required('admin', 'auditor')
+    admin_required = roles_required('admin')
 
     @app.after_request
     def secure_headers(response):
@@ -104,6 +110,11 @@ def create_app(config=None):
             "img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'"
         )
         return response
+
+    @app.errorhandler(sqlite3.Error)
+    def storage_error(error):
+        app.logger.error('SQLite operation unavailable', exc_info=True)
+        return render_template('error.html', code=503, message='Kho nhật ký tạm thời không khả dụng.'), 503
 
     @app.get('/')
     def index():
@@ -132,7 +143,7 @@ def create_app(config=None):
         except (RejectedPath, PermissionError) as exc:
             if f is not None:
                 f.close()
-            action, status, reason = 'BLOCK', 403, str(exc)
+            action, status, reason = 'BLOCK', 403, str(exc) or 'Không được phép truy cập'
             response = render_template('error.html', code=403, message=reason), 403
         except (FileNotFoundError, NotADirectoryError):
             action, status, reason = 'MISS', 404, 'Không tìm thấy tệp'
@@ -140,8 +151,14 @@ def create_app(config=None):
         except OSError:
             action, status, reason = 'BLOCK', 403, 'Yêu cầu không thể truy cập'
             response = render_template('error.html', code=403, message=reason), 403
-        insert_log(app.config['DATABASE'], ip, raw, score, ml_label,
-                   action, status, reason, (time.perf_counter() - start) * 1000)
+        try:
+            insert_log(app.config['DATABASE'], ip, raw, score, ml_label,
+                       action, status, reason, (time.perf_counter() - start) * 1000)
+        except (sqlite3.Error, ValueError):
+            if f is not None:
+                f.close()
+            app.logger.exception('Cannot persist access event; file response withheld')
+            return render_template('error.html', code=503, message='Không thể ghi nhật ký. Vui lòng thử lại sau.'), 503
         return response
 
     @app.route('/login', methods=['GET','POST'])
@@ -155,33 +172,39 @@ def create_app(config=None):
             role = request.form.get('role', 'admin')
             password_hash = app.config['ADMIN_HASH'] if role == 'admin' else app.config['AUDITOR_HASH'] if role == 'auditor' else None
             if password_hash and check_password_hash(password_hash, request.form.get('password', '')):
+                # Persist the authentication event BEFORE granting a role.
+                insert_security_event(app.config['DATABASE'], ip, role, 'login_success')
                 session.clear()
                 session.permanent = True
                 session['is_admin'] = role == 'admin'
                 session['role'] = role
-                insert_security_event(app.config['DATABASE'], ip, role, 'login_success')
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('dashboard' if role == 'admin' else 'index'))
             insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_failed')
             flash('Sai mật khẩu quản trị.')
         return render_template('login.html')
 
     @app.post('/logout')
-    @admin_required
+    @roles_required('admin', 'auditor')
     def logout():
-        insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', session['role'], 'logout')
-        session.clear()
+        try:
+            insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', session['role'], 'logout')
+        except sqlite3.Error:
+            app.logger.exception('Logout audit unavailable; session will still be cleared')
+        finally:
+            session.clear()
         return redirect(url_for('index'))
 
     @app.get('/dashboard')
     @admin_required
     def dashboard():
-        action = request.args.get('action') or None
-        if action is not None and action not in {'ALLOW', 'BLOCK', 'MISS'}:
+        try:
+            filters = normalize_filters(**{key: request.args.get(key) for key in ('action', 'ml_label', 'http_status', 'start', 'end')})
+        except ValueError:
             abort(400)
-        logs = recent_logs(app.config['DATABASE'], action=action)
-        counts = summary(app.config['DATABASE'])
+        logs = recent_logs(app.config['DATABASE'], **filters)
+        counts = summary(app.config['DATABASE'], **filters)
         return render_template('dashboard.html', logs=logs, counts=counts,
-                               security_events=recent_security_events(app.config['DATABASE']), selected_action=action)
+                               security_events=recent_security_events(app.config['DATABASE']), filters=filters)
 
     @app.post('/dashboard/logs/export')
     @roles_required('admin')
@@ -190,12 +213,55 @@ def create_app(config=None):
         buffer = io.StringIO(newline='')
         writer = csv.writer(buffer)
         writer.writerow(fields)
-        for row in recent_logs(app.config['DATABASE'], 500):
+        try:
+            filters = normalize_filters(**{key: request.form.get(key) for key in ('action', 'ml_label', 'http_status', 'start', 'end')})
+        except ValueError:
+            abort(400)
+        for row in recent_logs(app.config['DATABASE'], 500, **filters):
             writer.writerow([("'" + value if value.lstrip().startswith(('=', '+', '-', '@')) else value)
                              if isinstance(value := row[k], str) else value for k in fields])
         insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', 'admin', 'logs_exported')
         return send_file(io.BytesIO(buffer.getvalue().encode('utf-8-sig')), as_attachment=True,
                          download_name='access_logs.csv', mimetype='text/csv')
+
+    @app.get('/dashboard/ai-training')
+    @admin_required
+    def ai_training():
+        try:
+            rows = read_dataset(app.config['TRAINING_DATA_PATH'])
+            dataset = dataset_stats(rows, app.config['TRAINING_DATA_PATH'])
+        except (OSError, ValueError, UnicodeError):
+            dataset = None
+        models = inspect_models(predictor, app.config['EXPERIMENTAL_MODEL_PATH'])
+        return render_template('ai_training.html', dataset=dataset, models=models,
+                               history=evaluation_history(app.config['EVALUATION_ROOT']))
+
+    @app.post('/dashboard/ai-training/export')
+    @admin_required
+    def export_training():
+        kind = request.form.get('kind')
+        if kind == 'dataset':
+            try:
+                records = read_dataset(app.config['TRAINING_DATA_PATH'])
+            except (OSError, ValueError, UnicodeError):
+                abort(404)
+            columns = ['path', 'label', 'family']
+        elif kind in {'v1', 'v2'}:
+            metadata = inspect_models(predictor, app.config['EXPERIMENTAL_MODEL_PATH'])[kind]
+            if metadata is None:
+                abort(404)
+            records, columns = metadata['weights'], ['feature', 'coefficient', 'train_mean', 'train_scale']
+        else:
+            abort(400)
+        buffer = io.StringIO(newline='')
+        writer = csv.DictWriter(buffer, fieldnames=columns)
+        writer.writeheader()
+        for row in records:
+            writer.writerow({k: ("'" + v if isinstance(v, str) and v.lstrip().startswith(('=', '+', '-', '@')) else v)
+                             for k, v in row.items()})
+        insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', 'admin', 'training_csv_exported')
+        return send_file(io.BytesIO(buffer.getvalue().encode('utf-8-sig')), as_attachment=True,
+                         download_name=f'{kind}.csv', mimetype='text/csv')
 
     @app.get('/health')
     def health():
@@ -225,7 +291,7 @@ def create_app(config=None):
     @app.get('/dashboard/ai-evaluation')
     @admin_required
     def ai_evaluation():
-        data, folder = evaluation_data()
+        data, folder = evaluation_data(request.args.get('run'))
         return render_template('ai_evaluation.html', evaluation=data,
                                run=folder.name if folder else None)
 

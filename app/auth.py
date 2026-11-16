@@ -4,6 +4,7 @@ from functools import wraps
 import hmac
 from pathlib import Path
 import secrets
+import sqlite3
 
 from flask import abort, redirect, request, session, url_for
 from werkzeug.security import generate_password_hash
@@ -50,8 +51,11 @@ def configure_auth(app, base):
         except TypeError:
             valid = False
         if not valid:
-            insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown',
-                                  session.get('role', 'anonymous'), 'csrf_rejected')
+            try:
+                insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown',
+                                      session.get('role', 'anonymous'), 'csrf_rejected')
+            except sqlite3.Error:
+                app.logger.exception('CSRF rejection audit unavailable')
             abort(403)
 
 

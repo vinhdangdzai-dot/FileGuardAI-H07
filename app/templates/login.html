@@ -3,7 +3,7 @@
 <div class="panel login-panel mx-auto"><h1 class="h4 mb-3">Đăng nhập quản trị</h1>
 <p class="text-secondary small">Mật khẩu demo hiển thị trong cửa sổ Terminal khi khởi chạy bằng <code>python run.py</code>.</p>
 <form method="post"><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-<label for="role" class="form-label">Vai trò</label><select name="role" id="role" class="form-select mb-3"><option value="admin">Quản trị</option><option value="auditor">Kiểm toán chỉ đọc</option></select>
+<label for="role" class="form-label">Vai trò</label><select name="role" id="role" class="form-select mb-3"><option value="admin">Quản trị</option><option value="auditor">Auditor — chỉ kho công khai</option></select>
 <label for="pw" class="form-label">Mật khẩu</label>
 <input id="pw" name="password" type="password" class="form-control mb-3" required autocomplete="current-password">
 <button class="btn btn-primary w-100">Đăng nhập</button></form></div>

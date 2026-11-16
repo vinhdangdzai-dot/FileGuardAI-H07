@@ -8,7 +8,7 @@ import secrets
 import re
 import sys
 import threading
-from urllib.parse import urlencode
+from urllib.parse import urlencode, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -53,6 +53,10 @@ def main():
                 check = {'path': path, 'method': method, 'expected_http': expected,
                          'actual_http': response.status, 'pass': response.status == expected,
                          'sha256': hashlib.sha256(content).hexdigest()}
+                if body:
+                    public = parse_qs(body)
+                    check['public_form_fields'] = {k: v for k, v in public.items()
+                                                   if k in {'kind', 'role', 'action', 'ml_label', 'http_status', 'start', 'end'}}
                 evidence['checks'].append(check)
                 return content, dict(response.getheaders()), check
             finally:
@@ -86,6 +90,15 @@ def main():
                 check['pass'] &= check['exact_png']
             request('/dashboard/ai-evaluation/chart/model.joblib?run=' + run, 404)
             request('/dashboard', 200)
+            training, _, training_check = request('/dashboard/ai-training', 200)
+            training_check['metadata_present'] = b'view_max_parent_components' in training and b'10000' in training
+            training_check['pass'] &= training_check['metadata_present']
+            for kind in ('dataset', 'v1', 'v2'):
+                csv_data, _, check = request('/dashboard/ai-training/export', 200, 'POST', urlencode({'kind': kind, 'csrf_token': token}))
+                check['csv_header_present'] = (b'path,label,family' in csv_data if kind == 'dataset' else b'feature,coefficient,train_mean,train_scale' in csv_data)
+                check['pass'] &= check['csv_header_present']
+            request('/dashboard/ai-training/export', 403, 'POST', urlencode({'kind': 'dataset'}))
+            request('/dashboard/ai-training/export', 400, 'POST', urlencode({'kind': '../../secret', 'csrf_token': token}))
             body, _, check = request('/download?path=baocao.pdf', 200)
             check['exact_file'] = body == (ROOT / 'shared_files/baocao.pdf').read_bytes()
             check['pass'] &= check['exact_file']
@@ -93,6 +106,11 @@ def main():
             request('/download?path=__evaluation_missing__.txt', 404)
             request('/dashboard?action=BLOCK', 200)
             request('/dashboard?action=invalid', 400)
+            request('/dashboard?ml_label=suspicious&http_status=403', 200)
+            request('/dashboard?start=2026-01-01T00:00:00Z&end=2027-01-01T00:00:00Z', 200)
+            request('/dashboard?ml_label=invalid', 400)
+            request('/dashboard?http_status=999', 400)
+            request('/dashboard?start=2027-01-01&end=2026-01-01', 400)
             request('/dashboard/logs/export', 403, 'POST', '')
             exported, _, exported_check = request('/dashboard/logs/export', 200, 'POST', urlencode({'csrf_token': token}))
             exported_check['csv_header_present'] = b'requested_path' in exported and exported.startswith(b'\xef\xbb\xbf')
@@ -103,10 +121,13 @@ def main():
             form, _, _ = request('/login', 200)
             token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
             request('/login', 302, 'POST', urlencode({'role': 'auditor', 'password': auditor_password, 'csrf_token': token}))
-            form, _, _ = request('/dashboard', 200)
+            request('/dashboard', 403)
+            form, _, _ = request('/', 200)
             token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
             request('/dashboard/logs/export', 403, 'POST', urlencode({'csrf_token': token}))
-            request('/dashboard/ai-evaluation', 200)
+            request('/dashboard/ai-evaluation', 403)
+            request('/dashboard/ai-training', 403)
+            request('/dashboard/ai-training/export', 403, 'POST', urlencode({'kind': 'dataset', 'csrf_token': token}))
             request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
         finally:
             server.shutdown()

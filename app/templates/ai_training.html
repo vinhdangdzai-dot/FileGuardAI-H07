@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block title %}AI Training · FileGuard AI{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap gap-3 mb-4"><h1>AI Training — dữ liệu và mô hình</h1><a class="btn btn-outline-primary" href="{{url_for('dashboard')}}">Về dashboard</a></div>
+<div class="panel mb-4"><p>Chỉ xem dữ liệu đã gán nhãn và mô hình đã lưu. Không huấn luyện, tạo nhãn từ dự đoán hoặc triển khai model từ trang này.</p>
+<p>V1 là mô hình tải tệp hiện tại; v2 là tham chiếu đóng băng 20261116T154448Z_7a27a7, không tự thay bằng model của run mới. Trọng số dưới đây tính trên đặc trưng đã chuẩn hóa bằng scaler train, không phải quan hệ nhân quả.</p></div>
+{% if dataset %}
+<div class="panel mb-4"><h2 class="h5">Bộ dữ liệu CSV</h2>
+<p>{{dataset.rows}} mẫu · Nhãn {{dataset.label_counts}} · {{dataset.family_counts|length}} nhóm · Trùng exact dư: {{dataset.exact_duplicate_excess}} · Trùng canonical dư: {{dataset.canonical_duplicate_excess}}</p>
+<p class="small text-break">SHA-256 CSV gốc: {{dataset.sha256}}</p>
+<p class="small">Nhãn 1 là cú pháp nghi vấn, không phải bằng chứng đọc được file ngoài kho. Dataset tổng hợp và benchmark đã xem không chứng minh độ chính xác ngoài thực tế.</p>
+<form method="post" action="{{url_for('export_training')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input type="hidden" name="kind" value="dataset"><button class="btn btn-outline-primary">Tải CSV dữ liệu</button></form>
+<details class="mt-3"><summary>Số mẫu theo nhóm</summary><table class="table table-sm"><thead><tr><th>Nhóm</th><th>Số mẫu</th></tr></thead><tbody>{% for name,count in dataset.family_counts.items() %}<tr><td>{{name}}</td><td>{{count}}</td></tr>{% endfor %}</tbody></table></details>
+<details><summary>20 mẫu đầu của CSV</summary><table class="table table-sm"><thead><tr><th>Path</th><th>Nhãn</th><th>Nhóm</th></tr></thead><tbody>{% for r in dataset.preview %}<tr><td class="path-cell">{{r.path}}</td><td>{{r.label}}</td><td>{{r.family}}</td></tr>{% endfor %}</tbody></table></details></div>
+{% else %}<div class="panel mb-4">CSV chưa có hoặc không hợp lệ. Không tạo dữ liệu thay thế tự động.</div>{% endif %}
+{% for name,model in models.items() %}<div class="panel mb-4"><h2 class="h5">Logistic Regression {{name}}</h2>
+{% if model %}<p>{{model.features}} đặc trưng · Train {{model.train_samples}} mẫu · C={{model.C}} · Intercept={{'%.6f'|format(model.intercept)}}</p>
+<form method="post" action="{{url_for('export_training')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input type="hidden" name="kind" value="{{name}}"><button class="btn btn-outline-primary">Tải trọng số CSV {{name}}</button></form>
+<div class="table-responsive"><table class="table table-sm"><thead><tr><th>Đặc trưng</th><th>Trọng số chuẩn hóa</th><th>Mean train</th><th>Scale train</th></tr></thead><tbody>{% for r in model.weights %}<tr><td>{{r.feature}}</td><td>{{'%.6f'|format(r.coefficient)}}</td><td>{{'%.6f'|format(r.train_mean)}}</td><td>{{'%.6f'|format(r.train_scale)}}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<p>Không có metadata LR hợp lệ cho phiên bản này. Không fit hoặc tải mô hình thay thế.</p>{% endif %}</div>{% endfor %}
+<div class="panel"><h2 class="h5">Lịch sử đánh giá đã lưu</h2><p>Thời điểm xuất artifact không đồng nghĩa mọi tập trong artifact được đo lại. Xem provenance và giới hạn ở từng báo cáo.</p>
+<table class="table table-sm"><thead><tr><th>Run</th><th>UTC</th><th>Test</th><th>F1 v1</th><th>F1 v2</th></tr></thead><tbody>{% for r in history %}<tr><td><a href="{{url_for('ai_evaluation',run=r.run)}}">{{r.run}}</a></td><td>{{r.created_at_utc}}</td><td>{{r.test_samples}}</td><td>{{'%.4f'|format(r.v1_f1)}}</td><td>{{'%.4f'|format(r.v2_f1) if r.v2_f1 is not none else 'N/A'}}</td></tr>{% else %}<tr><td colspan="5">Chưa có kết quả hợp lệ.</td></tr>{% endfor %}</tbody></table>
+<a href="{{url_for('ai_evaluation')}}" class="btn btn-outline-primary">Xem biểu đồ và confusion matrix mới nhất</a></div>
+{% endblock %}

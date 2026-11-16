@@ -1,9 +1,9 @@
 """Path access boundary. AI scores never grant filesystem access.
 
-On POSIX, openat-style per-component O_NOFOLLOW prevents symlink replacement
-between authorization and open. On Windows, this local educational demo rejects
-links and checks resolved containment, but requires a trusted, non-writable
-file repository to avoid reparse-point / TOCTOU races.
+On POSIX, directory fds and O_NOFOLLOW protect per-component opening. Windows
+also verifies the normalized final path of the actual opened handle before
+streaming, closing the check/open junction-swap gap. Trusted repository ACLs
+remain required: this is not isolation against an OS-level adversary.
 """
 from __future__ import annotations
 
@@ -55,6 +55,35 @@ def validate_relative_path(raw: str) -> tuple[str, ...]:
     return parts
 
 
+def _windows_dos_path(value):
+    """Normalize only Win32 extended prefixes; never re-resolve a handle."""
+    if value.startswith('\\\\?\\UNC\\'):
+        value = '\\\\' + value[8:]
+    elif value.startswith('\\\\?\\'):
+        value = value[4:]
+    return Path(value)
+
+
+def _windows_opened_path(file):
+    """Return the normalized DOS/UNC name of the actual opened kernel handle."""
+    import ctypes
+    from ctypes import wintypes
+    import msvcrt
+    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+    get_path = kernel.GetFinalPathNameByHandleW
+    get_path.argtypes = [wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD]
+    get_path.restype = wintypes.DWORD
+    handle = wintypes.HANDLE(msvcrt.get_osfhandle(file.fileno()))
+    needed = get_path(handle, None, 0, 0)
+    if not 0 < needed <= 32768:
+        raise RejectedPath('Không xác minh được đường dẫn của handle')
+    buffer = ctypes.create_unicode_buffer(needed + 1)
+    written = get_path(handle, buffer, len(buffer), 0)
+    if not written or written >= len(buffer):
+        raise RejectedPath('Không xác minh được đường dẫn của handle')
+    return _windows_dos_path(buffer.value)
+
+
 def safe_path(base: Path, raw: str) -> Path:
     """Resolve links, compare path components, reject any symlink in path."""
     parts = validate_relative_path(raw)
@@ -80,10 +109,10 @@ def safe_path(base: Path, raw: str) -> Path:
 def open_authorized(base: Path, raw: str):
     """Return an open *regular file*; caller must close after streaming.
 
-    POSIX implementation uses directory fds and O_NOFOLLOW for each path
-    component; on Windows use only with a repository that untrusted users
-    cannot mutate (see README limitation).
+    Windows checks the actual opened handle, not a fresh resolution of the
+    request string. Repository ACLs are still required.
     """
+    base = Path(base).resolve(strict=True)
     path = safe_path(base, raw)
     parts = validate_relative_path(raw)
     if os.name == 'posix' and hasattr(os, 'O_NOFOLLOW'):
@@ -116,9 +145,18 @@ def open_authorized(base: Path, raw: str):
         f = open(path, 'rb')
     except IsADirectoryError as exc:
         raise RejectedPath("Chỉ được phép tải tệp thông thường") from exc
-    if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+    try:
+        if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+            raise RejectedPath("Chỉ được phép tải tệp thông thường")
+        if os.name == 'nt':
+            final = _windows_opened_path(f)
+            if not final.is_relative_to(_windows_dos_path(str(base))):
+                raise RejectedPath('Handle trỏ ngoài thư mục cho phép')
+    except Exception as exc:
         f.close()
-        raise RejectedPath("Chỉ được phép tải tệp thông thường")
+        if isinstance(exc, RejectedPath):
+            raise
+        raise RejectedPath('Không xác minh được tệp đã mở') from exc
     return f
 
 

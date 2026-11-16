@@ -43,9 +43,10 @@ def test_auditor_cannot_export_or_promote_role(auth):
     app, c = auth
     token = csrf(c)
     c.post('/login', data={'role': 'auditor', 'password': 'auditor-secret-test', 'csrf_token': token})
-    assert c.get('/dashboard').status_code == 200
-    assert c.post('/dashboard/logs/export', data={'csrf_token': csrf(c, '/dashboard')}).status_code == 403
-    assert c.post('/login', data={'role': 'admin', 'password': 'auditor-secret-test', 'csrf_token': csrf(c, '/dashboard')}).status_code == 200
+    assert c.get('/dashboard').status_code == 403
+    assert c.get('/dashboard/ai-evaluation').status_code == 403
+    assert c.post('/dashboard/logs/export', data={'csrf_token': csrf(c, '/')}).status_code == 403
+    assert c.post('/login', data={'role': 'admin', 'password': 'auditor-secret-test', 'csrf_token': csrf(c, '/')}).status_code == 200
     with c.session_transaction() as s:
         assert s['role'] == 'auditor'
 

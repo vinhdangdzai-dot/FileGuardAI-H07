@@ -1,0 +1,18 @@
+{
+  "method": "Read-only Get-Acl; no Set-Acl, deletion or impersonation",
+  "observations": [
+    {
+      "path": "C:\\Users\\HUU VINH\\AppData\\Local\\Temp\\pytest-of-HUU VINH",
+      "owner": "LAPTOP-AHTMUVAG\\CodexSandboxOffline",
+      "protected": true,
+      "allow": ["OWNER RIGHTS FullControl", "NT AUTHORITY\\SYSTEM FullControl", "BUILTIN\\Administrators FullControl"]
+    },
+    {
+      "path": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\.pytest_cache",
+      "owner": "LAPTOP-AHTMUVAG\\CodexSandboxOffline",
+      "protected": true,
+      "allow": ["OWNER RIGHTS FullControl", "NT AUTHORITY\\SYSTEM FullControl", "BUILTIN\\Administrators FullControl"]
+    }
+  ],
+  "scope": "Consistent with the user's access-denied evidence. Current Codex execution identity can differ from the user's normal terminal; this is not a successful rerun under that user identity."
+}

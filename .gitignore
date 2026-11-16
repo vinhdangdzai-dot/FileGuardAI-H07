@@ -32,3 +32,5 @@ instance/*.hash
 instance/credential_history/
 instance/*.tmp
 .verification/
+.test_runtime/
+.test_runtime_*/

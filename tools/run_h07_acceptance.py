@@ -12,6 +12,20 @@ import uuid
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from ml.evaluate import sha256
+from tools.pytest_runtime import create_runtime, runtime_environment
+from xml.etree import ElementTree
+
+
+def pytest_counts(path):
+    """Count serialized testcase nodes; report ERROR independently of FAIL."""
+    root = ElementTree.parse(path).getroot()
+    counts = dict(PASS=0, FAIL=0, ERROR=0, SKIP=0)
+    for case in root.iter('testcase'):
+        status = ('ERROR' if case.find('error') is not None else
+                  'FAIL' if case.find('failure') is not None else
+                  'SKIP' if case.find('skipped') is not None else 'PASS')
+        counts[status] += 1
+    return counts
 
 
 def main():
@@ -19,8 +33,10 @@ def main():
     out.mkdir(parents=True)
     protected = {str(p.relative_to(ROOT)): sha256(p) for p in [ROOT/'data/paths_synthetic.csv', ROOT/'artifacts/model.joblib',
                  ROOT/'docs/evaluations/20261116T154448Z_7a27a7/improved_model.joblib', ROOT/'instance/events.sqlite3'] if p.is_file()}
-    env = dict(os.environ, PYTHONIOENCODING='utf-8')
+    runtime = create_runtime(ROOT, 'acceptance')
+    env = runtime_environment(runtime)
     steps = [('pytest', ['-m', 'pytest', '-q', '-rs', '-W', 'error::sklearn.exceptions.InconsistentVersionWarning',
+                        '-p', 'no:cacheprovider', '--basetemp='+str(runtime['basetemp']),
                         '--junitxml='+str(out/'pytest.xml')]),
              ('dashboard_tcp', ['tools/verify_evaluation_http.py']),
              ('download_tcp', ['tools/verify_tcp.py']),
@@ -35,6 +51,9 @@ def main():
         (out/(name+'.stderr.txt')).write_text(completed.stderr, encoding='utf-8')
         results[name] = {'returncode': completed.returncode, 'command': [sys.executable, *args]}
         print(name, 'exit', completed.returncode, flush=True)
+    if (out/'pytest.xml').is_file():
+        results['pytest']['junit_counts'] = pytest_counts(out/'pytest.xml')
+        results['pytest']['counting_note'] = 'Serialized JUnit testcase nodes only; console subtest totals are retained separately and not added here.'
     cases = []
     def locate(step):
         text = (out/(step+'.stdout.txt')).read_text(encoding='utf-8')
@@ -67,6 +86,7 @@ def main():
         data = json.loads((performance/'performance.json').read_text())
         results['performance'].update(requests=data['http_requests'], failures=data['failures'], sqlite_rows=data['sqlite_rows'])
     summary = {'created_at_utc': datetime.now(timezone.utc).isoformat(), 'steps': results,
+               'test_runtime': {k: str(v.relative_to(ROOT)) for k, v in runtime.items()},
                'protected_sha256_before': protected,
                'protected_unchanged': {p: sha256(ROOT/p) == digest for p, digest in protected.items()},
                'note': 'Zero process exit for symlink probe does not mean PASS: inspect per-case SKIP/1314. No model deployment or merging.'}

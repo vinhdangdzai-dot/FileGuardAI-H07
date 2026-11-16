@@ -1,5 +1,7 @@
 # 12 — Ma trận12 tiêu chí và hồ sơ bốn chương
 
+> **Cập nhật lỗi Windows temp:** [13_SUA_LOI_PYTEST_WINDOWS11](13_SUA_LOI_PYTEST_WINDOWS11.md) có nguyên nhân ACL, bản sửa, regression tests và log mới. PI2.3:pytest116 PASS,0 FAIL,0 ERROR,3 SKIP;15 subtests PASS. PI3.2:lưu riêng FAIL/ERROR/SKIP trong JUnit. Các số109/112 bên dưới là bằng chứng lịch sử theo môi trường. Không tăng trạng thái PI3.1 hoặc đổi SKIP symlink thành PASS. Chưa kiểm chứng lại bằng terminal tài khoản người dùng thông thường.
+
 Bản nghiệm thu ngày 17/11/2026 (giờ Việt Nam). Phạm vi: MVP localhost Windows 11; không phải chứng nhận triển khai Internet.
 
 | PI | Yêu cầu | Tài liệu | Mã / test / bằng chứng | Trạng thái | Kết quả thực tế |

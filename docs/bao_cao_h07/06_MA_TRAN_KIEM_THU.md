@@ -1,5 +1,7 @@
 # 06 — Ma trận kiểm thử thực tế
 
+> **Cập nhật sửa quyền temp:** [báo cáo13](13_SUA_LOI_PYTEST_WINDOWS11.md). Lệnh pytest thông thường mới:116 PASS,0 FAIL,0 ERROR,3 SKIP;15 subtests PASS. Dùng runtime UUID riêng, không dùng pytest-of-user hoặc cache cũ. Kết quả109 PASS bên dưới là mốc nghiệm thu trước bản sửa, không phải lần chạy mới.
+
 Bản nghiệm thu ngày 17/11/2026 (giờ Việt Nam). Phạm vi: MVP localhost Windows 11; không phải chứng nhận triển khai Internet.
 
 Môi trường: Windows 11, Python venv hiện tại, scikit-learn1.9.1, Flask/SQLite; localhost qua TCP thật, không chỉ test_client. Lệnh và exit code nằm trong [summary](evidence/20261116T182248Z_5acba3/summary.json); stdout/stderr/JUnit được giữ cùng thư mục. Chạy bằng `python tools/run_h07_acceptance.py` tạo thư mục mới, không ghi đè bằng chứng cũ.

@@ -1,4 +1,4 @@
-> **Bản hiện hành:** [12_MA_TRAN_NGHIEM_THU](bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md),17/11/2026. 11 PASS,1 PARTIAL;109 pytest PASS/3 SKIP. Chỉ admin đọc dữ liệu quản trị. Nội dung dưới đây giữ làm lịch sử, không thay bằng chứng mới.
+> **Bản hiện hành:** [12_MA_TRAN_NGHIEM_THU](bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md),17/11/2026. 11 PASS,1 PARTIAL. [Sửa lỗi quyền temp](bao_cao_h07/13_SUA_LOI_PYTEST_WINDOWS11.md):116 pytest PASS,0 FAIL,0 ERROR,3 SKIP;15 subtests PASS trong môi trường Codex, chưa chạy lại bằng tài khoản người dùng. Chỉ admin đọc dữ liệu quản trị. Nội dung dưới đây giữ làm lịch sử, không thay bằng chứng mới.
 
 # Đối chiếu mã nguồn với yêu cầu H07
 

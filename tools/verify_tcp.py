@@ -7,6 +7,7 @@ Never opens the user's events database or changes existing public files.
 from __future__ import annotations
 
 import csv
+from contextlib import closing
 import hashlib
 import http.client
 import json
@@ -20,7 +21,7 @@ import uuid
 import warnings
 from datetime import datetime, timezone
 from pathlib import Path
-from urllib.parse import quote, unquote_plus
+from urllib.parse import quote, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -57,8 +58,8 @@ def main():
 
     def run_case(code, name, query, expected, expected_bytes=None):
         uri = '/download?path=' + query
-        decoded = unquote_plus(query)
-        with sqlite3.connect(database) as db:
+        decoded = parse_qs('path=' + query, keep_blank_values=True)['path'][0]
+        with closing(sqlite3.connect(database)) as db:
             before = db.execute('SELECT COALESCE(MAX(id),0) FROM access_logs').fetchone()[0]
         con = http.client.HTTPConnection('127.0.0.1', 5000, timeout=10)
         started = datetime.now(timezone.utc)
@@ -71,7 +72,7 @@ def main():
         finally:
             con.close()
         ended = datetime.now(timezone.utc)
-        with sqlite3.connect(database) as db:
+        with closing(sqlite3.connect(database)) as db:
             db.row_factory = sqlite3.Row
             logs = [dict(r) for r in db.execute('SELECT * FROM access_logs WHERE id > ?', (before,))]
         checks = {'http': status == expected, 'no_external_secret': secret not in body,
@@ -79,13 +80,16 @@ def main():
                   'one_sqlite_row': len(logs) == 1}
         if len(logs) == 1:
             log = logs[0]
-            probability = float(model.predict_proba([extract_features(decoded)])[0][1])
+            probability = (float(model.predict_proba([extract_features(decoded)])[0][1])
+                           if len(decoded) <= 4096 else None)
             created = datetime.fromisoformat(log['created_at'])
             checks.update({
                 'ip': log['client_ip'] == '127.0.0.1',
-                'path': log['requested_path'] == decoded,
-                'ml_score': abs(log['ml_score'] - probability) < 1e-12,
-                'ml_label': log['ml_label'] == ('suspicious' if probability >= .5 else 'benign'),
+                'path': log['requested_path'] == decoded[:4096],
+                'ml_score': (abs(log['ml_score'] - probability) < 1e-12 if probability is not None
+                             else log['ml_score'] is None),
+                'ml_label': log['ml_label'] == (('suspicious' if probability >= .5 else 'benign')
+                                              if probability is not None else 'skipped'),
                 'decision': log['action'] == {200: 'ALLOW', 403: 'BLOCK', 404: 'MISS'}[expected],
                 'logged_http': log['http_status'] == status,
                 'duration_ms': math.isfinite(log['duration_ms']) and log['duration_ms'] >= 0,
@@ -139,6 +143,18 @@ def main():
             ('TC17', 'traversal in subdirectory', 'tailieu/../../secret.txt', 403, None),
             ('TC18', 'null encoding', '%00secret.txt', 403, None),
             ('TC19', 'directory is not a file', 'tailieu', 403, None),
+            ('TC25', 'Windows superscript device', quote('COM¹.txt'), 403, None),
+            ('TC26', 'Windows console device', quote('CONIN$'), 403, None),
+            ('TC27', 'duplicate path parameters', 'baocao.pdf&path=../secret.txt', 403, None),
+            ('TC28', 'oversized path skips advisory scoring', 'x' * 5000, 403, None),
+            ('TC29', 'alternate data stream', quote('baocao.pdf:stream'), 403, None),
+            ('TC30', 'trailing space component', quote('.. /secret.txt'), 403, None),
+            ('TC31', 'control character', '%0asecret.txt', 403, None),
+            ('TC32', 'encoded absolute slash', '%2fsecret.txt', 403, None),
+            ('TC33', 'current directory component', './baocao.pdf', 403, None),
+            ('TC34', 'mixed separators', quote('tailieu/..\\secret.txt'), 403, None),
+            ('TC35', 'missing nested file', 'tailieu/missing/subdir.txt', 404, None),
+            ('TC36', 'regular file used as parent', 'baocao.pdf/child.txt', 404, None),
         ]
         for case in cases:
             run_case(*case)

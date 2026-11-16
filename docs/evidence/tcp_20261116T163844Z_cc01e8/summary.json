@@ -1,0 +1,19 @@
+{
+  "started_run_utc": "20261116T163844Z",
+  "host": "127.0.0.1",
+  "port": 5000,
+  "transport": "http.client -> TCP -> Werkzeug WSGI -> Flask",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sklearn": "1.9.1",
+  "shared_files": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\shared_files",
+  "database": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\evidence\\tcp_20261116T163844Z_cc01e8\\events.sqlite3",
+  "model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "model_load_InconsistentVersionWarning": false,
+  "smoke_exit_code": 0,
+  "totals": {
+    "PASS": 33,
+    "FAIL": 0,
+    "SKIP": 3
+  }
+}

@@ -5,6 +5,7 @@ import http.client
 import json
 from pathlib import Path
 import secrets
+import re
 import sys
 import threading
 from urllib.parse import urlencode
@@ -19,7 +20,7 @@ from app import create_app
 def main():
     root = ROOT / 'docs/evaluations'
     run = json.loads((root / 'latest.json').read_text())['run']
-    results = json.loads((root / run / 'results.json').read_text())
+    results = json.loads((root / run / 'results.json').read_text(encoding='utf-8'))
     evidence = {'run': run, 'transport': 'TCP localhost', 'checks': []}
     # Preserve the test database as evidence, avoiding Windows cleanup of a
     # SQLite connection that may remain alive until Python garbage collection.
@@ -57,9 +58,13 @@ def main():
         try:
             request('/dashboard/ai-evaluation', 302)
             request('/dashboard/ai-evaluation/chart/metrics.png?run=' + run, 302)
-            _, headers, _ = request('/login', 302, 'POST', urlencode({'password': password}))
+            request('/login', 403, 'POST', urlencode({'password': password}))
+            form, _, _ = request('/login', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            _, headers, _ = request('/login', 302, 'POST', urlencode({'password': password, 'csrf_token': token}))
             cookie = headers['Set-Cookie'].split(';', 1)[0]
             body, _, check = request('/dashboard/ai-evaluation', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', body).group(1).decode()
             check['run_present'] = run.encode() in body
             check['metrics_present'] = all(f'{results["logistic_regression"][k]:.4f}'.encode() in body
                                            for k in ('accuracy', 'precision', 'recall', 'f1'))
@@ -83,7 +88,8 @@ def main():
             check['pass'] &= check['exact_file']
             request('/download?path=..%2fsecret.txt', 403)
             request('/download?path=__evaluation_missing__.txt', 404)
-            request('/logout', 302, 'POST', '')
+            request('/logout', 403, 'POST', '')
+            request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
             request('/dashboard/ai-evaluation', 302)
         finally:
             server.shutdown()
@@ -91,7 +97,8 @@ def main():
             server.server_close()
     evidence['passed'] = sum(c['pass'] for c in evidence['checks'])
     evidence['failed'] = sum(not c['pass'] for c in evidence['checks'])
-    target = root / ('dashboard_http_' + run + '.json')
+    # Preserve every prior TCP evidence file, even for the same frozen run.
+    target = root / ('dashboard_http_' + run + '_' + database_folder.name + '.json')
     target.write_text(json.dumps(evidence, indent=2), encoding='utf-8')
     print(f"TCP dashboard: {evidence['passed']} PASS, {evidence['failed']} FAIL")
     print('Evidence:', target)

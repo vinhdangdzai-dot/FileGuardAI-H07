@@ -5,6 +5,9 @@ import argparse
 import csv
 import json
 import platform
+import shutil
+import uuid
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -26,17 +29,28 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 def split_by_family(rows, seed=2026):
     """Keep path-template families exclusive across train and test."""
+    families = defaultdict(set)
+    for row in rows:
+        if str(row['label']) not in {'0', '1'} or not row['family']:
+            raise ValueError('Invalid labels or empty family')
+        families[row['family']].add(int(row['label']))
+    if not families or any(len(labels) != 1 for labels in families.values()):
+        raise ValueError('Families must be nonempty and label-homogeneous')
     rng = np.random.default_rng(seed)
     test_families = set()
     for label in (0, 1):
         groups = sorted({r['family'] for r in rows if int(r['label']) == label})
+        if len(groups) < 2:
+            raise ValueError('Need at least two families per class for a grouped holdout')
         rng.shuffle(groups)
         count = max(1, round(0.2 * len(groups)))
         test_families.update(groups[:count])
     train = [r for r in rows if r['family'] not in test_families]
     test = [r for r in rows if r['family'] in test_families]
-    assert train and test and {int(r['label']) for r in test} == {0, 1}
-    assert not ({r['family'] for r in train} & {r['family'] for r in test})
+    if (not train or not test or {int(r['label']) for r in train} != {0, 1}
+            or {int(r['label']) for r in test} != {0, 1}
+            or {r['family'] for r in train} & {r['family'] for r in test}):
+        raise ValueError('Unsafe grouped partition')
     return train, test
 
 
@@ -61,6 +75,8 @@ def build_model(seed=2026):
 def train(csv_file, model_file, results_file):
     with open(csv_file, newline='', encoding='utf-8-sig') as f:
         rows = list(csv.DictReader(f))
+    if len({r['path'] for r in rows}) != len(rows):
+        raise ValueError('Duplicate paths must be resolved before training')
     train_rows, test_rows = split_by_family(rows)
     x_train = [extract_features(r['path']) for r in train_rows]
     y_train = [int(r['label']) for r in train_rows]
@@ -87,6 +103,17 @@ def train(csv_file, model_file, results_file):
     }
     model_file.parent.mkdir(parents=True, exist_ok=True)
     results_file.parent.mkdir(parents=True, exist_ok=True)
+    # Preserve each prior output before an explicitly requested training run.
+    old_outputs = [p for p in (model_file, results_file) if p.exists()]
+    if old_outputs:
+        history = model_file.parent / 'history' / (datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '_' + uuid.uuid4().hex[:6])
+        history.mkdir(parents=True, exist_ok=False)
+        backups = {}
+        for index, previous in enumerate(old_outputs):
+            target = history / f'{index}_{previous.name}'
+            shutil.copy2(previous, target)
+            backups[str(previous.resolve())] = str(target.resolve())
+        results['previous_outputs_preserved'] = backups
     joblib.dump(pipeline, model_file)
     results_file.write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding='utf-8')
     print('Trained Logistic Regression; results are on held-out synthetic families.')
@@ -104,5 +131,8 @@ if __name__ == '__main__':
     data_path = PROJECT_ROOT / 'data' / 'paths_synthetic.csv'
     model_path = PROJECT_ROOT / 'artifacts' / 'model.joblib'
     result_path = PROJECT_ROOT / 'artifacts' / 'training_results.json'
-    write_dataset(data_path, n=args.n)
+    if not data_path.exists():
+        write_dataset(data_path, n=args.n)
+    else:
+        print('Using existing dataset without regeneration:', data_path)
     train(data_path, model_path, result_path)

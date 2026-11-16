@@ -1,0 +1,8 @@
+{
+  "confusion_matrix.png": "5da4f93b09e657e2560bd6927d5b73e25ca83a4286d7836493febae20362880e",
+  "external_h07_manifest.json": "51167e2f270ceaec3f4c4bef6df5f3ac637f5b3be3435d3cbf009ac2eccd5893",
+  "external_h07_predictions.csv": "3803bb3aff0b3e4ac9230ba81dc28fe7658a313deb62080f505b608f9f8c3e18",
+  "latency.png": "cc9a3a2fb5dd9bdfae66d287b39bd1a8d301a87e9575985e3193b081f75dae94",
+  "metrics.png": "2e4abee5db9589c471f53e886072c965777c1bb5609f2e9cd32717768111e178",
+  "results.json": "035bc741cb20a89b6cf8657680f03803356a948ba72cbdebb71e6538a3e74d3e"
+}

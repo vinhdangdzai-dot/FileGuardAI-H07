@@ -1,5 +1,40 @@
 # Đối chiếu mã nguồn với yêu cầu H07
 
+## Tự đánh giá kỹ thuật cập nhật — 17/11/2026
+
+Giữ nguyên 12 mã PI và 4 CLO từ bản kế hoạch. “Đạt” là đủ minimum trong
+phạm vi MVP localhost, không phải production certification hoặc xác nhận
+điểm của trường. Bản trước được lưu nguyên tại
+[h07/MA_TRAN_BAN_DAU.md](h07/MA_TRAN_BAN_DAU.md).
+
+| PI | Tiêu chí minimum tự đối chiếu | Trạng thái | File minh chứng | Kết quả thực tế |
+|---|---|---|---|---|
+| 1.1 | Nhận diện CWE-22, tài sản, threat boundary và bảng rủi ro | Đạt | [Rủi ro](h07/RUI_RO_CWE22.md), security.py | 11 rủi ro, score nhận định được phân biệt với số đo |
+| 1.2 | Giải thích LR/đặc trưng/quy trình phát hiện và đối chứng | Đạt | [Chương 1](h07/CHUONG_1.md), ml_features.py, improve.py | 18/30 đặc trưng; validation từ train, model không cấp quyền |
+| 1.3 | Activity và xử lý 200/403/404/lỗi AI | Đạt | [Thiết kế](h07/THIET_KE.md), [UML](h07/diagrams/download_activity.puml) | Test valid/missing/policy/AI error đã PASS |
+| 2.1 | Kiến trúc/module và ranh giới triển khai | Đạt | [Thiết kế](h07/THIET_KE.md), [Chương 3](h07/CHUONG_3.md) | Factory/routes/security/auth/database/ML tách vai trò |
+| 2.2 | ERD và lưu/đọc event đúng schema | Đạt | THIET_KE.md, app/database.py | 2 bảng thực; index/trigger; test SQLite và backup PASS |
+| 2.3 | Kịch bản và bằng chứng HTTP có thể kiểm tra | Đạt | [Chương 4](h07/CHUONG_4.md), tests/, JSON TCP | Pytest 76 PASS/3 SKIP; TCP download 33 PASS/3 SKIP; dashboard 17 PASS |
+| 3.1 | Ngăn traversal, gồm chứng minh symlink thực trên Windows | Chưa đạt | security.py, check_symlinks.py, [summary](h07/evidence/final_20261117/symlink_summary.json) | Traversal/junction PASS; 3 symlink SKIP/1314; TOCTOU/ACL chưa có chứng minh đầy đủ |
+| 3.2 | Query/filter, backup và bảo vệ nhật ký | Đạt | database.py, backup_logs.py, [runbook](h07/AN_NINH_VAN_HANH.md) | Bound filter, append-only triggers, backup không ghi đè/integrity, admin export PASS; không tamper-proof trước OS writer |
+| 3.3 | Ít nhất 5 Use Case có actor/luồng/ngoại lệ | Đạt | [Use Cases](h07/USE_CASES.md) | 10 UC; routes/CLI tương ứng có test |
+| 3.4 | Quyền web và bảo vệ quản trị ở phạm vi demo | Đạt | auth.py, tests/test_auth.py, runbook | Guest/Admin/Auditor, CSRF, hash, login throttle, session, private-storage guard PASS; chưa triển khai Internet |
+| 4.1 | Metrics/latency/block rate thực tế và phân tích FP/FN | Đạt | [Chương 4](h07/CHUONG_4.md), performance.json, predictions CSV | 3×48 TCP, 90/90 policy violations bị chặn; public challenge regex FN4, LR FN0; không đồng nhất block rate với ML Recall |
+| 4.2 | Dữ liệu 10.000 mẫu + nguồn ngoài có nhãn/provenance, không fit test | Đạt | [Chương 4](h07/CHUONG_4.md), data/external/, tests/test_h07_evaluation.py | 236 mẫu nguồn mới + challenge20; freeze model; ngưỡng không đổi; nhãn lexical/source bias/không blind/15 canonical overlap cũ được công khai |
+
+**Tổng: 11/12 Đạt minimum, 1/12 Chưa đạt.** Không đổi trạng thái 3.1
+thành Đạt khi chưa chạy được symlink thật. Các thiếu sót về traffic thực,
+OS ACL/TOCTOU, production IAM và ảnh chụp demo thủ công vẫn phải trình
+bày trong giới hạn; không suy rộng “Đạt MVP” thành “đã hoàn thiện mọi
+yêu cầu của khóa luận”. Chưa có bản Word H07 chính thức trong workspace
+để xác nhận rubric chi tiết ngoài 12 PI trong bản kế hoạch hiện có.
+
+Tài liệu kỹ thuật bốn chương: [Chương 1](h07/CHUONG_1.md),
+[Chương 2](h07/CHUONG_2.md), [Chương 3](h07/CHUONG_3.md),
+[Chương 4](h07/CHUONG_4.md).
+
+## Nội dung lập kế hoạch ban đầu (giữ để đối chiếu)
+
 Mẫu H07: 4 CLO, 12 PI; báo cáo gồm Giới thiệu, 4 chương, Kết luận, TLTK và phụ lục. Các phần cần hoàn thiện thêm được đánh dấu **CẦN LÀM**.
 
 | PI | Minh chứng trong MVP | Còn phải hoàn thiện khi làm đồ án |

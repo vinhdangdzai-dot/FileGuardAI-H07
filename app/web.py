@@ -1,21 +1,26 @@
 """H07 Path Traversal Lab – Flask application factory."""
 from __future__ import annotations
 
-import hmac
 import json
+import math
 import os
 import re
 import secrets
 import time
-from functools import wraps
+import csv
+import io
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    send_file, session, url_for)
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
-from .database import init_db, insert_log, recent_logs, summary
-from .ml_features import extract_features, simple_rule
+from .database import (init_db, insert_log, recent_logs, summary, insert_security_event,
+                       recent_security_events, failed_login_count)
+from .auth import configure_auth, roles_required
+from .evaluation_results import validate_evaluation
+from .ml_features import extract_features
 from .security import RejectedPath, list_allowed_files, open_authorized
 
 BASE = Path(__file__).resolve().parent.parent
@@ -27,46 +32,65 @@ def create_app(config=None):
         SECRET_KEY=os.environ.get('SECRET_KEY') or secrets.token_hex(32),
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SAMESITE='Lax',
+        SESSION_COOKIE_SECURE=os.environ.get('COOKIE_SECURE') == '1',
+        PERMANENT_SESSION_LIFETIME=timedelta(minutes=15),
         FILES_ROOT=BASE / 'shared_files',
         DATABASE=BASE / 'instance' / 'events.sqlite3',
         MODEL_PATH=BASE / 'artifacts' / 'model.joblib',
         EVALUATION_ROOT=BASE / 'docs' / 'evaluations',
         ADMIN_PASSWORD=os.environ.get('ADMIN_PASSWORD') or secrets.token_urlsafe(12),
+        ADMIN_PASSWORD_HASH=os.environ.get('ADMIN_PASSWORD_HASH'),
+        AUDITOR_PASSWORD_HASH=os.environ.get('AUDITOR_PASSWORD_HASH'),
         MAX_CONTENT_LENGTH=32 * 1024,
     )
     if config:
         app.config.update(config)
     if app.config.get('TESTING') and 'ADMIN_PASSWORD' not in (config or {}):
         app.config['ADMIN_PASSWORD'] = 'test-only-secret'
-    app.config['ADMIN_HASH'] = generate_password_hash(app.config['ADMIN_PASSWORD'])
+    configure_auth(app, BASE)
 
     root = Path(app.config['FILES_ROOT'])
+    for private in (app.config['DATABASE'], app.config['MODEL_PATH'],
+                    app.config.get('ADMIN_HASH_FILE', BASE / 'instance/admin_password.hash'),
+                    app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash')):
+        if Path(private).resolve().is_relative_to(root.resolve()):
+            raise ValueError('Private logs, credentials and model must be outside FILES_ROOT')
     root.mkdir(parents=True, exist_ok=True)
     init_db(Path(app.config['DATABASE']))
 
     predictor = None
+    model_status = 'unavailable'
     model_path = Path(app.config['MODEL_PATH'])
     if model_path.exists():
         import joblib
         # Only load locally produced artifacts; joblib is pickle-based.
-        predictor = joblib.load(model_path)
+        try:
+            predictor = joblib.load(model_path)
+            if not callable(getattr(predictor, 'predict_proba', None)):
+                raise ValueError('Artifact does not implement predict_proba')
+            model_status = 'ready'
+        except Exception:
+            # AI is advisory: a broken local artifact must not disable the
+            # independent file boundary. Never load untrusted pickle files.
+            model_status = 'error'
+            predictor = None
+            app.logger.exception('Cannot load advisory ML artifact')
 
     def score_path(text):
+        if len(text) > 4096:
+            return None, 'skipped'
         if predictor is None:
-            return None, 'unavailable'
+            return None, ('error' if model_status == 'error' else 'unavailable')
         try:
             probability = float(predictor.predict_proba([extract_features(text)])[0][1])
+            if not math.isfinite(probability) or not 0 <= probability <= 1:
+                raise ValueError('Invalid probability')
             return probability, ('suspicious' if probability >= 0.5 else 'benign')
-        except (ValueError, TypeError):
+        except Exception:
+            app.logger.exception('Advisory ML inference failed')
             return None, 'error'
 
-    def admin_required(view):
-        @wraps(view)
-        def wrapped(*args, **kwargs):
-            if not session.get('is_admin'):
-                return redirect(url_for('login'))
-            return view(*args, **kwargs)
-        return wrapped
+    admin_required = roles_required('admin', 'auditor')
 
     @app.after_request
     def secure_headers(response):
@@ -96,6 +120,8 @@ def create_app(config=None):
         ip = request.remote_addr or 'unknown'
         f = None
         try:
+            if len(request.args.getlist('path')) != 1:
+                raise RejectedPath('Yêu cầu phải có đúng một tham số path')
             f = open_authorized(root, raw)
             # We send an *already opened* file handle, never an unchecked path.
             response = send_file(f, as_attachment=True,
@@ -121,45 +147,77 @@ def create_app(config=None):
     @app.route('/login', methods=['GET','POST'])
     def login():
         if request.method == 'POST':
-            if check_password_hash(app.config['ADMIN_HASH'], request.form.get('password', '')):
+            ip = request.remote_addr or 'unknown'
+            since = (datetime.now(timezone.utc) - timedelta(seconds=app.config['LOGIN_WINDOW_SECONDS'])).isoformat(timespec='seconds')
+            if failed_login_count(app.config['DATABASE'], ip, since) >= app.config['LOGIN_MAX_FAILURES']:
+                insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_throttled')
+                return 'Thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.', 429, {'Retry-After': str(app.config['LOGIN_WINDOW_SECONDS'])}
+            role = request.form.get('role', 'admin')
+            password_hash = app.config['ADMIN_HASH'] if role == 'admin' else app.config['AUDITOR_HASH'] if role == 'auditor' else None
+            if password_hash and check_password_hash(password_hash, request.form.get('password', '')):
                 session.clear()
-                session['is_admin'] = True
+                session.permanent = True
+                session['is_admin'] = role == 'admin'
+                session['role'] = role
+                insert_security_event(app.config['DATABASE'], ip, role, 'login_success')
                 return redirect(url_for('dashboard'))
+            insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_failed')
             flash('Sai mật khẩu quản trị.')
         return render_template('login.html')
 
     @app.post('/logout')
     @admin_required
     def logout():
+        insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', session['role'], 'logout')
         session.clear()
         return redirect(url_for('index'))
 
     @app.get('/dashboard')
     @admin_required
     def dashboard():
-        logs = recent_logs(app.config['DATABASE'])
+        action = request.args.get('action') or None
+        if action is not None and action not in {'ALLOW', 'BLOCK', 'MISS'}:
+            abort(400)
+        logs = recent_logs(app.config['DATABASE'], action=action)
         counts = summary(app.config['DATABASE'])
-        return render_template('dashboard.html', logs=logs, counts=counts)
+        return render_template('dashboard.html', logs=logs, counts=counts,
+                               security_events=recent_security_events(app.config['DATABASE']), selected_action=action)
+
+    @app.post('/dashboard/logs/export')
+    @roles_required('admin')
+    def export_logs():
+        fields = ['id', 'created_at', 'client_ip', 'requested_path', 'ml_score', 'ml_label', 'action', 'http_status', 'reason', 'duration_ms']
+        buffer = io.StringIO(newline='')
+        writer = csv.writer(buffer)
+        writer.writerow(fields)
+        for row in recent_logs(app.config['DATABASE'], 500):
+            writer.writerow([("'" + value if value.lstrip().startswith(('=', '+', '-', '@')) else value)
+                             if isinstance(value := row[k], str) else value for k in fields])
+        insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', 'admin', 'logs_exported')
+        return send_file(io.BytesIO(buffer.getvalue().encode('utf-8-sig')), as_attachment=True,
+                         download_name='access_logs.csv', mimetype='text/csv')
 
     @app.get('/health')
     def health():
-        return {'status': 'ok', 'model_loaded': predictor is not None}
+        return {'status': 'ok', 'model_loaded': predictor is not None,
+                'model_status': model_status}
 
-    def evaluation_data():
+    def evaluation_data(run=None):
         """Read only local evaluation artifacts; no model loading or training."""
         folder = Path(app.config['EVALUATION_ROOT'])
         try:
-            pointer = json.loads((folder / 'latest.json').read_text(encoding='utf-8'))
-            run = pointer['run']
+            if run is None:
+                pointer = json.loads((folder / 'latest.json').read_text(encoding='utf-8'))
+                run = pointer['run']
             if not isinstance(run, str) or not re.fullmatch(r'\d{8}T\d{6}Z_[0-9a-f]{6}', run):
                 return None, None
             run_dir = (folder / run).resolve()
             if not run_dir.is_relative_to(folder.resolve()):
                 return None, None
-            data = json.loads((run_dir / 'results.json').read_text(encoding='utf-8'))
-            for key in ('audit', 'logistic_regression', 'regex', 'timing', 'test_samples', 'train_samples', 'created_at_utc'):
-                if key not in data:
-                    return None, None
+            result_file = run_dir / 'results.json'
+            if result_file.stat().st_size > 2 * 1024 * 1024:
+                return None, None
+            data = validate_evaluation(json.loads(result_file.read_text(encoding='utf-8')))
             return data, run_dir
         except (OSError, ValueError, KeyError, TypeError):
             return None, None
@@ -176,10 +234,13 @@ def create_app(config=None):
     def ai_evaluation_chart(name):
         if name not in {'confusion_matrix.png', 'metrics.png', 'latency.png'}:
             abort(404)
-        data, folder = evaluation_data()
-        # Pin chart requests to the run displayed by the page, even if a new
-        # evaluation finishes between HTML and image requests.
-        if not folder or request.args.get('run') != folder.name:
+        run = request.args.get('run')
+        if not run:
+            abort(404)
+        data, folder = evaluation_data(run)
+        # Serve the exact archived run referenced by the page, even if latest
+        # changes between the HTML response and image requests.
+        if not folder:
             abort(404)
         chart = (folder / name).resolve()
         if not chart.is_relative_to(folder) or not chart.is_file():

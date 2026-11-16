@@ -18,12 +18,18 @@ class RejectedPath(ValueError):
 
 
 _WINDOWS_RESERVED = re.compile(
-    r"^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?$", re.IGNORECASE
+    r"^(?:CON|PRN|AUX|NUL|CONIN\$|CONOUT\$|COM[1-9¹²³]|LPT[1-9¹²³])(?:\..*)?$", re.IGNORECASE
 )
 _WINDOWS_DRIVE = re.compile(r"^[A-Za-z]:")
 # Reserved URL escapes after Flask's single transport decode. %25 is reserved
 # too, so nested encodings are rejected in constant passes, never unwrapped.
 _RESIDUAL_STRUCTURE = re.compile(r"%(?:25|2e|2f|5c|00|3a)", re.IGNORECASE)
+
+
+def _link_or_reparse(metadata):
+    return (stat.S_ISLNK(metadata.st_mode)
+            or bool(getattr(metadata, 'st_file_attributes', 0)
+                    & getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x400)))
 
 
 def validate_relative_path(raw: str) -> tuple[str, ...]:
@@ -42,7 +48,7 @@ def validate_relative_path(raw: str) -> tuple[str, ...]:
     if any(
         p in {"", ".", ".."}
         or p.endswith(".") or p.endswith(" ")
-        or _WINDOWS_RESERVED.fullmatch(p)
+        or _WINDOWS_RESERVED.fullmatch(p.split('.', 1)[0].rstrip(' '))
         for p in parts
     ):
         raise RejectedPath("Đường dẫn chứa thành phần không hợp lệ")
@@ -63,9 +69,7 @@ def safe_path(base: Path, raw: str) -> Path:
             metadata = current.lstat()
         except FileNotFoundError:
             continue
-        if (stat.S_ISLNK(metadata.st_mode)
-                or getattr(metadata, 'st_file_attributes', 0)
-                & getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x400)):
+        if _link_or_reparse(metadata):
             raise RejectedPath("Không cho phép symlink hoặc reparse point")
     target = candidate.resolve(strict=False)
     if not target.is_relative_to(base):
@@ -119,18 +123,36 @@ def open_authorized(base: Path, raw: str):
 
 
 def list_allowed_files(base: Path) -> list[str]:
-    """List only regular files that pass the same authorization policy."""
+    """Bounded walk, rejecting links/reparse points BEFORE descending.
+
+    Path.rglob can visit Windows junctions before individual files are checked.
+    Never enumerate an outside target, even when no file would be authorized.
+    """
     root = Path(base).resolve(strict=True)
     result = []
-    for p in root.rglob('*'):
-        if len(result) >= 200:
-            break
-        if p.is_symlink() or not p.is_file():
-            continue
-        rel = p.relative_to(root).as_posix()
+    pending = [root]
+    inspected = 0
+    while pending and inspected < 10000 and len(result) < 200:
+        directory = pending.pop()
         try:
-            safe_path(root, rel)
-        except (RejectedPath, OSError):
+            with os.scandir(directory) as entries:
+                for entry in entries:
+                    inspected += 1
+                    if inspected > 10000 or len(result) >= 200:
+                        break
+                    try:
+                        metadata = entry.stat(follow_symlinks=False)
+                        if _link_or_reparse(metadata):
+                            continue
+                        p = Path(entry.path)
+                        rel = p.relative_to(root).as_posix()
+                        safe_path(root, rel)
+                        if stat.S_ISDIR(metadata.st_mode):
+                            pending.append(p)
+                        elif stat.S_ISREG(metadata.st_mode):
+                            result.append(rel)
+                    except (RejectedPath, OSError):
+                        continue
+        except OSError:
             continue
-        result.append(rel)
     return sorted(result, key=str.casefold)

@@ -1,0 +1,9 @@
+{
+  "source_url": "https://community.owasp.org/attacks/Path_Traversal",
+  "source_page_sha256": "ba073650dc78f79a9aa1a453f1b0d3e54e7069e38628ad77c064cc028a5216a4",
+  "cases_sha256": "0f922ebdf3fc296c6c20dc883c0988f812fa04acf5560100cbc650d2edf57e31",
+  "rows": 20,
+  "canonical_overlap_original": 0,
+  "coverage": "6 single-encoding, 2 double-encoding, 2 legacy overlong attack examples; 10 shared Starlette controls",
+  "limitations": "Twenty illustrative lexical examples, related variants, shared controls; legacy overlong is attack intent, not valid modern UTF-8 traversal. Not a blind real-world benchmark."
+}

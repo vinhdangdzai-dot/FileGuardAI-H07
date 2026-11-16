@@ -1,0 +1,55 @@
+{
+  "tc": "TC16",
+  "name": "encoded missing Unicode",
+  "uri": "/download?path=tailieu/kh%C3%B4ng%20t%E1%BB%93n%20t%E1%BA%A1i%203a1a390ec0304f3e9827baf8f260aeb0.txt",
+  "framework_path": "tailieu/không tồn tại 3a1a390ec0304f3e9827baf8f260aeb0.txt",
+  "expected_http": 404,
+  "actual_http": 404,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Mon, 16 Nov 2026 16:38:46 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "1246",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 1246,
+  "response_sha256": "b2184fb219f20ad572ae1cd28b6f1e0844db888898621a064415345cf3643061",
+  "sqlite_rows": [
+    {
+      "id": 26,
+      "created_at": "2026-11-16T16:38:46+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "tailieu/không tồn tại 3a1a390ec0304f3e9827baf8f260aeb0.txt",
+      "ml_score": 6.238207719165756e-09,
+      "ml_label": "benign",
+      "action": "MISS",
+      "http_status": 404,
+      "reason": "Không tìm thấy tệp",
+      "duration_ms": 1.7361999998684041
+    }
+  ],
+  "started_utc": "2026-11-16T16:38:46.098162+00:00",
+  "ended_utc": "2026-11-16T16:38:46.107178+00:00"
+}

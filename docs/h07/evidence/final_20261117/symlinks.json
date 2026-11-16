@@ -1,0 +1,22 @@
+﻿{
+  "cases": [
+    {
+      "case": "file_policy",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30\\\\secret.txt' -> 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30\\\\shared_files\\\\file_policy'"
+    },
+    {
+      "case": "directory_policy",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30' -> 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30\\\\shared_files\\\\directory_policy'"
+    },
+    {
+      "case": "http_file",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30\\\\secret.txt' -> 'C:\\\\Users\\\\HUUVIN~1\\\\AppData\\\\Local\\\\Temp\\\\h07_symlink_o5rfwh30\\\\shared_files\\\\http_file'"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "backup_integrity": "ok",
+  "backup_rows": 144,
+  "source_unchanged": true,
+  "deployed_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "baseline_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "same_deployed_v1": true
+}

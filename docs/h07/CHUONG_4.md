@@ -11,11 +11,20 @@ Dataset/metrics dự đoán và source hashes được lưu để tính lại. M
 | Bộ kiểm thử | Kết quả thực tế | Bằng chứng |
 |---|---|---|
 | Toàn bộ pytest cuối sau sửa encoding | 76 PASS, 3 SKIP, 15 subtests PASS | [pytest_verified.txt](evidence/final_20261117/pytest_verified.txt), [XML](evidence/final_20261117/pytest_verified.xml) |
-| TCP dashboard + CSRF | 17 PASS, 0 FAIL | [JSON](../evaluations/dashboard_http_20261116T172733Z_800c38_http_f10730c9cea5.json) |
+| TCP dashboard + CSRF + RBAC/export | 27 PASS, 0 FAIL | [JSON](../evaluations/dashboard_http_20261116T172733Z_800c38_http_f0a06e843e16.json) |
 | TCP download chi tiết | 33 PASS, 3 SKIP, 0 FAIL | [TC và bằng chứng](../evidence/tcp_20261116T173538Z_31e4cd/test_cases.md) |
 | Smoke download | 10/10 PASS | [smoke](../evidence/tcp_20261116T173538Z_31e4cd/smoke_http.txt) |
 | Kiểm tra quyền/CSRF/hash/log | 7 test auth PASS trong suite | tests/test_auth.py |
 | Tạo symlink thật | 3 SKIP, WinError 1314 | [summary](evidence/final_20261117/symlink_summary.json) |
+
+Bản clone sạch của commit 537c286, không có CSV/model triển khai bị
+gitignore ban đầu, đã chạy prepare_workspace và đạt **76 PASS, 3 SKIP**:
+[cold_clone.txt](evidence/final_20261117/cold_clone.txt),
+[XML](evidence/final_20261117/cold_clone.xml). Không cài lại dependencies
+trong phép kiểm tra clone này; dùng cùng venv đã xác minh.
+Backup CLI thật của fixture tạo được 144 dòng, integrity=ok, source không
+đổi: [backup_verification.json](evidence/final_20261117/backup_verification.json).
+File DB backup giữ local, không đưa vào Git.
 
 Đã thử lại symlink ngoài sandbox: harness độc lập vẫn 3 SKIP/1314.
 Các lần pytest ngoài sandbox ban đầu còn lỗi setup do quyền/cấu trúc
@@ -45,6 +54,7 @@ không benchmark production hoặc chứng minh block mọi payload.
 
 Tổng **90/90 violation bị chặn =100% trên tập này**, không có nội dung
 ngoài kho. Đọc hết body để đo latency, gồm Flask/model/SQLite/TCP.
+Đây là 5 kiểu vi phạm lặp lại, không phải 90 payload độc lập.
 404 không được cộng vào tấn công; rate này không phải Recall ML.
 Lượt sơ bộ chạy đồng thời với tests có số đo khác, được giữ tại
 evidence/20261116T171755Z_810eaa; không chọn số đẹp nhất để báo cáo.
@@ -116,6 +126,14 @@ amortized µs/path nằm trong
 [results.json](../evaluations/20261116T172733Z_800c38/results.json),
 các key datasets.external_h07 và datasets.owasp_challenge.timing.
 Không gọi số chia từ batch là latency của một HTTP request.
+
+| Corpus mới | LR v1 µs/path | LR v2 µs/path | Regex µs/path |
+|---|---:|---:|---:|
+| LFISuite + Starlette, 236 mẫu | 11,911864 | 27,128814 | 0,799576 |
+| OWASP challenge, 20 mẫu | 21,950000 | 37,700000 | 0,800000 |
+
+Các giá trị là median warm batch chia số dòng, cùng điều kiện của từng
+corpus; không có bằng chứng v2 nhanh hơn baseline.
 
 ![Confusion matrix](../evaluations/20261116T172733Z_800c38/confusion_matrix.png)
 ![So sánh metrics](../evaluations/20261116T172733Z_800c38/metrics.png)

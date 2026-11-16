@@ -7,7 +7,8 @@ Evidence paths use byte-preserving Git attributes: prior autocrlf normalization 
 Validation performed locally:
 
 - Pytest: 76 passed, 3 skipped; 15 subtests passed (sklearn version warning treated as error).
-- Real TCP dashboard/CSRF: 17/17 passed.
+- Real TCP dashboard/CSRF/RBAC/export: 27/27 passed.
+- Clean local clone at 537c286 + prepare_workspace: 76 passed, 3 skipped, using the same verified venv (not a fresh dependency installation).
 - Real TCP download security: 33 passed, 3 symlink skips; smoke 10/10 passed.
 - Repeated 4-worker TCP measurement: 144 requests / 144 log rows, no wrong status/body or secret leak, 90/90 defined policy violations blocked. This is a local fixture measurement, not a production performance claim.
 - New external corpus: all methods scored 1.0; small OWASP challenge: v1/v2 scored 1.0, regex accuracy 0.8, recall 0.6, F1 0.75. This does not show v2 superiority over v1 or real-world generalization.

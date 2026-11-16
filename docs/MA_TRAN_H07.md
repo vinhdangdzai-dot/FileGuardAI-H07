@@ -14,7 +14,7 @@ phạm vi MVP localhost, không phải production certification hoặc xác nh�
 | 1.3 | Activity và xử lý 200/403/404/lỗi AI | Đạt | [Thiết kế](h07/THIET_KE.md), [UML](h07/diagrams/download_activity.puml) | Test valid/missing/policy/AI error đã PASS |
 | 2.1 | Kiến trúc/module và ranh giới triển khai | Đạt | [Thiết kế](h07/THIET_KE.md), [Chương 3](h07/CHUONG_3.md) | Factory/routes/security/auth/database/ML tách vai trò |
 | 2.2 | ERD và lưu/đọc event đúng schema | Đạt | THIET_KE.md, app/database.py | 2 bảng thực; index/trigger; test SQLite và backup PASS |
-| 2.3 | Kịch bản và bằng chứng HTTP có thể kiểm tra | Đạt | [Chương 4](h07/CHUONG_4.md), tests/, JSON TCP | Pytest 76 PASS/3 SKIP; TCP download 33 PASS/3 SKIP; dashboard 17 PASS |
+| 2.3 | Kịch bản và bằng chứng HTTP có thể kiểm tra | Đạt | [Chương 4](h07/CHUONG_4.md), tests/, JSON TCP | Pytest 76 PASS/3 SKIP, clone sạch cùng kết quả; TCP download 33 PASS/3 SKIP; dashboard/RBAC 27 PASS |
 | 3.1 | Ngăn traversal, gồm chứng minh symlink thực trên Windows | Chưa đạt | security.py, check_symlinks.py, [summary](h07/evidence/final_20261117/symlink_summary.json) | Traversal/junction PASS; 3 symlink SKIP/1314; TOCTOU/ACL chưa có chứng minh đầy đủ |
 | 3.2 | Query/filter, backup và bảo vệ nhật ký | Đạt | database.py, backup_logs.py, [runbook](h07/AN_NINH_VAN_HANH.md) | Bound filter, append-only triggers, backup không ghi đè/integrity, admin export PASS; không tamper-proof trước OS writer |
 | 3.3 | Ít nhất 5 Use Case có actor/luồng/ngoại lệ | Đạt | [Use Cases](h07/USE_CASES.md) | 10 UC; routes/CLI tương ứng có test |

@@ -102,7 +102,8 @@ Hai bảng độc lập, không có FK giả định. `actor_role` là nhãn s�
 không FK users vì tài khoản admin/auditor cấu hình bằng hash file/env.
 Access log: một dòng mỗi download; `ml_score` NULL khi unavailable/error/
 skipped, action ALLOW/BLOCK/MISS tương ứng 200/403/404; `duration_ms` đo
-xử lý trước truyền hết body, không phải latency end-to-end. Security
+xử lý tại thời điểm gọi insert, chưa gồm ghi SQLite và truyền hết body;
+không phải latency end-to-end. Security
 events không lưu mật khẩu, token hoặc cookie. Index: created_at cho
 access_logs, (client_ip,created_at) cho security_events. Trigger cấm
 UPDATE/DELETE cả hai bảng; INSERT được phép. Migration additive lúc

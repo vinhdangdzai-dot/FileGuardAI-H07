@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from werkzeug.serving import make_server
+from werkzeug.security import generate_password_hash
 from app import create_app
 
 
@@ -29,7 +30,9 @@ def main():
     evidence['database'] = str(database_folder / 'events.sqlite3')
     with nullcontext(database_folder) as tmp:
         password = secrets.token_hex(16)
-        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_PASSWORD': password})
+        auditor_password = secrets.token_hex(16)
+        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_PASSWORD': password,
+                          'AUDITOR_PASSWORD_HASH': generate_password_hash(auditor_password)})
         server = make_server('127.0.0.1', 0, app)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -88,9 +91,23 @@ def main():
             check['pass'] &= check['exact_file']
             request('/download?path=..%2fsecret.txt', 403)
             request('/download?path=__evaluation_missing__.txt', 404)
+            request('/dashboard?action=BLOCK', 200)
+            request('/dashboard?action=invalid', 400)
+            request('/dashboard/logs/export', 403, 'POST', '')
+            exported, _, exported_check = request('/dashboard/logs/export', 200, 'POST', urlencode({'csrf_token': token}))
+            exported_check['csv_header_present'] = b'requested_path' in exported and exported.startswith(b'\xef\xbb\xbf')
+            exported_check['pass'] &= exported_check['csv_header_present']
             request('/logout', 403, 'POST', '')
             request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
             request('/dashboard/ai-evaluation', 302)
+            form, _, _ = request('/login', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            request('/login', 302, 'POST', urlencode({'role': 'auditor', 'password': auditor_password, 'csrf_token': token}))
+            form, _, _ = request('/dashboard', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            request('/dashboard/logs/export', 403, 'POST', urlencode({'csrf_token': token}))
+            request('/dashboard/ai-evaluation', 200)
+            request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
         finally:
             server.shutdown()
             thread.join(timeout=10)

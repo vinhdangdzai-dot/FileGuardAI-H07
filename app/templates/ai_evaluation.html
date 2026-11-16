@@ -1,0 +1,54 @@
+{% extends "base.html" %}{% block title %}Đánh giá AI · FileGuard AI{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap gap-3 align-items-center mb-4">
+ <h1>Đánh giá Logistic Regression</h1><a class="btn btn-outline-primary" href="{{url_for('dashboard')}}">Về dashboard</a>
+</div>
+{% if not evaluation %}
+<div class="panel"><p>Chưa có kết quả đánh giá AI hợp lệ.</p><p>Vui lòng liên hệ quản trị để bổ sung kết quả thực nghiệm.</p></div>
+{% else %}
+<div class="panel mb-4">
+ <p>Đánh giá trên dữ liệu tổng hợp, chia train/test theo nhóm mẫu. Nhãn 1 là cú pháp nghi vấn; AI không quyết định quyền tải tệp.</p>
+ {% if evaluation.selection %}<p>LR v2: C={{evaluation.selection.selected_C}}, chọn bằng validation riêng {{evaluation.selection.validation_samples}} mẫu từ train; sau đó refit {{evaluation.selection.refit_samples}} mẫu train.</p>
+ <p class="small text-secondary">Tập test cũ được giữ nguyên nhưng kết quả đã từng công bố. Tập ngoài chỉ đánh giá sau khi đóng băng model; không dùng để chọn cấu hình.</p>{% endif %}
+ <p>Thời điểm UTC: {{evaluation.created_at_utc}} · Mã thực nghiệm: {{run}}</p>
+ <p>Tổng {{evaluation.audit.rows}} mẫu · Nhãn: {{evaluation.audit.label_counts}} · Dòng trùng dư: {{evaluation.audit.duplicate_excess_rows}} · {{evaluation.audit.family_counts|length}} nhóm.</p>
+ <p>Train: {{evaluation.train_samples}} · Test: {{evaluation.test_samples}} · Seed: {{evaluation.seed}} · Ngưỡng: {{evaluation.threshold}}</p>
+ <p>Giao nhau nhóm: {{evaluation.split.family_overlap|length}} · Giao nhau đường dẫn: {{evaluation.split.path_overlap|length}}</p>
+ <p class="small text-secondary">Kết quả thuộc model thực nghiệm lưu riêng; model tải tệp hiện tại không bị thay thế.</p>
+</div>
+<div class="panel mb-4 table-responsive">
+ <h2 class="h5">So sánh trên tập test</h2>
+ <table class="table"><thead><tr><th>Phương pháp</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>TN / FP / FN / TP</th></tr></thead>
+ {% set methods = [('logistic_regression','LR v1'),('improved_logistic_regression','LR v2'),('regex','Regex')] if evaluation.improved_logistic_regression else [('logistic_regression','Logistic Regression'),('regex','Regex')] %}
+ <tbody>{% for key,label in methods %}{% set m=evaluation[key] %}
+ <tr><td>{{label}}</td>{% for metric in ['accuracy','precision','recall','f1'] %}<td>{{'%.4f'|format(m[metric])}}</td>{% endfor %}
+ <td>{{m.confusion_matrix[0][0]}} / {{m.confusion_matrix[0][1]}} / {{m.confusion_matrix[1][0]}} / {{m.confusion_matrix[1][1]}}</td></tr>
+ {% endfor %}</tbody></table>
+</div>
+{% if evaluation.datasets %}
+<div class="panel mb-4 table-responsive"><h2 class="h5">Tập kiểm thử ngoài từ nguồn công khai</h2>
+ {% set external=evaluation.datasets.external_public %}
+ <p>{{external.samples}} mẫu · Nhãn: {{external.label_counts}}. Payload SecLists và tên file tương đối trong repo Flask làm đối chứng. Đây là nhãn cú pháp theo chính sách công bố, không phải traffic thực hoặc bằng chứng khai thác thành công.</p>
+ <table class="table"><thead><tr><th>Phương pháp</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>TN / FP / FN / TP</th></tr></thead><tbody>
+ {% for key,label in methods %}{% set m=external.models[key] %}
+ <tr><td>{{label}}</td>{% for metric in ['accuracy','precision','recall','f1'] %}<td>{{'%.4f'|format(m[metric])}}</td>{% endfor %}<td>{{m.confusion_matrix[0][0]}} / {{m.confusion_matrix[0][1]}} / {{m.confusion_matrix[1][0]}} / {{m.confusion_matrix[1][1]}}</td></tr>
+ {% endfor %}</tbody></table>
+</div>
+{% endif %}
+<div class="panel mb-4 table-responsive">
+ <h2 class="h5">Thời gian dự đoán</h2>
+ <p>Warm batch {{evaluation.test_samples}} mẫu, {{evaluation.timing.lr_end_to_end.repeats}} lượt. µs/path là median batch chia số mẫu; không phải độ trễ HTTP.</p>
+ <table class="table"><thead><tr><th>Phép đo</th><th>Median batch (ms)</th><th>P95 batch (ms)</th><th>µs/path</th></tr></thead><tbody>
+ {% for key,label in [('lr_inference_only','LR: suy luận'),('lr_end_to_end','LR: đặc trưng + suy luận'),('regex_end_to_end','Regex')] %}{% set t=evaluation.timing[key] %}
+ <tr><td>{{label}}</td><td>{{'%.4f'|format(t.median_batch_ms)}}</td><td>{{'%.4f'|format(t.p95_batch_ms)}}</td><td>{{'%.4f'|format(t.amortized_us_per_path)}}</td></tr>
+ {% endfor %}</tbody></table>
+ {% if evaluation.improved_logistic_regression %}{% set t=evaluation.timing.improved_end_to_end %}<p>LR v2 gồm trích đặc trưng: median batch {{'%.4f'|format(t.median_batch_ms)}} ms · P95 batch {{'%.4f'|format(t.p95_batch_ms)}} ms · {{'%.4f'|format(t.amortized_us_per_path)}} µs/path.</p>{% endif %}
+ {% if evaluation.datasets %}<h3 class="h6">Thời gian đầu cuối trên tập ngoài</h3><table class="table"><thead><tr><th>Phương pháp</th><th>Median batch (ms)</th><th>P95 batch (ms)</th><th>µs/path</th></tr></thead><tbody>
+ {% for key,label in [('lr_end_to_end','LR v1'),('improved_end_to_end','LR v2'),('regex_end_to_end','Regex')] %}{% set t=evaluation.datasets.external_public.timing[key] %}<tr><td>{{label}}</td><td>{{'%.4f'|format(t.median_batch_ms)}}</td><td>{{'%.4f'|format(t.p95_batch_ms)}}</td><td>{{'%.4f'|format(t.amortized_us_per_path)}}</td></tr>{% endfor %}</tbody></table>{% endif %}
+</div>
+{% for name,alt in [('confusion_matrix.png','Confusion matrix LR và regex'),('metrics.png','So sánh Accuracy Precision Recall F1'),('latency.png','Thời gian dự đoán')] %}
+<div class="panel mb-4"><img class="img-fluid" src="{{url_for('ai_evaluation_chart',name=name,run=run)}}" alt="{{alt}}"></div>
+{% endfor %}
+<div class="panel"><h2 class="h5">Giới hạn diễn giải</h2><p>Family chưa gặp vẫn thuộc cùng bộ sinh dữ liệu. Các chỉ số chỉ mô tả từng tập kiểm thử, chưa chứng minh tổng quát hóa sang traffic thực. Không suy diễn chỉ số này thành tỷ lệ chặn tấn công thực tế.</p></div>
+{% endif %}
+{% endblock %}

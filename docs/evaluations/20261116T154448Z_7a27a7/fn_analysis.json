@@ -1,0 +1,52 @@
+{
+  "baseline_false_negative_count": 250,
+  "fixed_by_v2": 250,
+  "families": [
+    "1-16"
+  ],
+  "v1_probability_min_median_max": [
+    0.009425106044255671,
+    0.027928337612838625,
+    0.08842004493678958
+  ],
+  "v2_probability_min_median_max": [
+    0.9913146372337723,
+    0.9955479862903696,
+    0.9981241137469243
+  ],
+  "example": "%252e%252e%252fconfig_2968.env",
+  "example_features_v1": {
+    "length": 30,
+    "depth_slash": 0,
+    "backslashes": 0,
+    "dotdot": 0,
+    "percent_count": 3,
+    "encoded_dot": 0,
+    "encoded_slash": 0,
+    "encoded_backslash": 0,
+    "leading_slash": 0,
+    "drive_prefix": 0,
+    "contains_colon": 0,
+    "spaces": 0,
+    "non_ascii": 0,
+    "digits": 13,
+    "multiple_dots": 0,
+    "null_encoding": 0,
+    "contains_question": 0,
+    "entropy": 3.6430190302453975
+  },
+  "example_added_features": {
+    "view_max_parent_components": 1,
+    "view_max_parent_fraction": 0.5,
+    "view_max_rooted": 0,
+    "view_max_drive": 0,
+    "view_max_unc": 0,
+    "view_max_separators": 1,
+    "view_mixed_separators": 0,
+    "view_max_escape_depth": 1,
+    "view_max_dot_components": 0,
+    "view_max_null": 0,
+    "view_max_structural_escapes": 3,
+    "decode_changes": 2
+  }
+}

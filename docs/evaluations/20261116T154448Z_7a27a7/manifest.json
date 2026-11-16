@@ -1,0 +1,15 @@
+{
+  "baseline_model.joblib": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "confusion_matrix.png": "0ed5bf1e0ec0b6cbee8275484e561981e28263a4b391c58f084747b6d598e1b0",
+  "development_split.csv": "287ed005863c7b093348ac7a62469428c3f522972c6c613a9e5de58974d3a536",
+  "external_manifest.json": "5354aa9e951e24e92c12242c8cc57f69881beb673e85ce7f8ae6d2b1a94a3b76",
+  "external_predictions.csv": "80e5bf3ffa3ce7cd0058c316065e2da26d8b79f5b056c705eed279eb0fc44175",
+  "holdout_predictions.csv": "e43722fe0c2985cc072371b71541513856cbc63ca146e5951d3910fe7e8993a0",
+  "improved_model.joblib": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+  "latency.png": "2bc21c044ac14bd1e523b8d5ef06f96db502ba7a7afd42f82c7f776a1c97dd1a",
+  "metrics.png": "1547b136c9562557a2b13068f7ed42ac563a0a0d08bf157490c5839761001820",
+  "protocol.json": "cf5c28639463503a2ab3d4ed0e292fc7d4ad3fc058bf7d1113c3541609104ce7",
+  "REPORT.md": "17514a5a9db0dc428c18ba06704f6da744d0e55b3e49f6c6ed1bc1dade5bcd88",
+  "results.json": "5484102f0a279ef3d9ffd5fe0b4830d0e6a908b8e04083309df83155043ccbf3",
+  "selection.json": "05b7380f1f33cb939f5a32617c26810ac9d429c14b5fad02484dc96eedc0e43a"
+}

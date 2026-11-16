@@ -1,0 +1,98 @@
+{
+  "dataset": "Synthetic patterns generated locally; not real attack traffic",
+  "total_samples": 10000,
+  "train_samples": 7999,
+  "test_samples": 2001,
+  "train_families": [
+    "0-00",
+    "0-03",
+    "0-04",
+    "0-05",
+    "0-06",
+    "0-07",
+    "0-08",
+    "0-09",
+    "0-10",
+    "0-12",
+    "0-13",
+    "0-14",
+    "1-00",
+    "1-01",
+    "1-02",
+    "1-04",
+    "1-05",
+    "1-06",
+    "1-07",
+    "1-08",
+    "1-09",
+    "1-11",
+    "1-12",
+    "1-13",
+    "1-15",
+    "1-17",
+    "1-18",
+    "1-19"
+  ],
+  "test_families": [
+    "0-01",
+    "0-02",
+    "0-11",
+    "1-03",
+    "1-10",
+    "1-14",
+    "1-16"
+  ],
+  "feature_names": [
+    "length",
+    "depth_slash",
+    "backslashes",
+    "dotdot",
+    "percent_count",
+    "encoded_dot",
+    "encoded_slash",
+    "encoded_backslash",
+    "leading_slash",
+    "drive_prefix",
+    "contains_colon",
+    "spaces",
+    "non_ascii",
+    "digits",
+    "multiple_dots",
+    "null_encoding",
+    "contains_question",
+    "entropy"
+  ],
+  "logistic_regression": {
+    "accuracy": 0.8751,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        250,
+        750
+      ]
+    ]
+  },
+  "simple_regex_baseline": {
+    "accuracy": 0.8751,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        250,
+        750
+      ]
+    ]
+  },
+  "classification_report": "              precision    recall  f1-score   support\n\n           0       0.80      1.00      0.89      1001\n           1       1.00      0.75      0.86      1000\n\n    accuracy                           0.88      2001\n   macro avg       0.90      0.88      0.87      2001\nweighted avg       0.90      0.88      0.87      2001\n"
+}

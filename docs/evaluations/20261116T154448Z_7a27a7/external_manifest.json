@@ -1,0 +1,64 @@
+{
+  "created_at_utc": "2026-11-16T15:47:31.082755+00:00",
+  "frozen_at_utc": "2026-11-16T15:44:49.433043+00:00",
+  "frozen_selection_sha256": "05b7380f1f33cb939f5a32617c26810ac9d429c14b5fad02484dc96eedc0e43a",
+  "protocol_sha256": "cf5c28639463503a2ab3d4ed0e292fc7d4ad3fc058bf7d1113c3541609104ce7",
+  "external_cases_sha256": "eb0db38471c5450c745e44d65066f515f2272a8594a81d08827b15337d332b6c",
+  "dataset_path": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\data\\external\\20261116T154731Z_66a7c6",
+  "rows": 400,
+  "label_counts": {
+    "1": 200,
+    "0": 200
+  },
+  "public_eligible_positive": 719,
+  "public_eligible_negative": 234,
+  "excluded_counts": {
+    "public_payload_not_in_annotation_scope": 211
+  },
+  "raw_overlap_original": 0,
+  "canonical_overlap_original": 0,
+  "within_external_duplicate_excess": 0,
+  "within_external_canonical_duplicate_excess": 2,
+  "selection": "first min(200, eligible_per_class) by SHA256(path); no model predictions used",
+  "sources": [
+    {
+      "url": "https://api.github.com/repos/danielmiessler/SecLists/commits/master",
+      "file": "seclists_commit.json",
+      "sha256": "e7c99d0fafb8133dfc04023cfa5381de16333b358b21e20d77067196dbc74cc4",
+      "retrieved_at_utc": "2026-11-16T15:47:31.668645+00:00"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/danielmiessler/SecLists/4d5e414c9631f3c12ee1ac86ff7234d848391fd3/Fuzzing/LFI/LFI-Jhaddix.txt",
+      "file": "LFI-Jhaddix.txt",
+      "sha256": "2fe4a8e45cb25ced4cd21344744c7821acdf050ce07bf3299d7ef3529cacf1a3",
+      "retrieved_at_utc": "2026-11-16T15:47:32.088984+00:00"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/danielmiessler/SecLists/4d5e414c9631f3c12ee1ac86ff7234d848391fd3/LICENSE",
+      "file": "SecLists_LICENSE.txt",
+      "sha256": "3dbdc93d5f8829de0941744841730a09c106d0732e5ae0e98ca1d77be7ded66c",
+      "retrieved_at_utc": "2026-11-16T15:47:32.471365+00:00"
+    },
+    {
+      "url": "https://api.github.com/repos/pallets/flask/commits/3.1.2",
+      "file": "flask_commit.json",
+      "sha256": "0de097f087fb282ba812d5f46bd8f9866e780ac7c0dcf1fabb956b717f7eb20d",
+      "retrieved_at_utc": "2026-11-16T15:47:32.966803+00:00"
+    },
+    {
+      "url": "https://api.github.com/repos/pallets/flask/git/trees/2c1b30d0503cfb064f1cb252e6614a06915a362a?recursive=1",
+      "file": "flask_tree.json",
+      "sha256": "a13a92ac25c22fa186a53f0e695aa02674ad26d67bb157ab02bd7c96749d4d37",
+      "retrieved_at_utc": "2026-11-16T15:47:33.543744+00:00"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/pallets/flask/2c1b30d0503cfb064f1cb252e6614a06915a362a/LICENSE.txt",
+      "file": "Flask_LICENSE.txt",
+      "sha256": "489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea",
+      "retrieved_at_utc": "2026-11-16T15:47:33.957759+00:00"
+    }
+  ],
+  "normalization": "strip surrounding whitespace for payload lines; Unicode NFC; preserve case/percent escapes/separators in model inputs",
+  "annotation": "1 iff raw/decode1/decode2 has parent component, rooted/UNC path or Windows drive; 0 iff public Flask blob path lacks these; no model-based labels",
+  "limitations": "Weak lexical annotation, source/label confounding; not real traffic or exploit success. Public payload examples may already be familiar to researcher. Variants can be canonically correlated."
+}

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Đăng nhập quản trị{% endblock %}
+{% block content %}
+<div class="panel login-panel mx-auto"><h1 class="h4 mb-3">Đăng nhập quản trị</h1>
+<p class="text-secondary small">Mật khẩu demo hiển thị trong cửa sổ Terminal khi khởi chạy bằng <code>python run.py</code>.</p>
+<form method="post"><label for="pw" class="form-label">Mật khẩu quản trị</label>
+<input id="pw" name="password" type="password" class="form-control mb-3" required autocomplete="current-password">
+<button class="btn btn-primary w-100">Đăng nhập</button></form></div>
+{% endblock %}

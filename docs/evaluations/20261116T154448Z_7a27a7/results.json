@@ -1,0 +1,874 @@
+{
+  "audit": {
+    "rows": 10000,
+    "unique_paths": 10000,
+    "duplicate_excess_rows": 0,
+    "duplicate_path_groups": 0,
+    "label_counts": {
+      "0": 5000,
+      "1": 5000
+    },
+    "conflicting_path_labels": 0,
+    "mixed_label_families": 0,
+    "family_counts": {
+      "0-00": 334,
+      "0-01": 334,
+      "0-02": 334,
+      "0-03": 334,
+      "0-04": 334,
+      "0-05": 333,
+      "0-06": 333,
+      "0-07": 333,
+      "0-08": 333,
+      "0-09": 333,
+      "0-10": 333,
+      "0-11": 333,
+      "0-12": 333,
+      "0-13": 333,
+      "0-14": 333,
+      "1-00": 250,
+      "1-01": 250,
+      "1-02": 250,
+      "1-03": 250,
+      "1-04": 250,
+      "1-05": 250,
+      "1-06": 250,
+      "1-07": 250,
+      "1-08": 250,
+      "1-09": 250,
+      "1-10": 250,
+      "1-11": 250,
+      "1-12": 250,
+      "1-13": 250,
+      "1-14": 250,
+      "1-15": 250,
+      "1-16": 250,
+      "1-17": 250,
+      "1-18": 250,
+      "1-19": 250
+    }
+  },
+  "train_samples": 7999,
+  "test_samples": 2001,
+  "train_families": [
+    "0-00",
+    "0-03",
+    "0-04",
+    "0-05",
+    "0-06",
+    "0-07",
+    "0-08",
+    "0-09",
+    "0-10",
+    "0-12",
+    "0-13",
+    "0-14",
+    "1-00",
+    "1-01",
+    "1-02",
+    "1-04",
+    "1-05",
+    "1-06",
+    "1-07",
+    "1-08",
+    "1-09",
+    "1-11",
+    "1-12",
+    "1-13",
+    "1-15",
+    "1-17",
+    "1-18",
+    "1-19"
+  ],
+  "test_families": [
+    "0-01",
+    "0-02",
+    "0-11",
+    "1-03",
+    "1-10",
+    "1-14",
+    "1-16"
+  ],
+  "split": {
+    "family_overlap": [],
+    "path_overlap": [],
+    "train_label_counts": {
+      "1": 4000,
+      "0": 3999
+    },
+    "test_label_counts": {
+      "0": 1001,
+      "1": 1000
+    }
+  },
+  "created_at_utc": "2026-11-16T15:49:01.695517+00:00",
+  "schema_version": 2,
+  "seed": 2026,
+  "threshold": 0.5,
+  "python_version": "3.12.10",
+  "sklearn_version": "1.9.1",
+  "reference_run": "20261116T153450Z_e5b13b",
+  "protocol": {
+    "validation_seed": 1701,
+    "candidate_C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "threshold": 0.5,
+    "selection_rule": "highest validation F1, ties choose smallest C",
+    "feature_design": "fixed raw/decode1/decode2 views; aggregate path structure; preserve v1 features",
+    "created_at_utc": "2026-11-16T15:44:48.837935+00:00",
+    "reference": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\evaluations\\20261116T153450Z_e5b13b",
+    "reference_results_sha256": "699240f4a75657af4dc98c97ec96b5288b0dde1014847d351b3e0f95a71c9909",
+    "reference_split_sha256": "4b7ef3280541290e17b50b38cc8365245f9d437a3d21f1b9f1c9648e69f34054",
+    "data_sha256": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+    "deployed_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+    "feature_source_sha256": "49e1069017f87d7bd21a4562655a0783b447523e3847cbbef579bf731de9818b",
+    "experiment_source_sha256": "dac63b4550f69b04ec3f1bdb5831cc0cc04f839b950dd59699803cc864ae7479",
+    "external_policy": "Public SecLists lexical attacks plus Flask repository relative-path controls; never used to fit/select",
+    "external_cap_per_class": 200,
+    "caveat": "Reference test outcomes were disclosed before feature design; this is a reused benchmark, not a pristine blind test."
+  },
+  "selection": {
+    "selected_C": 0.1,
+    "candidates": [
+      {
+        "C": 0.1,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              666,
+              0
+            ],
+            [
+              0,
+              750
+            ]
+          ]
+        }
+      },
+      {
+        "C": 1.0,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              666,
+              0
+            ],
+            [
+              0,
+              750
+            ]
+          ]
+        }
+      },
+      {
+        "C": 10.0,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              666,
+              0
+            ],
+            [
+              0,
+              750
+            ]
+          ]
+        }
+      }
+    ],
+    "validation_split": {
+      "family_overlap": [],
+      "path_overlap": [],
+      "train_label_counts": {
+        "1": 3250,
+        "0": 3333
+      },
+      "test_label_counts": {
+        "1": 750,
+        "0": 666
+      }
+    },
+    "fit_samples": 6583,
+    "validation_samples": 1416,
+    "refit_samples": 7999,
+    "fit_families": [
+      "0-00",
+      "0-03",
+      "0-04",
+      "0-06",
+      "0-07",
+      "0-08",
+      "0-09",
+      "0-10",
+      "0-12",
+      "0-14",
+      "1-00",
+      "1-01",
+      "1-02",
+      "1-04",
+      "1-05",
+      "1-07",
+      "1-08",
+      "1-09",
+      "1-11",
+      "1-12",
+      "1-13",
+      "1-18",
+      "1-19"
+    ],
+    "validation_families": [
+      "0-05",
+      "0-13",
+      "1-06",
+      "1-15",
+      "1-17"
+    ],
+    "refit_ms": 237.6628,
+    "feature_names_v2": [
+      "length",
+      "depth_slash",
+      "backslashes",
+      "dotdot",
+      "percent_count",
+      "encoded_dot",
+      "encoded_slash",
+      "encoded_backslash",
+      "leading_slash",
+      "drive_prefix",
+      "contains_colon",
+      "spaces",
+      "non_ascii",
+      "digits",
+      "multiple_dots",
+      "null_encoding",
+      "contains_question",
+      "entropy",
+      "view_max_parent_components",
+      "view_max_parent_fraction",
+      "view_max_rooted",
+      "view_max_drive",
+      "view_max_unc",
+      "view_max_separators",
+      "view_mixed_separators",
+      "view_max_escape_depth",
+      "view_max_dot_components",
+      "view_max_null",
+      "view_max_structural_escapes",
+      "decode_changes"
+    ],
+    "protocol_sha256": "cf5c28639463503a2ab3d4ed0e292fc7d4ad3fc058bf7d1113c3541609104ce7",
+    "baseline_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+    "improved_model_sha256": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+    "frozen_at_utc": "2026-11-16T15:44:49.433043+00:00"
+  },
+  "external_source_manifest": {
+    "created_at_utc": "2026-11-16T15:47:31.082755+00:00",
+    "frozen_at_utc": "2026-11-16T15:44:49.433043+00:00",
+    "frozen_selection_sha256": "05b7380f1f33cb939f5a32617c26810ac9d429c14b5fad02484dc96eedc0e43a",
+    "protocol_sha256": "cf5c28639463503a2ab3d4ed0e292fc7d4ad3fc058bf7d1113c3541609104ce7",
+    "external_cases_sha256": "eb0db38471c5450c745e44d65066f515f2272a8594a81d08827b15337d332b6c",
+    "dataset_path": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\data\\external\\20261116T154731Z_66a7c6",
+    "rows": 400,
+    "label_counts": {
+      "1": 200,
+      "0": 200
+    },
+    "public_eligible_positive": 719,
+    "public_eligible_negative": 234,
+    "excluded_counts": {
+      "public_payload_not_in_annotation_scope": 211
+    },
+    "raw_overlap_original": 0,
+    "canonical_overlap_original": 0,
+    "within_external_duplicate_excess": 0,
+    "within_external_canonical_duplicate_excess": 2,
+    "selection": "first min(200, eligible_per_class) by SHA256(path); no model predictions used",
+    "sources": [
+      {
+        "url": "https://api.github.com/repos/danielmiessler/SecLists/commits/master",
+        "file": "seclists_commit.json",
+        "sha256": "e7c99d0fafb8133dfc04023cfa5381de16333b358b21e20d77067196dbc74cc4",
+        "retrieved_at_utc": "2026-11-16T15:47:31.668645+00:00"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/danielmiessler/SecLists/4d5e414c9631f3c12ee1ac86ff7234d848391fd3/Fuzzing/LFI/LFI-Jhaddix.txt",
+        "file": "LFI-Jhaddix.txt",
+        "sha256": "2fe4a8e45cb25ced4cd21344744c7821acdf050ce07bf3299d7ef3529cacf1a3",
+        "retrieved_at_utc": "2026-11-16T15:47:32.088984+00:00"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/danielmiessler/SecLists/4d5e414c9631f3c12ee1ac86ff7234d848391fd3/LICENSE",
+        "file": "SecLists_LICENSE.txt",
+        "sha256": "3dbdc93d5f8829de0941744841730a09c106d0732e5ae0e98ca1d77be7ded66c",
+        "retrieved_at_utc": "2026-11-16T15:47:32.471365+00:00"
+      },
+      {
+        "url": "https://api.github.com/repos/pallets/flask/commits/3.1.2",
+        "file": "flask_commit.json",
+        "sha256": "0de097f087fb282ba812d5f46bd8f9866e780ac7c0dcf1fabb956b717f7eb20d",
+        "retrieved_at_utc": "2026-11-16T15:47:32.966803+00:00"
+      },
+      {
+        "url": "https://api.github.com/repos/pallets/flask/git/trees/2c1b30d0503cfb064f1cb252e6614a06915a362a?recursive=1",
+        "file": "flask_tree.json",
+        "sha256": "a13a92ac25c22fa186a53f0e695aa02674ad26d67bb157ab02bd7c96749d4d37",
+        "retrieved_at_utc": "2026-11-16T15:47:33.543744+00:00"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/pallets/flask/2c1b30d0503cfb064f1cb252e6614a06915a362a/LICENSE.txt",
+        "file": "Flask_LICENSE.txt",
+        "sha256": "489a8e1108509ed98a37bb983e11e0f7e1d31f0bd8f99a79c8448e7ff37d07ea",
+        "retrieved_at_utc": "2026-11-16T15:47:33.957759+00:00"
+      }
+    ],
+    "normalization": "strip surrounding whitespace for payload lines; Unicode NFC; preserve case/percent escapes/separators in model inputs",
+    "annotation": "1 iff raw/decode1/decode2 has parent component, rooted/UNC path or Windows drive; 0 iff public Flask blob path lacks these; no model-based labels",
+    "limitations": "Weak lexical annotation, source/label confounding; not real traffic or exploit success. Public payload examples may already be familiar to researcher. Variants can be canonically correlated."
+  },
+  "preservation_verified": true,
+  "datasets": {
+    "frozen_holdout": {
+      "samples": 2001,
+      "label_counts": {
+        "0": 1001,
+        "1": 1000
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 0.8750624687656172,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              250,
+              750
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              0,
+              1000
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 0.8750624687656172,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              250,
+              750
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 15,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            0.4162,
+            0.354,
+            0.3212,
+            0.2867,
+            0.2848,
+            0.2794,
+            0.2662,
+            0.2683,
+            0.2951,
+            0.2937,
+            0.2728,
+            0.2767,
+            0.4764,
+            0.3934,
+            0.3052
+          ],
+          "median_batch_ms": 0.2937,
+          "p95_batch_ms": 0.4342599999999999,
+          "amortized_us_per_path": 0.14677661169415293
+        },
+        "lr_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            24.6339,
+            24.5251,
+            24.7776,
+            24.9523,
+            26.4924,
+            25.5192,
+            27.0494,
+            24.5401,
+            23.7183,
+            22.84,
+            23.5977,
+            23.8483,
+            23.4482,
+            23.5376,
+            23.461
+          ],
+          "median_batch_ms": 24.5251,
+          "p95_batch_ms": 26.659499999999998,
+          "amortized_us_per_path": 12.256421789105447
+        },
+        "improved_inference_only": {
+          "repeats": 15,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            0.3835,
+            0.3976,
+            0.5581,
+            0.4483,
+            0.6474,
+            0.4702,
+            0.4525,
+            0.4313,
+            0.4487,
+            0.3881,
+            0.3439,
+            0.3303,
+            0.3232,
+            0.347,
+            0.327
+          ],
+          "median_batch_ms": 0.3976,
+          "p95_batch_ms": 0.5848899999999999,
+          "amortized_us_per_path": 0.19870064967516243
+        },
+        "improved_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            50.531,
+            142.8354,
+            166.9673,
+            159.7642,
+            146.7631,
+            159.6274,
+            159.3535,
+            146.7546,
+            149.3355,
+            154.2101,
+            150.1488,
+            153.5134,
+            162.7527,
+            155.1668,
+            149.9209
+          ],
+          "median_batch_ms": 153.5134,
+          "p95_batch_ms": 164.01708,
+          "amortized_us_per_path": 76.7183408295852
+        },
+        "regex_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            5.3381,
+            4.6349,
+            4.6518,
+            5.1552,
+            6.6671,
+            6.826,
+            5.2959,
+            5.5358,
+            5.962,
+            4.867,
+            5.0344,
+            5.1311,
+            5.1681,
+            4.4463,
+            4.9238
+          ],
+          "median_batch_ms": 5.1552,
+          "p95_batch_ms": 6.71477,
+          "amortized_us_per_path": 2.576311844077961
+        }
+      }
+    },
+    "external_public": {
+      "samples": 400,
+      "label_counts": {
+        "0": 200,
+        "1": 200
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 15,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            0.7098,
+            0.7106,
+            0.7153,
+            0.6911,
+            0.7172,
+            0.6825,
+            0.6405,
+            0.648,
+            0.712,
+            0.7053,
+            0.6911,
+            0.8574,
+            0.6543,
+            0.7919,
+            0.7795
+          ],
+          "median_batch_ms": 0.7098,
+          "p95_batch_ms": 0.81155,
+          "amortized_us_per_path": 1.7745
+        },
+        "lr_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            15.3752,
+            13.2628,
+            13.3063,
+            13.4478,
+            11.303,
+            10.288,
+            12.323,
+            12.3815,
+            12.3175,
+            12.2641,
+            11.4783,
+            11.3916,
+            12.1969,
+            12.5979,
+            13.5179
+          ],
+          "median_batch_ms": 12.323,
+          "p95_batch_ms": 14.075089999999998,
+          "amortized_us_per_path": 30.8075
+        },
+        "improved_inference_only": {
+          "repeats": 15,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            1.4444,
+            1.1134,
+            0.7874,
+            0.7922,
+            0.7504,
+            0.764,
+            0.6793,
+            0.6727,
+            0.7071,
+            0.7077,
+            1.0479,
+            0.9533,
+            1.3009,
+            1.0938,
+            0.9575
+          ],
+          "median_batch_ms": 0.7922,
+          "p95_batch_ms": 1.3439499999999998,
+          "amortized_us_per_path": 1.9805000000000001
+        },
+        "improved_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            28.0584,
+            31.8816,
+            30.3936,
+            26.6194,
+            25.9974,
+            30.0595,
+            26.8666,
+            27.2136,
+            30.9063,
+            29.94,
+            28.6969,
+            27.3285,
+            30.2524,
+            27.7963,
+            31.8982
+          ],
+          "median_batch_ms": 28.6969,
+          "p95_batch_ms": 31.88658,
+          "amortized_us_per_path": 71.74225
+        },
+        "regex_end_to_end": {
+          "repeats": 15,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            1.3131,
+            1.0478,
+            1.0986,
+            0.753,
+            0.5185,
+            0.5507,
+            1.0177,
+            1.2135,
+            1.291,
+            1.0058,
+            1.7543,
+            0.9622,
+            0.8949,
+            0.8482,
+            0.9592
+          ],
+          "median_batch_ms": 1.0058,
+          "p95_batch_ms": 1.4454599999999995,
+          "amortized_us_per_path": 2.5145
+        }
+      }
+    }
+  },
+  "timing": {
+    "lr_inference_only": {
+      "repeats": 15,
+      "samples_per_batch": 2001,
+      "batch_ms": [
+        0.4162,
+        0.354,
+        0.3212,
+        0.2867,
+        0.2848,
+        0.2794,
+        0.2662,
+        0.2683,
+        0.2951,
+        0.2937,
+        0.2728,
+        0.2767,
+        0.4764,
+        0.3934,
+        0.3052
+      ],
+      "median_batch_ms": 0.2937,
+      "p95_batch_ms": 0.4342599999999999,
+      "amortized_us_per_path": 0.14677661169415293
+    },
+    "lr_end_to_end": {
+      "repeats": 15,
+      "samples_per_batch": 2001,
+      "batch_ms": [
+        24.6339,
+        24.5251,
+        24.7776,
+        24.9523,
+        26.4924,
+        25.5192,
+        27.0494,
+        24.5401,
+        23.7183,
+        22.84,
+        23.5977,
+        23.8483,
+        23.4482,
+        23.5376,
+        23.461
+      ],
+      "median_batch_ms": 24.5251,
+      "p95_batch_ms": 26.659499999999998,
+      "amortized_us_per_path": 12.256421789105447
+    },
+    "improved_inference_only": {
+      "repeats": 15,
+      "samples_per_batch": 2001,
+      "batch_ms": [
+        0.3835,
+        0.3976,
+        0.5581,
+        0.4483,
+        0.6474,
+        0.4702,
+        0.4525,
+        0.4313,
+        0.4487,
+        0.3881,
+        0.3439,
+        0.3303,
+        0.3232,
+        0.347,
+        0.327
+      ],
+      "median_batch_ms": 0.3976,
+      "p95_batch_ms": 0.5848899999999999,
+      "amortized_us_per_path": 0.19870064967516243
+    },
+    "improved_end_to_end": {
+      "repeats": 15,
+      "samples_per_batch": 2001,
+      "batch_ms": [
+        50.531,
+        142.8354,
+        166.9673,
+        159.7642,
+        146.7631,
+        159.6274,
+        159.3535,
+        146.7546,
+        149.3355,
+        154.2101,
+        150.1488,
+        153.5134,
+        162.7527,
+        155.1668,
+        149.9209
+      ],
+      "median_batch_ms": 153.5134,
+      "p95_batch_ms": 164.01708,
+      "amortized_us_per_path": 76.7183408295852
+    },
+    "regex_end_to_end": {
+      "repeats": 15,
+      "samples_per_batch": 2001,
+      "batch_ms": [
+        5.3381,
+        4.6349,
+        4.6518,
+        5.1552,
+        6.6671,
+        6.826,
+        5.2959,
+        5.5358,
+        5.962,
+        4.867,
+        5.0344,
+        5.1311,
+        5.1681,
+        4.4463,
+        4.9238
+      ],
+      "median_batch_ms": 5.1552,
+      "p95_batch_ms": 6.71477,
+      "amortized_us_per_path": 2.576311844077961
+    }
+  },
+  "logistic_regression": {
+    "accuracy": 0.8750624687656172,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571428571428571,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        250,
+        750
+      ]
+    ]
+  },
+  "improved_logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        0,
+        1000
+      ]
+    ]
+  },
+  "regex": {
+    "accuracy": 0.8750624687656172,
+    "precision": 1.0,
+    "recall": 0.75,
+    "f1": 0.8571428571428571,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        250,
+        750
+      ]
+    ]
+  }
+}

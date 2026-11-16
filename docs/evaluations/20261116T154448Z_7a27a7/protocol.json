@@ -1,0 +1,22 @@
+{
+  "validation_seed": 1701,
+  "candidate_C": [
+    0.1,
+    1.0,
+    10.0
+  ],
+  "threshold": 0.5,
+  "selection_rule": "highest validation F1, ties choose smallest C",
+  "feature_design": "fixed raw/decode1/decode2 views; aggregate path structure; preserve v1 features",
+  "created_at_utc": "2026-11-16T15:44:48.837935+00:00",
+  "reference": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\evaluations\\20261116T153450Z_e5b13b",
+  "reference_results_sha256": "699240f4a75657af4dc98c97ec96b5288b0dde1014847d351b3e0f95a71c9909",
+  "reference_split_sha256": "4b7ef3280541290e17b50b38cc8365245f9d437a3d21f1b9f1c9648e69f34054",
+  "data_sha256": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+  "deployed_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "feature_source_sha256": "49e1069017f87d7bd21a4562655a0783b447523e3847cbbef579bf731de9818b",
+  "experiment_source_sha256": "dac63b4550f69b04ec3f1bdb5831cc0cc04f839b950dd59699803cc864ae7479",
+  "external_policy": "Public SecLists lexical attacks plus Flask repository relative-path controls; never used to fit/select",
+  "external_cap_per_class": 200,
+  "caveat": "Reference test outcomes were disclosed before feature design; this is a reused benchmark, not a pristine blind test."
+}

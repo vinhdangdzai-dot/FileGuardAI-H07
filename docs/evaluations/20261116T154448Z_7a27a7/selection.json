@@ -1,0 +1,146 @@
+{
+  "selected_C": 0.1,
+  "candidates": [
+    {
+      "C": 0.1,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            666,
+            0
+          ],
+          [
+            0,
+            750
+          ]
+        ]
+      }
+    },
+    {
+      "C": 1.0,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            666,
+            0
+          ],
+          [
+            0,
+            750
+          ]
+        ]
+      }
+    },
+    {
+      "C": 10.0,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            666,
+            0
+          ],
+          [
+            0,
+            750
+          ]
+        ]
+      }
+    }
+  ],
+  "validation_split": {
+    "family_overlap": [],
+    "path_overlap": [],
+    "train_label_counts": {
+      "1": 3250,
+      "0": 3333
+    },
+    "test_label_counts": {
+      "1": 750,
+      "0": 666
+    }
+  },
+  "fit_samples": 6583,
+  "validation_samples": 1416,
+  "refit_samples": 7999,
+  "fit_families": [
+    "0-00",
+    "0-03",
+    "0-04",
+    "0-06",
+    "0-07",
+    "0-08",
+    "0-09",
+    "0-10",
+    "0-12",
+    "0-14",
+    "1-00",
+    "1-01",
+    "1-02",
+    "1-04",
+    "1-05",
+    "1-07",
+    "1-08",
+    "1-09",
+    "1-11",
+    "1-12",
+    "1-13",
+    "1-18",
+    "1-19"
+  ],
+  "validation_families": [
+    "0-05",
+    "0-13",
+    "1-06",
+    "1-15",
+    "1-17"
+  ],
+  "refit_ms": 237.6628,
+  "feature_names_v2": [
+    "length",
+    "depth_slash",
+    "backslashes",
+    "dotdot",
+    "percent_count",
+    "encoded_dot",
+    "encoded_slash",
+    "encoded_backslash",
+    "leading_slash",
+    "drive_prefix",
+    "contains_colon",
+    "spaces",
+    "non_ascii",
+    "digits",
+    "multiple_dots",
+    "null_encoding",
+    "contains_question",
+    "entropy",
+    "view_max_parent_components",
+    "view_max_parent_fraction",
+    "view_max_rooted",
+    "view_max_drive",
+    "view_max_unc",
+    "view_max_separators",
+    "view_mixed_separators",
+    "view_max_escape_depth",
+    "view_max_dot_components",
+    "view_max_null",
+    "view_max_structural_escapes",
+    "decode_changes"
+  ],
+  "protocol_sha256": "cf5c28639463503a2ab3d4ed0e292fc7d4ad3fc058bf7d1113c3541609104ce7",
+  "baseline_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "improved_model_sha256": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+  "frozen_at_utc": "2026-11-16T15:44:49.433043+00:00"
+}

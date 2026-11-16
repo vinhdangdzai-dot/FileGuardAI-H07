@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block title %}Tải tệp · FileGuard AI{% endblock %}
+{% block content %}
+<div class="mb-4"><span class="eyebrow">HỆ THỐNG DEMO ĐỒ ÁN TỐT NGHIỆP</span>
+<h1>Kho tài liệu được bảo vệ</h1><p class="lead text-secondary">Tải tệp hợp lệ trong thư mục được phép. Mọi yêu cầu được ghi log và phân tích dấu hiệu Path Traversal.</p></div>
+<div class="row g-3 mb-4">
+ <div class="col-lg-8"><div class="panel"><h2 class="h5">Nhập đường dẫn tệp để thử</h2>
+  <form method="get" action="{{ url_for('download') }}" class="d-flex gap-2">
+    <input name="path" class="form-control" aria-label="Đường dẫn tệp" placeholder="tailieu/chuong1.pdf" required>
+    <button class="btn btn-primary">Tải tệp</button>
+  </form><p class="small text-secondary mt-3 mb-0">Ví dụ: <code>baocao.pdf</code>, <code>báo cáo tốt nghiệp.pdf</code>, <code>tailieu/chuong1.pdf</code></p>
+ </div></div>
+ <div class="col-lg-4"><div class="panel h-100"><h2 class="h6">Trạng thái mô hình</h2>
+    <span class="status {{ 'ready' if model_ready else 'warn' }}">{{ 'Đã tải Logistic Regression' if model_ready else 'Chưa huấn luyện AI' }}</span>
+    <p class="small text-secondary mt-3 mb-0">Bộ kiểm soát đường dẫn vẫn hoạt động khi mô hình AI chưa sẵn sàng.</p>
+ </div></div>
+</div>
+<div class="panel"><div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h5 mb-0">Danh sách tệp cho phép</h2><span class="text-secondary small">{{files|length}} tệp</span></div>
+<div class="list-group list-group-flush">{% for f in files %}
+ <div class="list-group-item d-flex align-items-center justify-content-between flex-wrap gap-2">
+  <span>📄 {{f}}</span><a class="btn btn-sm btn-outline-primary" href="{{url_for('download', path=f)}}">Tải xuống</a>
+ </div>{% else %}<p>Chưa có tệp. Hãy đặt tài liệu trong thư mục shared_files/.</p>{% endfor %}</div></div>
+{% endblock %}

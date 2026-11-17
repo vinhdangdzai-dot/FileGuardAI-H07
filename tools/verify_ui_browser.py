@@ -24,6 +24,7 @@ from werkzeug.serving import make_server
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--browser', type=Path, default=Path('C:/Program Files/Google/Chrome/Application/chrome.exe'))
+    parser.add_argument('--software-rendering',action='store_true',help='Disable GPU only in the owned headless test browsers')
     args = parser.parse_args()
     try:
         from playwright.sync_api import sync_playwright
@@ -54,12 +55,13 @@ def main():
     url = 'http://127.0.0.1:'+str(server.server_port)
     results = {'created_at_utc':datetime.now(timezone.utc).isoformat(), 'transport':'TCP localhost, real Chromium',
                'fixture_note':'Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.',
-               'checks':[], 'browser_errors':[], 'static_errors':[], 'browser':str(args.browser), 'screenshots':[]}
+               'checks':[], 'browser_errors':[], 'static_errors':[], 'browser':str(args.browser),
+               'launch_args':['--disable-gpu'] if args.software_rendering else [],'screenshots':[]}
     def check(name, passed, actual=None):
         results['checks'].append({'name':name, 'result':'PASS' if passed else 'FAIL', 'actual':actual})
     try:
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch(executable_path=str(args.browser), headless=True)
+            browser = playwright.chromium.launch(executable_path=str(args.browser), headless=True,args=results['launch_args'])
             results['browser_version'] = browser.version
             context = browser.new_context(viewport={'width':1440,'height':1000}, device_scale_factor=1, accept_downloads=True)
             page = context.new_page()
@@ -240,6 +242,8 @@ def main():
                 check('guest login '+str(width)+' no document overflow',guest_page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
                 shot('login_guest_'+str(width),guest_page)
             guest.close()
+            from tools.ui_theme_checks import verify_themes
+            verify_themes(browser,url,context,check,out,results,args.browser,results['launch_args'])
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])
             check('all local static assets load',not results['static_errors'],results['static_errors'])
             context.close()

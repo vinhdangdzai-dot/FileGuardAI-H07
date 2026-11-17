@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> Hiện hành: [Sáng / Tối / Theo hệ thống](LIGHT_DARK_MODE.md),143 pytest PASS/3 SKIP,241 browser checks PASS trên Edge local. Chrome local bị đóng; Chrome CI được kiểm và báo riêng trên PR. Không gộp hai môi trường hoặc ghi giả PASS. Các đợt dưới đây là lịch sử.
+
 > Bản hoàn thiện tiếp theo: [Login + AI Evaluation theo run](REFINEMENT_LOGIN_AI.md),135 pytest PASS/3 SKIP và85 browser checks PASS, kèm ảnh trước/sau. Các số và ảnh bên dưới là đợt baseline5866eb8, giữ để đối chiếu.
 
 Nhánh `h07/cybersecurity-ui`, phát triển từ `bb87b23` của `h07/complete-minimum-requirements`. Phạm vi là presentation và kiểm thử; không thay Flask routes, API/data contracts, phân quyền, AI, dataset hoặc SQLite nghiệp vụ. Báo cáo ngày17/11/2026; thư mục evidence dùng UTC.

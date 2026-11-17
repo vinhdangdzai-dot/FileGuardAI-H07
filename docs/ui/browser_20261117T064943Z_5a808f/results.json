@@ -1,0 +1,28 @@
+{
+  "created_at_utc": "2026-11-17T06:49:43.828882+00:00",
+  "transport": "TCP localhost, real Chromium",
+  "fixture_note": "Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.",
+  "checks": [
+    {
+      "name": "browser suite completed",
+      "result": "FAIL",
+      "actual": "Page.screenshot: Target crashed \nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n"
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "launch_args": [
+    "--disable-gpu"
+  ],
+  "screenshots": [],
+  "browser_version": "157.0.8103.52",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "passed": 0,
+  "failed": 1
+}

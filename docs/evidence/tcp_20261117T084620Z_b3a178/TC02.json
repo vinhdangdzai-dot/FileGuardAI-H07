@@ -1,0 +1,55 @@
+{
+  "tc": "TC02",
+  "name": "Unicode and spaces",
+  "uri": "/download?path=b%C3%A1o%20c%C3%A1o%20t%E1%BB%91t%20nghi%E1%BB%87p.pdf",
+  "framework_path": "báo cáo tốt nghiệp.pdf",
+  "expected_http": 200,
+  "actual_http": 200,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 08:46:21 GMT",
+    "Content-Disposition": "attachment; filename=\"bao cao tot nghiep.pdf\"; filename*=UTF-8''b%C3%A1o%20c%C3%A1o%20t%E1%BB%91t%20nghi%E1%BB%87p.pdf",
+    "Content-Type": "application/octet-stream",
+    "Cache-Control": "no-store",
+    "Accept-Ranges": "bytes",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Connection": "close"
+  },
+  "response_length": 1683,
+  "response_sha256": "35ad781316811e14e0a767ed24f67fc8fbbeb0422ef0942bae79a2439e480219",
+  "sqlite_rows": [
+    {
+      "id": 12,
+      "created_at": "2026-11-17T08:46:21+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "báo cáo tốt nghiệp.pdf",
+      "ml_score": 5.4426001977580225e-06,
+      "ml_label": "benign",
+      "action": "ALLOW",
+      "http_status": 200,
+      "reason": "Nằm trong thư mục cho phép",
+      "duration_ms": 2.3758000024827197
+    }
+  ],
+  "started_utc": "2026-11-17T08:46:21.483978+00:00",
+  "ended_utc": "2026-11-17T08:46:21.526569+00:00"
+}

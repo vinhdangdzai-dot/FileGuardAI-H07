@@ -1,5 +1,7 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+> Cỡ chữ mới: [18px mặc định, A− / A / A+ và báo cáo kiểm thử](docs/ui/TEXT_SIZE.md).
+
 > Dataset 10.000 mẫu: [hướng dẫn xem, phân trang, xuất CSV và thực nghiệm thực tế](docs/datasets/INTEGRATION_10000.md).
 
 Mới nhất: [Light / Dark / Theo hệ thống](docs/ui/LIGHT_DARK_MODE.md) cho cả5 trang và lỗi403/404/503, lưu lựa chọn, đổi palette chart tại chỗ. Pytest143 PASS/3 SKIP,acceptance6 bước exit0;browser local241 PASS trên Edge, Chrome local/CI báo riêng với bằng chứng. Không thay backend, auth, dữ liệu hoặc mô hình.

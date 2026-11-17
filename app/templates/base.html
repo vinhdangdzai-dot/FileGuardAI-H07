@@ -2,6 +2,7 @@
 <html lang="vi" data-bs-theme="dark"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark">
 <script src="{{url_for('static',filename='theme.js')}}"></script>
+<script src="{{url_for('static',filename='text-size.js')}}"></script>
 <link rel="icon" href="{{url_for('static',filename='favicon.svg')}}" type="image/svg+xml">
 <title>{% block title %}FileGuard AI · H07{% endblock %}</title>
 <link href="{{url_for('static',filename='vendor/bootstrap.min.css')}}" rel="stylesheet">
@@ -24,6 +25,7 @@
 {% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{'Monitoring' if request.endpoint=='dashboard' else 'AI Evaluation' if request.endpoint=='ai_evaluation' else 'AI Training'}}</strong></div>
 {% else %}<a class="brand" href="{{url_for('index')}}"><span class="brand-mark" aria-hidden="true">F</span><span class="brand-copy">FileGuard<span class="brand-ai">AI</span><small>PATH TRAVERSAL DEFENSE · H07</small></span></a>{% endif %}
 <nav class="topbar-actions" aria-label="Tài khoản và kho tệp">
+<div id="text-size-controls" class="text-size-controls" role="group" aria-label="Cỡ chữ" hidden>{% for size,text,label in [('small','A−','Nhỏ · 16px'),('medium','A','Vừa · 18px'),('large','A+','Lớn · 20px')] %}<button type="button" data-text-size="{{size}}" aria-label="Cỡ chữ {{label}}" title="{{label}}" aria-pressed="false">{{text}}</button>{% endfor %}</div>
 {% if not management %}<a class="top-link" href="{{url_for('index')}}">Kho tệp</a><a class="top-link" href="{{url_for('dashboard')}}">Giám sát</a>{% endif %}
 <div class="theme-picker" id="theme-picker" hidden><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Chọn giao diện Sáng, Tối hoặc Theo hệ thống" aria-haspopup="menu" aria-controls="theme-menu" aria-expanded="false"><span data-theme-icon aria-hidden="true">☾</span><span class="theme-label">Giao diện</span></button>
 <div class="theme-menu" id="theme-menu" role="menu" aria-label="Chế độ giao diện" hidden>{% for value,label,icon in [('light','Sáng','☀'),('dark','Tối','☾'),('system','Theo hệ thống','◐')] %}<button type="button" role="menuitemradio" data-theme-choice="{{value}}" aria-checked="false"><span aria-hidden="true">{{icon}}</span>{{label}}<span class="theme-check" aria-hidden="true">✓</span></button>{% endfor %}</div></div>

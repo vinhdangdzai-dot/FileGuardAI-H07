@@ -268,6 +268,8 @@ def main():
             guest.close()
             from tools.ui_theme_checks import verify_themes
             verify_themes(browser,url,context,check,out,results,args.browser,results['launch_args'])
+            from tools.ui_text_size_checks import verify_text_sizes
+            verify_text_sizes(browser,url,context,check,out,results)
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])
             check('all local static assets load',not results['static_errors'],results['static_errors'])
             context.close()

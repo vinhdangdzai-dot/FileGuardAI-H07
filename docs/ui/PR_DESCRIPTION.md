@@ -1,4 +1,13 @@
-﻿Bổ sung AI Training duyệt đủ 10.000 mẫu bằng phân trang server-side 50/100, tìm đường dẫn Unicode/literal, lọc label/family, STT CSV gốc và Trang trước/sau. HTML chỉ nhận tối đa 100 mẫu. POST export luôn đủ 10.000 mẫu và giữ CSRF/admin-only; XSS được escape. Không thay dataset/model triển khai/SQLite/policy Path Traversal. Giữ giao diện Sáng/Tối/Theo hệ thống và cải tiến Login/Evaluation.
+Mới nhất: mặc định root18px, A− / A / A+ chọn16/18/20px, lưu fg-text-size trước CSS và đồng bộ tab. Chuyển toàn bộ thang chữ sang rem/CSS tokens; mặc định body18, navbar/sidebar18, controls/bảng17, chú thích/badge/cột16, H1/stat36, H2 24. Chart.js đổi font mà giữ dữ liệu. Giữ Light/Dark/System, auth/CSRF/roles, dataset/model/SQLite/Path Traversal.
+
+Local cuối: pytest165 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0, dashboard41 PASS,download33 PASS/3 SKIP,144 request/144 rows/0 lỗi. Edge385 PASS,0 FAIL,0 JS/static errors. Có90 tổ hợp cỡ chữ ở1440/768/390 và45 phép reflow zoom125/150/200% mô phỏng CDP (chưa xác minh zoom native Ctrl+plus).20 ảnh thật mức18/20px cho5 trang desktop/mobile.
+
+Báo cáo/file/bằng chứng: [docs/ui/TEXT_SIZE.md](docs/ui/TEXT_SIZE.md). Browser cuối docs/ui/browser_20261117T084333Z_816797/. Giữ lượt334 PASS/3 FAIL trước sửa tràn tablet/selector và các lượt ngắt ghi ERROR, không đổi FAIL thành SKIP. Hash các dữ liệu/model/SQLite được bảo vệ không đổi. Chrome local vẫn có giới hạn; Chrome CI được báo riêng theo commit. Không merge main.
+
+---
+Lịch sử đợt dataset trước:
+
+Bổ sung AI Training duyệt đủ 10.000 mẫu bằng phân trang server-side 50/100, tìm đường dẫn Unicode/literal, lọc label/family, STT CSV gốc và Trang trước/sau. HTML chỉ nhận tối đa 100 mẫu. POST export luôn đủ 10.000 mẫu và giữ CSRF/admin-only; XSS được escape. Không thay dataset/model triển khai/SQLite/policy Path Traversal. Giữ giao diện Sáng/Tối/Theo hệ thống và cải tiến Login/Evaluation.
 
 CSV xác nhận: 10.000 dòng, 5.000/5.000 nhãn, 35 family, 0 trùng exact, 32 nhóm/32 dòng dư canonical, 0 xung đột nhãn. SHA-256: `2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0`. Tái tạo trong RAM bằng generator seed 2026 khớp hash. CSV vẫn ignore, có hướng dẫn khôi phục không ghi đè.
 

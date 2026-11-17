@@ -18,11 +18,17 @@
   function recolor(id, chart) {
     const theme = palette();
     chart.stop();
+    const fontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) * 8/9;
+    Chart.defaults.font.size = fontSize;
+    chart.options.plugins.legend.labels.font = {size:fontSize};
+    chart.options.plugins.tooltip.titleFont = {size:fontSize};
+    chart.options.plugins.tooltip.bodyFont = {size:fontSize};
     chart.options.color = theme.muted;
     chart.options.plugins.legend.labels.color = theme.muted;
     Object.assign(chart.options.plugins.tooltip, {backgroundColor:theme.surface, titleColor:theme.text, bodyColor:theme.text, borderColor:theme.line, borderWidth:1});
     Object.values(chart.options.scales || {}).forEach(scale => {
       scale.ticks.color = theme.muted;
+      scale.ticks.font = {size:fontSize};
       scale.grid.color = theme.line;
       scale.border.color = theme.line;
     });
@@ -79,5 +85,6 @@
   }
   const labels = read('training-label-data');
   if (labels) draw('labelsChart',{type:'doughnut',data:{labels:['Benign (0)','Suspicious (1)'],datasets:[{data:[labels['0']||0,labels['1']||0],backgroundColor:[colors[0],colors[1]],borderWidth:0}]},options:{...base,cutout:'72%'}});
+  document.addEventListener('fileguard:textsizechange', () => charts.forEach((chart,id) => recolor(id,chart)));
   document.addEventListener('fileguard:themechange', () => charts.forEach((chart,id) => recolor(id,chart)));
 })();

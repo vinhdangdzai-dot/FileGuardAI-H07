@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> Mới nhất: [cỡ chữ trình chiếu 18px, tùy chọn 16/18/20px](TEXT_SIZE.md), 165 pytest PASS/3 SKIP và385 Edge checks PASS. Zoom là reflow mô phỏng; native zoom chưa được xác minh.
+
 > Cập nhật dữ liệu: [AI Training phân trang toàn bộ 10.000 mẫu](../datasets/INTEGRATION_10000.md), tìm kiếm/lọc phía máy chủ và chọn run strict.
 
 > Hiện hành: [Sáng / Tối / Theo hệ thống](LIGHT_DARK_MODE.md),143 pytest PASS/3 SKIP,241 browser checks PASS trên Edge local. Chrome local bị đóng; Chrome CI được kiểm và báo riêng trên PR. Không gộp hai môi trường hoặc ghi giả PASS. Các đợt dưới đây là lịch sử.

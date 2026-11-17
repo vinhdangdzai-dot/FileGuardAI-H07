@@ -25,8 +25,8 @@ def configure_auth(app, base):
             password = app.config.get('ADMIN_PASSWORD')
             if not stored and not password:
                 raise ValueError('Configure admin first: python tools/manage_credentials.py')
-            if not stored and not 12 <= len(password) <= 128:
-                raise ValueError('Bootstrap password must contain 12-128 characters')
+            if not stored and not 6 <= len(password) <= 128:
+                raise ValueError('Bootstrap password must contain 6-128 characters')
             atomic_hash_write(path, stored or generate_password_hash(password))
         stored = read_hash(path)  # Existing valid file always wins; no silent reset.
     app.config['ADMIN_HASH'] = stored

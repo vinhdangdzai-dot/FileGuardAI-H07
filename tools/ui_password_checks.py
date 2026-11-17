@@ -25,7 +25,7 @@ def verify_password_change(browser,url,context,check,out,results,password):
     bad='incorrect-fixture-'+secrets.token_hex(12)
     wrong=context.request.post(url+'/account/password',form={'csrf_token':csrf,'current_password':bad,'new_password':bad,'confirm_password':bad})
     check('password TCP incorrect current rejected without reflection',wrong.status==403 and bad not in wrong.text())
-    new=secrets.token_urlsafe(24)
+    new=secrets.token_hex(3)
     page.locator('#current_password').fill(password);page.locator('#new_password').fill(new);page.locator('#confirm_password').fill(new)
     page.locator('form[action="/account/password"] button[type=submit]').click();page.wait_for_url('**/login');page.wait_for_load_state('networkidle')
     check('password UI success forces reauthentication','role="status"' in page.content() and page.locator('input[name=csrf_token]').count()==1)

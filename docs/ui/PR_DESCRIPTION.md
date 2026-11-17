@@ -1,6 +1,13 @@
+Chính sách mới:6–128 ký tự cho CLI Admin/Auditor, bootstrap và website đổi mật khẩu; min6 trên cả hai trường mới/xác nhận, giữ max128. Không yêu cầu uppercase/special character. Hash đã lưu không đổi khi restart; giữ CSRF/role/throttling/current verification/atomic write/session revocation.
+
+Local: pytest205 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0. Kiểm các mốc5/6/8/12/128/129 ở CLI hai role, bootstrap và web;20 TCP assertions qua hai subprocess restart với password6 ký tự;browser402 PASS với đổi password6 ký tự. Dataset/model/SQLite không đổi; không đặt/reset password thật. [Báo cáo và file](docs/auth/PASSWORD_LENGTH_6.md). Chrome CI báo riêng theo commit. PR draft, không merge main.
+
+---
+Lịch sử trước cập nhật độ dài:
+
 Mới nhất — persistent credentials và Tài khoản / Đổi mật khẩu Admin:
 
-Ưu tiên hash hiện có, không tự reset qua restart và không in password tạm. Khi chưa có hash, CLI getpass nhập kín lần đầu; START_WINDOWS.bat cũng gọi CLI có điều kiện. POST đổi password xác minh hiện tại,12–128 ký tự/confirmation, Werkzeug scrypt, CSRF,5 failures/IP/300s, atomic write/fsync/replace dưới khóa thread/process. HMAC version kiểm file trên mỗi request thu hồi cookie Admin cũ, kể cả worker khác; cookie không chứa password hash. CLI dùng cùng writer, live reload hash. Lỗi ghi trước commit giữ credential cũ. Audit trước/sau commit không chứa secret; giới hạn filesystem/SQLite không chung transaction được công bố.
+Ưu tiên hash hiện có, không tự reset qua restart và không in password tạm. Khi chưa có hash, CLI getpass nhập kín lần đầu; START_WINDOWS.bat cũng gọi CLI có điều kiện. POST đổi password xác minh hiện tại,6–128 ký tự/confirmation, Werkzeug scrypt, CSRF,5 failures/IP/300s, atomic write/fsync/replace dưới khóa thread/process. HMAC version kiểm file trên mỗi request thu hồi cookie Admin cũ, kể cả worker khác; cookie không chứa password hash. CLI dùng cùng writer, live reload hash. Lỗi ghi trước commit giữ credential cũ. Audit trước/sau commit không chứa secret; giới hạn filesystem/SQLite không chung transaction được công bố.
 
 Local cuối: pytest184 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0;dashboard41 PASS;download33 PASS/3 SKIP;144 request/144 rows/0 lỗi. Restart TCP hai subprocess thật20 assertions PASS. Edge browser402 PASS,0 FAIL,0 JS/static errors; trang account Light/Dark ở1440/768/390, keyboard reveal, CSRF, password cũ/mới và session revocation. Hash dataset/model/SQLite nghiệp vụ không đổi. Không đặt mật khẩu Admin thật trong workspace; người vận hành chạy CLI một lần nếu chưa có hash. SECRET_KEY ổn định tùy chọn qua secret manager/env; không hardcode hoặc commit.
 

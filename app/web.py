@@ -214,8 +214,8 @@ def create_app(config=None):
                     # overwrite a concurrent password change with old credentials.
                     if len(current)>128 or not check_password_hash(app.extensions['credentials'].current('admin'),current):
                         error,status = 'Mật khẩu hiện tại không đúng.',403
-                    elif not 12 <= len(new) <= 128 or new != confirmation:
-                        error,status = 'Mật khẩu mới cần 12–128 ký tự và xác nhận trùng khớp.',400
+                    elif not 6 <= len(new) <= 128 or new != confirmation:
+                        error,status = 'Mật khẩu mới cần 6–128 ký tự và xác nhận trùng khớp.',400
                     elif check_password_hash(app.extensions['credentials'].current('admin'),new):
                         error,status = 'Hãy chọn mật khẩu khác mật khẩu hiện tại.',400
                     if error:

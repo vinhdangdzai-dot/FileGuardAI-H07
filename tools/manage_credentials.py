@@ -15,8 +15,8 @@ from app.credential_store import credential_lock, atomic_hash_write
 
 
 def store_password(password, path):
-    if len(password) < 12 or len(password) > 128:
-        raise ValueError('Use a password from 12 to 128 characters')
+    if len(password) < 6 or len(password) > 128:
+        raise ValueError('Use a password from 6 to 128 characters')
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with credential_lock(path):
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--role', choices=('admin', 'auditor'), default='admin')
     args = parser.parse_args()
-    password = getpass('New password (12-128 characters): ')
+    password = getpass('New password (6-128 characters): ')
     if password != getpass('Confirm password: '):
         raise SystemExit('Confirmation does not match')
     store_password(password, ROOT / 'instance' / (args.role + '_password.hash'))

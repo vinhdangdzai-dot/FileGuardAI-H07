@@ -1,5 +1,7 @@
 # Mật khẩu bền vững, đổi mật khẩu Admin và thu hồi phiên — 17/11/2026
 
+> Chính sách hiện hành: [6–128 ký tự và kiểm thử đầy đủ các mốc](PASSWORD_LENGTH_6.md). Các kết quả184 PASS bên dưới là mốc41373af trước cập nhật này, được giữ nguyên để đối chiếu.
+
 Nhánh `h07/cybersecurity-ui`, PR #2. Không đổi mô hình/dataset/Path Traversal hoặc dữ liệu SQLite nghiệp vụ. Tests dùng hash và SQLite fixture riêng; không đặt mật khẩu thật thay người dùng.
 
 ## Thiết lập và sử dụng
@@ -15,7 +17,7 @@ CLI dùng getpass để nhập và xác nhận kín; không nhận password tron
 
 Không còn in mật khẩu tạm trong run.py. Không còn tự phát sinh Admin password khi production chưa được cấu hình. ADMIN_PASSWORD_HASH hoặc ADMIN_PASSWORD từ environment chỉ là bootstrap tương thích lần đầu khi file chưa tồn tại; khuyến nghị CLI để tránh shell history. Plaintext bootstrap được loại khỏi Flask config sau khởi tạo. Hash, history, khóa cập nhật, temp credential và database được gitignore; không đặt các file này trong shared_files.
 
-Admin đăng nhập → **Tài khoản · Đổi mật khẩu**. Nhập hiện tại, mới12–128 ký tự, xác nhận trùng; mật khẩu mới phải khác hiện tại. Ba ô có hiện/ẩn qua keyboard/ARIA; không điền lại giá trị sau lỗi. Thành công xóa cả phiên đang dùng, chuyển về Login với thông báo rõ và yêu cầu đăng nhập lại. Guest bị chuyển Login; Auditor403. Light/Dark/System, A−/A/A+ và thang chữ18px mặc định vẫn dùng chung. GET không thay đổi hash, POST cần CSRF.
+Admin đăng nhập → **Tài khoản · Đổi mật khẩu**. Nhập hiện tại, mới6–128 ký tự, xác nhận trùng; mật khẩu mới phải khác hiện tại. Ba ô có hiện/ẩn qua keyboard/ARIA; không điền lại giá trị sau lỗi. Thành công xóa cả phiên đang dùng, chuyển về Login với thông báo rõ và yêu cầu đăng nhập lại. Guest bị chuyển Login; Auditor403. Light/Dark/System, A−/A/A+ và thang chữ18px mặc định vẫn dùng chung. GET không thay đổi hash, POST cần CSRF.
 
 ## Cơ chế và lý do thay đổi
 

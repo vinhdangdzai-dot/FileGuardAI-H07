@@ -35,7 +35,7 @@ def main():
     from werkzeug.security import check_password_hash
     scope=create_runtime(ROOT,'pytest')['root']
     (scope/'shared').mkdir();(scope/'shared/ok.txt').write_text('PUBLIC')
-    old,new=secrets.token_urlsafe(24),secrets.token_urlsafe(24)
+    old,new=secrets.token_urlsafe(24),secrets.token_hex(3)
     store_password(old,scope/'admin_password.hash')
     env=dict(os.environ,H07_FIXTURE_SESSION_KEY=secrets.token_hex(32))
     protected=[ROOT/'data/paths_synthetic.csv',ROOT/'artifacts/model.joblib',ROOT/'instance/events.sqlite3',ROOT/'instance/admin_password.hash']

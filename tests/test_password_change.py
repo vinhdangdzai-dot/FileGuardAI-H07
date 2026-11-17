@@ -122,7 +122,7 @@ def test_success_audit_outage_does_not_falsely_report_old_password_active(config
     assert OLD not in caplog.text and NEW not in caplog.text
 
 
-@pytest.mark.parametrize('length',[12,128])
+@pytest.mark.parametrize('length',[6,8,12,128])
 def test_password_length_boundaries_accepted(config,length):
     app=create_app(config);client=app.test_client();login(client)
     assert change(client,new='z'*length).status_code==302
@@ -192,3 +192,40 @@ def test_existing_werkzeug_pbkdf2_hash_is_not_replaced(config):
     app=create_app(config)
     assert path.read_text().strip()==original
     assert login(app.test_client()).status_code==302
+
+@pytest.mark.parametrize('length,accepted',[(5,False),(6,True),(8,True),(12,True),(128,True),(129,False)])
+@pytest.mark.parametrize('role',['admin','auditor'])
+def test_cli_length_policy_for_both_roles(tmp_path,length,accepted,role):
+    from tools.manage_credentials import store_password
+    path=tmp_path/(role+'_password.hash')
+    value='a'*length
+    if accepted:
+        store_password(value,path)
+        assert check_password_hash(read_hash(path),value)
+        assert path.read_text().strip()!=value
+    else:
+        with pytest.raises(ValueError):store_password(value,path)
+        assert not path.exists()
+
+
+@pytest.mark.parametrize('length,accepted',[(5,False),(6,True),(8,True),(12,True),(128,True),(129,False)])
+def test_bootstrap_length_policy(config,length,accepted):
+    config['ADMIN_PASSWORD']='a'*length
+    if accepted:
+        app=create_app(config)
+        assert login(app.test_client(),'a'*length).status_code==302
+    else:
+        with pytest.raises(ValueError):create_app(config)
+        assert not Path(config['ADMIN_HASH_FILE']).exists()
+
+
+def test_six_character_password_persists_and_form_is_consistent(config):
+    config['ADMIN_PASSWORD']='abcdef'
+    app=create_app(config);client=app.test_client();login(client,'abcdef')
+    html=client.get('/account/password').get_data(as_text=True)
+    assert html.count('minlength="6"')==2 and 'minlength="12"' not in html
+    assert change(client,current='abcdef',new='ghijkl').status_code==302
+    restarted=create_app(config);other=restarted.test_client()
+    assert login(other,'abcdef').status_code==200
+    assert login(other,'ghijkl').status_code==302
+    assert other.get('/dashboard').status_code==200

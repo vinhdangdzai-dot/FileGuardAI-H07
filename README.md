@@ -1,5 +1,7 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+> Tài khoản: [lưu hash qua restart và đổi mật khẩu trên website](docs/auth/PASSWORDS.md). Lần đầu chưa có hash: chạy `python tools/manage_credentials.py --role admin` để nhập kín, rồi `python run.py`. Không còn in mật khẩu tạm.
+
 > Cỡ chữ mới: [18px mặc định, A− / A / A+ và báo cáo kiểm thử](docs/ui/TEXT_SIZE.md).
 
 > Dataset 10.000 mẫu: [hướng dẫn xem, phân trang, xuất CSV và thực nghiệm thực tế](docs/datasets/INTEGRATION_10000.md).
@@ -55,17 +57,18 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 python -m pip install -r requirements.txt
 python -m ml.train_model
 python -m pytest -q
+if (!(Test-Path instance/admin_password.hash)) { python tools/manage_credentials.py --role admin }
 python run.py
 ```
 
 Cách đơn giản hơn: **nhấp đúp `START_WINDOWS.bat`** để tự cài phụ thuộc, huấn luyện nếu chưa có model và khởi chạy website.
 
-Sau đó mở trình duyệt: **http://127.0.0.1:5000**. Khi `python run.py` chạy, mật khẩu quản trị được in ngay trên màn hình Terminal. Truy cập `http://127.0.0.1:5000/login` để mở trang thống kê.
+Trước lần chạy đầu chưa có hash, chạy `python tools/manage_credentials.py --role admin`. Sau đó mở **http://127.0.0.1:5000** và đăng nhập bằng mật khẩu riêng đã đặt. Terminal không in mật khẩu. Hash hợp lệ được giữ qua restart; Admin đổi mật khẩu tại **Tài khoản · Đổi mật khẩu**.
 
-Có thể đặt mật khẩu cố định bằng biến môi trường trước khi chạy (chỉ để demo local):
+Thiết lập lần đầu hoặc phục hồi bằng CLI có nhập kín (không đưa mật khẩu vào shell history):
 
 ```powershell
-$env:ADMIN_PASSWORD = "Thay-Bang-Mat-Khau-Rieng"
+python tools/manage_credentials.py --role admin
 python run.py
 ```
 
@@ -79,6 +82,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python -m ml.train_model
 pytest -q
+[ -f instance/admin_password.hash ] || python tools/manage_credentials.py --role admin
 python run.py
 ```
 

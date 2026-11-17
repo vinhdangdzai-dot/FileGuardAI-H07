@@ -1,3 +1,14 @@
+Mới nhất — persistent credentials và Tài khoản / Đổi mật khẩu Admin:
+
+Ưu tiên hash hiện có, không tự reset qua restart và không in password tạm. Khi chưa có hash, CLI getpass nhập kín lần đầu; START_WINDOWS.bat cũng gọi CLI có điều kiện. POST đổi password xác minh hiện tại,12–128 ký tự/confirmation, Werkzeug scrypt, CSRF,5 failures/IP/300s, atomic write/fsync/replace dưới khóa thread/process. HMAC version kiểm file trên mỗi request thu hồi cookie Admin cũ, kể cả worker khác; cookie không chứa password hash. CLI dùng cùng writer, live reload hash. Lỗi ghi trước commit giữ credential cũ. Audit trước/sau commit không chứa secret; giới hạn filesystem/SQLite không chung transaction được công bố.
+
+Local cuối: pytest184 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0;dashboard41 PASS;download33 PASS/3 SKIP;144 request/144 rows/0 lỗi. Restart TCP hai subprocess thật20 assertions PASS. Edge browser402 PASS,0 FAIL,0 JS/static errors; trang account Light/Dark ở1440/768/390, keyboard reveal, CSRF, password cũ/mới và session revocation. Hash dataset/model/SQLite nghiệp vụ không đổi. Không đặt mật khẩu Admin thật trong workspace; người vận hành chạy CLI một lần nếu chưa có hash. SECRET_KEY ổn định tùy chọn qua secret manager/env; không hardcode hoặc commit.
+
+[Báo cáo, file, TC, giới hạn và ảnh](docs/auth/PASSWORDS.md). Browser cuối `docs/ui/browser_20261117T105955Z_7ac63b/`; acceptance `docs/bao_cao_h07/evidence/20261117T110327Z_f3d237/`. Giữ các FAIL/ERROR trước sửa. Chrome CI báo riêng theo commit. PR draft, không merge main.
+
+---
+Lịch sử UI / dataset trước:
+
 Mới nhất: mặc định root18px, A− / A / A+ chọn16/18/20px, lưu fg-text-size trước CSS và đồng bộ tab. Chuyển toàn bộ thang chữ sang rem/CSS tokens; mặc định body18, navbar/sidebar18, controls/bảng17, chú thích/badge/cột16, H1/stat36, H2 24. Chart.js đổi font mà giữ dữ liệu. Giữ Light/Dark/System, auth/CSRF/roles, dataset/model/SQLite/Path Traversal.
 
 Local cuối: pytest165 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0, dashboard41 PASS,download33 PASS/3 SKIP,144 request/144 rows/0 lỗi. Edge385 PASS,0 FAIL,0 JS/static errors. Có90 tổ hợp cỡ chữ ở1440/768/390 và45 phép reflow zoom125/150/200% mô phỏng CDP (chưa xác minh zoom native Ctrl+plus).20 ảnh thật mức18/20px cho5 trang desktop/mobile.

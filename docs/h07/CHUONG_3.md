@@ -45,8 +45,10 @@ Migration lúc startup additive: tạo bảng/index/trigger thiếu, không xóa
 event cũ. Xuất CSV chỉ admin, không export DB/password. SQL filter có
 whitelist và bound params; export chống công thức spreadsheet.
 
-Mật khẩu admin mặc định ngẫu nhiên chỉ bootstrap local. Khi dùng hash
-persisted, terminal không in plaintext. Credential history và DB nằm
+Không có mật khẩu mặc định dùng chung. Dùng CLI nhập kín để tạo hash lần đầu;
+hash hợp lệ được giữ qua restart. Admin đổi mật khẩu tại website có CSRF,
+xác minh hiện tại, throttling và thu hồi phiên cũ; xem [PASSWORDS](../auth/PASSWORDS.md).
+Terminal không in plaintext. Credential history và DB nằm
 ngoài Git. Không đặt backup trong shared_files. Giữ bằng chứng cũ và
 thực nghiệm mới trong thư mục timestamp riêng; không tự purge dữ liệu.
 

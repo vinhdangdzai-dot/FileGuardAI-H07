@@ -117,3 +117,5 @@ h3,.h6{font-size:1.111111rem}
 code,kbd,pre,samp,caption,.tooltip,.dropdown-menu,.modal-content{font-size:var(--font-note)}
 .status{max-width:100%;white-space:normal;overflow-wrap:anywhere}
 @media(max-width:1100px){.public-shell .col-lg-8,.public-shell .col-lg-4{width:100%}}
+.account-panel{max-width:45rem}.account-panel .password-toggle{font-size:var(--font-control)}
+.alert.notice-cyan{border-color:var(--allow-line);background:var(--allow-bg);color:var(--green)}

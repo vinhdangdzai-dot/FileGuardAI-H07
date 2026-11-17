@@ -124,6 +124,7 @@ def test_run_selection_cannot_bypass_admin_authorization(ui,role):
     if role:
         with client.session_transaction() as session:
             session['role']=role
+            session['_credential_version']=client.application.extensions['credentials'].version(role)
             session.permanent=True
     response=client.get('/dashboard/ai-evaluation',query_string={'run':RUNS[2]})
     assert response.status_code==(403 if role else 302)

@@ -17,21 +17,45 @@ def configure_auth(app, base):
     app.config.setdefault('LOGIN_MAX_FAILURES', 5)
     app.config.setdefault('LOGIN_WINDOW_SECONDS', 300)
     app.config.setdefault('PERMANENT_SESSION_LIFETIME', timedelta(minutes=15))
-    stored = app.config.get('ADMIN_PASSWORD_HASH')
-    path = Path(app.config.get('ADMIN_HASH_FILE', base / 'instance/admin_password.hash'))
-    if not stored and path.is_file() and not app.testing:
-        stored = path.read_text(encoding='utf-8').strip()
-    if stored and not stored.startswith(('scrypt:', 'pbkdf2:')):
-        raise ValueError('ADMIN_PASSWORD_HASH must be a Werkzeug password hash')
-    app.config['ADMIN_HASH'] = stored or generate_password_hash(app.config['ADMIN_PASSWORD'])
-    auditor = app.config.get('AUDITOR_PASSWORD_HASH')
-    auditor_file = Path(app.config.get('AUDITOR_HASH_FILE', base / 'instance/auditor_password.hash'))
-    if not auditor and auditor_file.is_file() and not app.testing:
-        auditor = auditor_file.read_text(encoding='utf-8').strip()
-    if auditor and not auditor.startswith(('scrypt:', 'pbkdf2:')):
-        raise ValueError('AUDITOR_PASSWORD_HASH must be a Werkzeug password hash')
-    app.config['AUDITOR_HASH'] = auditor
-    app.config['BOOTSTRAP_PASSWORD'] = None if stored else app.config['ADMIN_PASSWORD']
+    from .credential_store import Credentials, credential_lock, atomic_hash_write, read_hash, validate_hash
+    path = Path(app.config['ADMIN_HASH_FILE'])
+    with credential_lock(path):
+        if not path.exists():
+            stored = app.config.get('ADMIN_PASSWORD_HASH')
+            password = app.config.get('ADMIN_PASSWORD')
+            if not stored and not password:
+                raise ValueError('Configure admin first: python tools/manage_credentials.py')
+            if not stored and not 12 <= len(password) <= 128:
+                raise ValueError('Bootstrap password must contain 12-128 characters')
+            atomic_hash_write(path, stored or generate_password_hash(password))
+        stored = read_hash(path)  # Existing valid file always wins; no silent reset.
+    app.config['ADMIN_HASH'] = stored
+    auditor_file = Path(app.config['AUDITOR_HASH_FILE'])
+    app.config['AUDITOR_HASH'] = read_hash(auditor_file) if auditor_file.is_file() else app.config.get('AUDITOR_PASSWORD_HASH')
+    if app.config['AUDITOR_HASH']:
+        validate_hash(app.config['AUDITOR_HASH'])
+    app.config['BOOTSTRAP_PASSWORD'] = None
+    app.config.pop('ADMIN_PASSWORD', None)
+    app.extensions['credentials'] = Credentials(app)
+    app.config.setdefault('PASSWORD_CHANGE_MAX_FAILURES', 5)
+    app.config.setdefault('PASSWORD_CHANGE_WINDOW_SECONDS', 300)
+
+    @app.before_request
+    def check_session_version():
+        role = session.get('role')
+        if role:
+            try:
+                expected = app.extensions['credentials'].version(role)
+            except (OSError, ValueError):
+                session.clear()
+                abort(503)
+            supplied = session.get('_credential_version', '')
+            try:
+                valid = isinstance(supplied, str) and hmac.compare_digest(supplied, expected)
+            except TypeError:
+                valid = False
+            if not valid:
+                session.clear()
 
     def csrf_token():
         if '_csrf' not in session:

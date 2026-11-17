@@ -8,7 +8,7 @@
 <link href="{{url_for('static',filename='vendor/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{url_for('static',filename='style.css')}}" rel="stylesheet">
 <script defer src="{{url_for('static',filename='ui.js')}}"></script></head>
-{% set management = request.endpoint in ['dashboard','ai_evaluation','ai_training'] and session.get('role')=='admin' %}
+{% set management = request.endpoint in ['dashboard','ai_evaluation','ai_training','change_password'] and session.get('role')=='admin' %}
 <body class="{{'management-shell' if management else 'public-shell'}} {{'login-page' if request.endpoint=='login' else ''}}">
 <a class="skip-link" href="#main-content">Đến nội dung chính</a>
 {% if management %}
@@ -22,17 +22,18 @@
 </aside><button class="sidebar-backdrop" tabindex="-1" aria-label="Đóng điều hướng"></button>
 {% endif %}
 <div class="app-frame"><header class="topbar"><div class="topbar-inner">
-{% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{'Monitoring' if request.endpoint=='dashboard' else 'AI Evaluation' if request.endpoint=='ai_evaluation' else 'AI Training'}}</strong></div>
+{% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{'Monitoring' if request.endpoint=='dashboard' else 'AI Evaluation' if request.endpoint=='ai_evaluation' else 'Tài khoản' if request.endpoint=='change_password' else 'AI Training'}}</strong></div>
 {% else %}<a class="brand" href="{{url_for('index')}}"><span class="brand-mark" aria-hidden="true">F</span><span class="brand-copy">FileGuard<span class="brand-ai">AI</span><small>PATH TRAVERSAL DEFENSE · H07</small></span></a>{% endif %}
 <nav class="topbar-actions" aria-label="Tài khoản và kho tệp">
 <div id="text-size-controls" class="text-size-controls" role="group" aria-label="Cỡ chữ" hidden>{% for size,text,label in [('small','A−','Nhỏ · 16px'),('medium','A','Vừa · 18px'),('large','A+','Lớn · 20px')] %}<button type="button" data-text-size="{{size}}" aria-label="Cỡ chữ {{label}}" title="{{label}}" aria-pressed="false">{{text}}</button>{% endfor %}</div>
 {% if not management %}<a class="top-link" href="{{url_for('index')}}">Kho tệp</a><a class="top-link" href="{{url_for('dashboard')}}">Giám sát</a>{% endif %}
 <div class="theme-picker" id="theme-picker" hidden><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Chọn giao diện Sáng, Tối hoặc Theo hệ thống" aria-haspopup="menu" aria-controls="theme-menu" aria-expanded="false"><span data-theme-icon aria-hidden="true">☾</span><span class="theme-label">Giao diện</span></button>
 <div class="theme-menu" id="theme-menu" role="menu" aria-label="Chế độ giao diện" hidden>{% for value,label,icon in [('light','Sáng','☀'),('dark','Tối','☾'),('system','Theo hệ thống','◐')] %}<button type="button" role="menuitemradio" data-theme-choice="{{value}}" aria-checked="false"><span aria-hidden="true">{{icon}}</span>{{label}}<span class="theme-check" aria-hidden="true">✓</span></button>{% endfor %}</div></div>
+{% if session.get('role')=='admin' %}<a class="top-link account-link" href="{{url_for('change_password')}}">Tài khoản · Đổi mật khẩu</a>{% endif %}
 {% if session.get('role') %}<span class="role-chip">{{session.get('role')}}</span><form method="post" action="{{url_for('logout')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><button class="btn btn-outline-secondary btn-sm">Đăng xuất</button></form>{% else %}<a class="btn btn-outline-primary btn-sm" href="{{url_for('login')}}">Đăng nhập</a>{% endif %}
 </nav></div></header>
 <main id="main-content" class="main-content" tabindex="-1">
-{% with messages=get_flashed_messages() %}{% for msg in messages %}<div class="alert alert-danger {{'login-feedback' if request.endpoint=='login' else ''}}" role="alert">{% if request.endpoint=='login' %}<strong>Đăng nhập không thành công</strong><p class="mb-0">{{msg}}</p>{% else %}{{msg}}{% endif %}</div>{% endfor %}{% endwith %}
+{% with messages=get_flashed_messages(with_categories=true) %}{% for category,msg in messages %}<div class="alert {{'notice notice-cyan' if category=='success' else 'alert-danger'}} {{'login-feedback' if request.endpoint=='login' else ''}}" role="{{'status' if category=='success' else 'alert'}}">{% if request.endpoint=='login' and category!='success' %}<strong>Đăng nhập không thành công</strong><p class="mb-0">{{msg}}</p>{% else %}{{msg}}{% endif %}</div>{% endfor %}{% endwith %}
 {% if management %}<noscript><nav class="notice mb-4" aria-label="Điều hướng khi JavaScript tắt"><a href="{{url_for('dashboard')}}">Overview / Security Logs</a> · <a href="{{url_for('ai_evaluation')}}">AI Evaluation</a> · <a href="{{url_for('ai_training')}}">AI Training</a></nav></noscript>{% endif %}
 {% block content %}{% endblock %}</main>
 <footer class="app-footer"><span>FILEGUARD AI <span class="footer-separator">/</span> Đồ án tốt nghiệp H07</span><span>Logistic Regression cảnh báo · Kiểm soát tệp độc lập</span></footer></div>

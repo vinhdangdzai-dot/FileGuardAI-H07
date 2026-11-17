@@ -49,6 +49,7 @@ def ui(tmp_path):
 def admin(client):
     with client.session_transaction() as session:
         session['role'] = 'admin'
+        session['_credential_version'] = client.application.extensions['credentials'].version('admin')
         session.permanent = True
 
 
@@ -101,6 +102,7 @@ def test_management_ui_is_not_exposed_to_guest_or_auditor(ui,path):
     assert client.get(path).status_code == 302
     with client.session_transaction() as session:
         session['role'] = 'auditor'
+        session['_credential_version'] = client.application.extensions['credentials'].version('auditor')
         session.permanent = True
     assert client.get(path).status_code == 403
 

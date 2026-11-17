@@ -49,7 +49,7 @@ def main():
         warnings.simplefilter('error', InconsistentVersionWarning)
         model = joblib.load(ROOT / 'artifacts/model.joblib')
         model.predict_proba([extract_features('baocao.pdf')])
-    app = create_app({'FILES_ROOT': shared, 'DATABASE': database,
+    app = create_app({'FILES_ROOT': shared, 'DATABASE': database, 'ADMIN_HASH_FILE':database.parent/'admin_password.hash', 'AUDITOR_HASH_FILE':database.parent/'auditor_password.hash',
                       'ADMIN_PASSWORD': uuid.uuid4().hex})
     server = make_server('127.0.0.1', 5000, app)
     thread = threading.Thread(target=server.serve_forever, daemon=True)

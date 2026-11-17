@@ -43,7 +43,7 @@ def create_app(config=None):
         EVALUATION_ROOT=BASE / 'docs' / 'evaluations',
         TRAINING_DATA_PATH=BASE / 'data/paths_synthetic.csv',
         EXPERIMENTAL_MODEL_PATH=BASE / 'docs/evaluations/20261116T154448Z_7a27a7/improved_model.joblib',
-        ADMIN_PASSWORD=os.environ.get('ADMIN_PASSWORD') or secrets.token_urlsafe(12),
+        ADMIN_PASSWORD=os.environ.get('ADMIN_PASSWORD'),
         ADMIN_PASSWORD_HASH=os.environ.get('ADMIN_PASSWORD_HASH'),
         AUDITOR_PASSWORD_HASH=os.environ.get('AUDITOR_PASSWORD_HASH'),
         MAX_CONTENT_LENGTH=32 * 1024,
@@ -52,7 +52,9 @@ def create_app(config=None):
         app.config.update(config)
     if app.config.get('TESTING') and 'ADMIN_PASSWORD' not in (config or {}):
         app.config['ADMIN_PASSWORD'] = 'test-only-secret'
-    configure_auth(app, BASE)
+    private_base = Path(app.config['DATABASE']).parent if app.testing else BASE / 'instance'
+    app.config.setdefault('ADMIN_HASH_FILE', private_base / 'admin_password.hash')
+    app.config.setdefault('AUDITOR_HASH_FILE', private_base / 'auditor_password.hash')
 
     root = Path(app.config['FILES_ROOT'])
     for private in (app.config['DATABASE'], app.config['MODEL_PATH'], app.config['TRAINING_DATA_PATH'],
@@ -61,6 +63,7 @@ def create_app(config=None):
                     app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash')):
         if Path(private).resolve().is_relative_to(root.resolve()):
             raise ValueError('Private logs, credentials and model must be outside FILES_ROOT')
+    configure_auth(app, BASE)
     root.mkdir(parents=True, exist_ok=True)
     init_db(Path(app.config['DATABASE']))
 
@@ -170,18 +173,74 @@ def create_app(config=None):
                 insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_throttled')
                 return 'Thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.', 429, {'Retry-After': str(app.config['LOGIN_WINDOW_SECONDS'])}
             role = request.form.get('role', 'admin')
-            password_hash = app.config['ADMIN_HASH'] if role == 'admin' else app.config['AUDITOR_HASH'] if role == 'auditor' else None
-            if password_hash and check_password_hash(password_hash, request.form.get('password', '')):
+            try:
+                password_hash = app.extensions['credentials'].current(role) if role in {'admin','auditor'} else None
+            except (OSError, ValueError):
+                return render_template('error.html',code=503,message='Kho thông tin xác thực tạm thời không khả dụng.'),503
+            supplied_password = request.form.get('password', '')
+            if len(supplied_password) <= 128 and password_hash and check_password_hash(password_hash, supplied_password):
                 # Persist the authentication event BEFORE granting a role.
                 insert_security_event(app.config['DATABASE'], ip, role, 'login_success')
                 session.clear()
                 session.permanent = True
                 session['is_admin'] = role == 'admin'
                 session['role'] = role
+                session['_credential_version'] = app.extensions['credentials'].version(role, password_hash)
                 return redirect(url_for('dashboard' if role == 'admin' else 'index'))
             insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_failed')
             flash('Sai mật khẩu quản trị.')
         return render_template('login.html')
+
+    @app.route('/account/password', methods=['GET', 'POST'])
+    @admin_required
+    def change_password():
+        from .credential_store import credential_lock, atomic_hash_write
+        from .database import failed_password_change_count
+        from werkzeug.security import generate_password_hash
+        error, status, committed = None, 200, False
+        if request.method == 'POST':
+            ip = request.remote_addr or 'unknown'
+            window = app.config['PASSWORD_CHANGE_WINDOW_SECONDS']
+            since = (datetime.now(timezone.utc)-timedelta(seconds=window)).isoformat(timespec='seconds')
+            if failed_password_change_count(app.config['DATABASE'],ip,since) >= app.config['PASSWORD_CHANGE_MAX_FAILURES']:
+                insert_security_event(app.config['DATABASE'],ip,'admin','password_change_throttled')
+                return render_template('change_password.html',error='Thử quá nhiều lần. Vui lòng thử lại sau.'),429,{'Retry-After':str(window)}
+            current = request.form.get('current_password','')
+            new = request.form.get('new_password','')
+            confirmation = request.form.get('confirm_password','')
+            try:
+                with credential_lock(app.config['ADMIN_HASH_FILE']):
+                    # Recheck under the cross-process lock; no stale worker may
+                    # overwrite a concurrent password change with old credentials.
+                    if len(current)>128 or not check_password_hash(app.extensions['credentials'].current('admin'),current):
+                        error,status = 'Mật khẩu hiện tại không đúng.',403
+                    elif not 12 <= len(new) <= 128 or new != confirmation:
+                        error,status = 'Mật khẩu mới cần 12–128 ký tự và xác nhận trùng khớp.',400
+                    elif check_password_hash(app.extensions['credentials'].current('admin'),new):
+                        error,status = 'Hãy chọn mật khẩu khác mật khẩu hiện tại.',400
+                    if error:
+                        insert_security_event(app.config['DATABASE'],ip,'admin','password_change_failed')
+                    else:
+                        # Fail before mutation if the audit store is unavailable.
+                        insert_security_event(app.config['DATABASE'],ip,'admin','password_change_requested')
+                        atomic_hash_write(app.config['ADMIN_HASH_FILE'],generate_password_hash(new))
+                        committed = True
+            except OSError:
+                if not committed:
+                    insert_security_event(app.config['DATABASE'],ip,'admin','password_change_write_failed')
+                    return render_template('change_password.html',error='Không thể lưu thay đổi. Mật khẩu hiện có vẫn được giữ nguyên.'),503
+                app.logger.error('Password changed; credential lock release unavailable')
+            if not error:
+                session.clear()
+                try:
+                    insert_security_event(app.config['DATABASE'],ip,'admin','password_change_success')
+                except sqlite3.Error:
+                    # File commit already happened: never report the old password
+                    # as active or silently roll back the revocation.
+                    app.logger.error('Password changed; success audit unavailable')
+                flash('Đổi mật khẩu thành công. Vui lòng đăng nhập lại.','success')
+                return redirect(url_for('login'))
+        return render_template('change_password.html',error=error),status
 
     @app.post('/logout')
     @roles_required('admin', 'auditor')

@@ -114,3 +114,7 @@ def summary(db_path, **filters):
             SUM(CASE WHEN ml_label='suspicious' THEN 1 ELSE 0 END) AS suspicious
             FROM access_logs''' + where, params).fetchone())
         return {key: value or 0 for key, value in result.items()}
+
+def failed_password_change_count(db_path, ip, since):
+    with closing(connect(db_path)) as con:
+        return con.execute("SELECT COUNT(*) FROM security_events WHERE client_ip=? AND event='password_change_failed' AND created_at>=?",(ip,since)).fetchone()[0]

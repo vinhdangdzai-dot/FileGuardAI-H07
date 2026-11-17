@@ -48,7 +48,7 @@ def main():
                  ROOT/'docs/evaluations/20261116T154448Z_7a27a7/improved_model.joblib', ROOT/'instance/events.sqlite3']
     before = {str(path.relative_to(ROOT)):sha256(path) for path in protected if path.is_file()}
     password = secrets.token_hex(24)
-    app = create_app({'FILES_ROOT':public, 'DATABASE':runtime['root']/'ui.sqlite3', 'ADMIN_PASSWORD':password})
+    app = create_app({'FILES_ROOT':public, 'DATABASE':runtime['root']/'ui.sqlite3', 'ADMIN_HASH_FILE':runtime['root']/'admin_password.hash', 'AUDITOR_HASH_FILE':runtime['root']/'auditor_password.hash', 'ADMIN_PASSWORD':password})
     server = make_server('127.0.0.1', 0, app, threaded=True)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -270,6 +270,8 @@ def main():
             verify_themes(browser,url,context,check,out,results,args.browser,results['launch_args'])
             from tools.ui_text_size_checks import verify_text_sizes
             verify_text_sizes(browser,url,context,check,out,results)
+            from tools.ui_password_checks import verify_password_change
+            verify_password_change(browser,url,context,check,out,results,password)
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])
             check('all local static assets load',not results['static_errors'],results['static_errors'])
             context.close()

@@ -44,6 +44,13 @@
     }
     function open(last=false) {
       menu.hidden = false;
+      // Account controls can wrap the trigger into the middle of a row.
+      // Anchor the popup within the viewport instead of clipping to its parent.
+      const bounds = toggle.getBoundingClientRect();
+      menu.style.position = 'fixed';
+      menu.style.right = 'auto';
+      menu.style.left = Math.max(8, Math.min(bounds.right-menu.offsetWidth, innerWidth-menu.offsetWidth-8))+'px';
+      menu.style.top = Math.max(8, Math.min(bounds.bottom+8, innerHeight-menu.offsetHeight-8))+'px';
       toggle.setAttribute('aria-expanded','true');
       const selected = choices.find(button => button.dataset.themeChoice === preference);
       (last ? choices[choices.length-1] : selected || choices[0]).focus();

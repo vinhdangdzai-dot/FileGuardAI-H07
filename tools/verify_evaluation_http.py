@@ -31,7 +31,7 @@ def main():
     with nullcontext(database_folder) as tmp:
         password = secrets.token_hex(16)
         auditor_password = secrets.token_hex(16)
-        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_PASSWORD': password,
+        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_HASH_FILE':Path(tmp)/'admin_password.hash', 'AUDITOR_HASH_FILE':Path(tmp)/'auditor_password.hash', 'ADMIN_PASSWORD': password,
                           'AUDITOR_PASSWORD_HASH': generate_password_hash(auditor_password)})
         server = make_server('127.0.0.1', 0, app)
         thread = threading.Thread(target=server.serve_forever, daemon=True)

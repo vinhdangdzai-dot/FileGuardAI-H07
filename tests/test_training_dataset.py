@@ -20,6 +20,7 @@ def browser(tmp_path):
     client = app.test_client()
     with client.session_transaction() as s:
         s['role'] = 'admin'
+        s['_credential_version'] = client.application.extensions['credentials'].version('admin')
         s.permanent = True
     return app, client
 
@@ -99,7 +100,7 @@ def test_full_export_csrf_and_roles(browser):
     for role,status in [('auditor',403),(None,302)]:
         with client.session_transaction() as session:
             session.clear()
-            if role:session['role']=role;session.permanent=True
+            if role:session['role']=role;session['_credential_version']=client.application.extensions['credentials'].version(role);session.permanent=True
         assert client.get('/dashboard/ai-training').status_code==status
         html=client.get('/login').get_data(as_text=True)
         csrf=re.search(r'name="csrf_token" value="([^"]+)"',html)[1]

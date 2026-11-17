@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> Tài khoản mới: [đổi mật khẩu Admin, hash bền vững và thu hồi phiên](../auth/PASSWORDS.md), giữ Light/Dark và cỡ chữ18px. Chỉ thiết lập CLI lần đầu khi chưa có hash.
+
 > Mới nhất: [cỡ chữ trình chiếu 18px, tùy chọn 16/18/20px](TEXT_SIZE.md), 165 pytest PASS/3 SKIP và385 Edge checks PASS. Zoom là reflow mô phỏng; native zoom chưa được xác minh.
 
 > Cập nhật dữ liệu: [AI Training phân trang toàn bộ 10.000 mẫu](../datasets/INTEGRATION_10000.md), tìm kiếm/lọc phía máy chủ và chọn run strict.

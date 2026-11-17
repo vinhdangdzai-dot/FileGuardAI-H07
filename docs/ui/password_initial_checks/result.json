@@ -1,0 +1,1 @@
+﻿{"status":"FAIL","passed":13,"failed":1,"reason":"Bootstrap guard test accidentally used TESTING=True, which intentionally supplies fixture credentials; corrected test to production configuration."}

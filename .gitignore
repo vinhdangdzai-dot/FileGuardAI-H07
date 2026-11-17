@@ -40,3 +40,4 @@ instance/*.tmp
 **/credential_history/
 **/.credential-update.lock
 **/.credential-*.tmp
+**/ai_explanations.sqlite3-*

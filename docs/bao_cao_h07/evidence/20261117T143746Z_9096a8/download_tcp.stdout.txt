@@ -1,0 +1,53 @@
+TC01 FAIL 200 valid file
+TC02 FAIL 200 Unicode and spaces
+TC03 FAIL 200 subdirectory
+TC04 FAIL 403 parent directory
+TC05 FAIL 403 parent component alone
+TC06 FAIL 403 Windows parent separator
+TC07 FAIL 403 absolute existing external file
+TC08 FAIL 403 POSIX absolute
+TC09 FAIL 403 Windows absolute
+TC10 FAIL 403 UNC
+TC11 FAIL 403 URL encoding
+TC12 FAIL 403 double encoding / form encoded payload
+TC13 FAIL 403 triple encoding
+TC14 FAIL 403 encoded Windows separator
+TC15 FAIL 404 missing file
+TC16 FAIL 404 encoded missing Unicode
+TC17 FAIL 403 traversal in subdirectory
+TC18 FAIL 403 null encoding
+TC19 FAIL 403 directory is not a file
+TC25 FAIL 403 Windows superscript device
+TC26 FAIL 403 Windows console device
+TC27 FAIL 403 duplicate path parameters
+TC28 FAIL 403 oversized path skips advisory scoring
+TC29 FAIL 403 alternate data stream
+TC30 FAIL 403 trailing space component
+TC31 FAIL 403 control character
+TC32 FAIL 403 encoded absolute slash
+TC33 FAIL 403 current directory component
+TC34 FAIL 403 mixed separators
+TC35 FAIL 404 missing nested file
+TC36 FAIL 404 regular file used as parent
+TC23 FAIL 403 junction existing external file
+TC24 FAIL 403 junction missing external file
+{
+  "started_run_utc": "20261117T144028Z",
+  "host": "127.0.0.1",
+  "port": 5000,
+  "transport": "http.client -> TCP -> Werkzeug WSGI -> Flask",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "sklearn": "1.9.1",
+  "shared_files": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\shared_files",
+  "database": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\evidence\\tcp_20261117T144028Z_1b5a05\\events.sqlite3",
+  "model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "model_load_InconsistentVersionWarning": false,
+  "smoke_exit_code": 0,
+  "totals": {
+    "PASS": 0,
+    "FAIL": 33,
+    "SKIP": 3
+  }
+}
+Evidence: C:\Users\HUU VINH\FileGuardAI_H07_MVP_10000_mau_khong_trung\FileGuardAI_H07\docs\evidence\tcp_20261117T144028Z_1b5a05

@@ -48,13 +48,15 @@ def main():
                  ROOT/'docs/evaluations/20261116T154448Z_7a27a7/improved_model.joblib', ROOT/'instance/events.sqlite3']
     before = {str(path.relative_to(ROOT)):sha256(path) for path in protected if path.is_file()}
     password = secrets.token_hex(24)
-    app = create_app({'FILES_ROOT':public, 'DATABASE':runtime['root']/'ui.sqlite3', 'ADMIN_HASH_FILE':runtime['root']/'admin_password.hash', 'AUDITOR_HASH_FILE':runtime['root']/'auditor_password.hash', 'ADMIN_PASSWORD':password})
+    from tools.ui_ai_analysis_checks import FixtureProvider
+    ai_provider = FixtureProvider()
+    app = create_app({'AI_EXPLANATION_ADAPTER':ai_provider,'FILES_ROOT':public, 'DATABASE':runtime['root']/'ui.sqlite3', 'ADMIN_HASH_FILE':runtime['root']/'admin_password.hash', 'AUDITOR_HASH_FILE':runtime['root']/'auditor_password.hash', 'ADMIN_PASSWORD':password})
     server = make_server('127.0.0.1', 0, app, threaded=True)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     url = 'http://127.0.0.1:'+str(server.server_port)
     results = {'created_at_utc':datetime.now(timezone.utc).isoformat(), 'transport':'TCP localhost, real Chromium',
-               'fixture_note':'Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.',
+               'fixture_note':'API explanations use a labeled fake adapter, no external calls or API keys. Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.',
                'checks':[], 'browser_errors':[], 'static_errors':[], 'browser':str(args.browser),
                'launch_args':['--disable-gpu'] if args.software_rendering else [],'screenshots':[]}
     def check(name, passed, actual=None):
@@ -164,7 +166,7 @@ def main():
             check('compact sidebar keeps accessible links',page.get_by_role('link',name='AI Training',exact=True).count()==1)
             page.locator('.sidebar-toggle').click()
             page.locator('#action').select_option('BLOCK')
-            page.locator('[data-navigation-form] button').click()
+            page.locator('form:has(#action) button').click()
             page.wait_for_load_state('networkidle')
             check('filtered log rows BLOCK', all('BLOCK' in text for text in page.locator('.logs-table tbody tr').all_inner_texts()))
             with page.expect_download() as info:
@@ -272,6 +274,8 @@ def main():
             verify_text_sizes(browser,url,context,check,out,results)
             from tools.ui_brand_checks import verify_branding
             verify_branding(browser,url,context,check,out,results)
+            from tools.ui_ai_analysis_checks import verify_ai_analysis
+            verify_ai_analysis(browser,url,context,check,out,results,app.extensions['ai_explanations'],ai_provider)
             from tools.ui_password_checks import verify_password_change
             verify_password_change(browser,url,context,check,out,results,password)
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])
@@ -281,6 +285,8 @@ def main():
     except Exception as error:
         check('browser suite completed',False,str(error))
     finally:
+        ai_provider.release.set()
+        app.extensions['ai_explanations'].close()
         server.shutdown()
         server.server_close()
         thread.join(timeout=10)

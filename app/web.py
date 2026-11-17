@@ -56,8 +56,11 @@ def create_app(config=None):
     app.config.setdefault('ADMIN_HASH_FILE', private_base / 'admin_password.hash')
     app.config.setdefault('AUDITOR_HASH_FILE', private_base / 'auditor_password.hash')
 
+    app.config.setdefault('AI_EXPLANATION_DATABASE',Path(app.config['DATABASE']).parent/'ai_explanations.sqlite3')
+    if Path(app.config['AI_EXPLANATION_DATABASE']).resolve()==Path(app.config['DATABASE']).resolve():
+        raise ValueError('AI explanation sidecar must be separate from business database')
     root = Path(app.config['FILES_ROOT'])
-    for private in (app.config['DATABASE'], app.config['MODEL_PATH'], app.config['TRAINING_DATA_PATH'],
+    for private in (app.config['AI_EXPLANATION_DATABASE'],app.config['DATABASE'], app.config['MODEL_PATH'], app.config['TRAINING_DATA_PATH'],
                     app.config['EXPERIMENTAL_MODEL_PATH'], app.config['EVALUATION_ROOT'],
                     app.config.get('ADMIN_HASH_FILE', BASE / 'instance/admin_password.hash'),
                     app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash')):
@@ -66,6 +69,24 @@ def create_app(config=None):
     configure_auth(app, BASE)
     root.mkdir(parents=True, exist_ok=True)
     init_db(Path(app.config['DATABASE']))
+
+    from .ai_explanations import ExplanationService, ChatCompletionProvider
+    adapter = app.config.get('AI_EXPLANATION_ADAPTER')
+    api_key = os.environ.get('AI_EXPLANATION_API_KEY')
+    model = os.environ.get('AI_EXPLANATION_MODEL')
+    if adapter is None and not app.testing and api_key and model:
+        try:
+            if os.environ.get('AI_EXPLANATION_PROVIDER','openai-compatible')!='openai-compatible':
+                raise ValueError('Unsupported AI provider')
+            adapter = ChatCompletionProvider(api_key,os.environ.get('AI_EXPLANATION_ENDPOINT','https://api.openai.com/v1/chat/completions'),model,os.environ.get('AI_EXPLANATION_TIMEOUT','3'))
+        except (ValueError,TypeError):
+            app.logger.error('AI explanation provider configuration invalid; offline mode retained')
+    try:
+        call_limit = int(os.environ.get('AI_EXPLANATION_HOURLY_LIMIT','20'))
+    except ValueError:
+        call_limit = 20
+    explanations = ExplanationService(app.config['AI_EXPLANATION_DATABASE'],adapter,limit=call_limit)
+    app.extensions['ai_explanations'] = explanations
 
     predictor = None
     model_status = 'unavailable'
@@ -155,13 +176,18 @@ def create_app(config=None):
             action, status, reason = 'BLOCK', 403, 'Yêu cầu không thể truy cập'
             response = render_template('error.html', code=403, message=reason), 403
         try:
-            insert_log(app.config['DATABASE'], ip, raw, score, ml_label,
+            event_id = insert_log(app.config['DATABASE'], ip, raw, score, ml_label,
                        action, status, reason, (time.perf_counter() - start) * 1000)
         except (sqlite3.Error, ValueError):
             if f is not None:
                 f.close()
             app.logger.exception('Cannot persist access event; file response withheld')
             return render_template('error.html', code=503, message='Không thể ghi nhật ký. Vui lòng thử lại sau.'), 503
+        try:
+            explanations.submit(event_id,raw,action,ml_label=='suspicious')
+        except Exception:
+            # Supplementary processing must never withhold or alter the file response.
+            pass
         return response
 
     @app.route('/login', methods=['GET','POST'])
@@ -263,7 +289,21 @@ def create_app(config=None):
         logs = recent_logs(app.config['DATABASE'], **filters)
         counts = summary(app.config['DATABASE'], **filters)
         return render_template('dashboard.html', logs=logs, counts=counts,
-                               security_events=recent_security_events(app.config['DATABASE']), filters=filters)
+                               security_events=recent_security_events(app.config['DATABASE']), filters=filters,
+                               ai_explanations=explanations.snapshot())
+
+    @app.post('/dashboard/ai-analysis/settings')
+    @admin_required
+    def ai_analysis_settings():
+        value = request.form.get('enabled')
+        if value not in {'0','1'}:abort(400)
+        insert_security_event(app.config['DATABASE'],request.remote_addr or 'unknown','admin','ai_explanations_setting_change_requested')
+        try:
+            explanations.set_enabled(value=='1')
+        except (sqlite3.Error,OSError):
+            return render_template('error.html',code=503,message='Không thể lưu cấu hình phân tích AI.'),503
+        flash('Đã lưu cấu hình phân tích AI. Thiếu key/model thì vẫn chạy offline.','success')
+        return redirect(url_for('dashboard',_anchor='ai-analysis'))
 
     @app.post('/dashboard/logs/export')
     @roles_required('admin')

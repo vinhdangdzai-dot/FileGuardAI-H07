@@ -1,3 +1,14 @@
+Mới nhất — API giải thích bổ sung OpenAI-compatible, mặc định OFF/offline:
+
+Giữ LR và policy trên download; chỉ enqueue sau commit access log, chỉ cờ/số đếm cấu trúc được gửi. Không raw path/IP khách/token/password/file. Worker daemon + queue16, sidecar SQLite riêng, limit20/hour shared, cache24h/dedup/cooldown60s, timeout socket3s, schema bounded/autoescape và không follow redirect. Admin toggle POST+CSRF; key/model/endpoint env-only. Không thay ALLOW/BLOCK/MISS hoặc huấn luyện/triển khai model.
+
+Local cuối: pytest241 PASS/0 FAIL/0 ERROR/3 symlink SKIP;15 subtests PASS. Acceptance cuối6/6 exit0;dashboard41 PASS,download33 PASS/3 SKIP,144 request/144 rows/0 lỗi. Edge448 PASS/0 FAIL/0 JS/static errors. API transport/adapter là giả lập có ghi nhãn, chưa gọi hoặc xác minh API nhà cung cấp thật/key/model. [Setup, file, ảnh và toàn bộ giới hạn](docs/ai_api/README.md).
+
+Sự cố phải ghi rõ: lượt TCP cũ port5000 có33 FAIL (không có fixture DB rows), hash business SQLite đổi;35 dòng khớp test trong khoảng quan sát. Giữ nguyên log, không rollback/xóa. Đã sửa verifier sangport0, truyền bound port cho smoke; lượt cuốiport55053 có đủ33 PASS và business hash không đổi trong lượt đó. Không tuyên bố SQLite bất biến cả đợt. Giữ cả FAIL và evidence tổng hợp. Data/models không đổi. PR draft, không merge main.
+
+---
+Lịch sử trước API bổ sung:
+
 Mới nhất — thương hiệu CANH GÁC SỐ / by HuuVinh:
 
 Đổi nhận diện hiển thị trên navbar/sidebar, Login, kho tệp, Dashboard, AI Training/Evaluation, Account, footer, lỗi403/404/503 và tab. SVG khiên+mắt sắc nét dùng cho logo/favicon; byline đúng case, khẩu hiệu/mô tả tiếng Việt đúng yêu cầu. Giữ Light/Dark/System, chữ18px/A−/A/A+, sidebar compact. Không rename repo/package/routes/localStorage, không đổi đề tài, backend, dataset, model, SQLite, policy/auth/password hoặc kết quả lưu trữ.

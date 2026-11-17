@@ -1,5 +1,7 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+> [API giải thích AI tùy chọn](docs/ai_api/README.md): mặc định offline, bật/tắt tại Admin Dashboard, chỉ gửi đặc trưng làm sạch; API không quyết định quyền tải. Có hướng dẫn key/model qua environment và báo cáo thực tế, gồm sự cố test TCP cổng5000 đã được ghi nhận và sửa bằng fixture port riêng.
+
 **CANH GÁC SỐ — *by HuuVinh*** · Giám sát thông minh – Bảo vệ dữ liệu an toàn.
 
 [Nhận diện mới, ảnh Light/Dark và kiểm thử thực tế](docs/ui/BRAND_CANH_GAC_SO.md). Đây là tên sản phẩm trên website; repository, định danh kỹ thuật và tên đề tài khóa luận giữ nguyên.

@@ -51,7 +51,7 @@ def main():
         model.predict_proba([extract_features('baocao.pdf')])
     app = create_app({'FILES_ROOT': shared, 'DATABASE': database, 'ADMIN_HASH_FILE':database.parent/'admin_password.hash', 'AUDITOR_HASH_FILE':database.parent/'auditor_password.hash',
                       'ADMIN_PASSWORD': uuid.uuid4().hex})
-    server = make_server('127.0.0.1', 5000, app)
+    server = make_server('127.0.0.1', 0, app)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     rows = []
@@ -61,7 +61,7 @@ def main():
         decoded = parse_qs('path=' + query, keep_blank_values=True)['path'][0]
         with closing(sqlite3.connect(database)) as db:
             before = db.execute('SELECT COALESCE(MAX(id),0) FROM access_logs').fetchone()[0]
-        con = http.client.HTTPConnection('127.0.0.1', 5000, timeout=10)
+        con = http.client.HTTPConnection('127.0.0.1', server.server_port, timeout=10)
         started = datetime.now(timezone.utc)
         try:
             con.request('GET', uri)
@@ -118,7 +118,7 @@ def main():
 
     links = []
     try:
-        smoke = subprocess.run([sys.executable, str(ROOT / 'tools/smoke_http.py')],
+        smoke = subprocess.run([sys.executable, str(ROOT / 'tools/smoke_http.py'), '--port', str(server.server_port)],
                                cwd=ROOT, capture_output=True, text=True, encoding='utf-8')
         (evidence / 'smoke_http.txt').write_text(smoke.stdout + smoke.stderr, encoding='utf-8')
         cases = [
@@ -198,7 +198,7 @@ def main():
         cells = [str(row[k]).replace('|', '&#124;').replace('\n', ' ') for k in ['TC', 'Input', 'Expected', 'Actual', 'Result']]
         table.append('| ' + ' | '.join(cells) + f" | [{row['Evidence']}]({row['Evidence']}) |")
     (evidence / 'test_cases.md').write_text('\n'.join(table) + '\n', encoding='utf-8')
-    summary = {'started_run_utc': stamp, 'host': '127.0.0.1', 'port': 5000,
+    summary = {'started_run_utc': stamp, 'host': '127.0.0.1', 'port': server.server_port,
                'transport': 'http.client -> TCP -> Werkzeug WSGI -> Flask',
                'python': platform.python_version(), 'platform': platform.platform(),
                'sklearn': sklearn.__version__, 'shared_files': str(shared), 'database': str(database),

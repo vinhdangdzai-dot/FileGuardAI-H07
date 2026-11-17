@@ -1,0 +1,253 @@
+{
+  "created_at_utc": "2026-11-17T14:27:54.498426+00:00",
+  "transport": "TCP localhost, real Chromium",
+  "fixture_note": "API explanations use a labeled fake adapter, no external calls or API keys. Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.",
+  "checks": [
+    {
+      "name": "public desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "NFC Unicode file search",
+      "result": "PASS",
+      "actual": 1
+    },
+    {
+      "name": "search empty state",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "extension filter",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native Unicode download exact body",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "download status does not fabricate success",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native form traversal rejected",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %2e%2e%2fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %252e%252e%252fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP missing.txt",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "login desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "login desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login CSRF present",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "critical login text contrast at least 4.5 to 1",
+      "result": "PASS",
+      "actual": [
+        {
+          "selector": ".login-panel .form-label",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 17
+        },
+        {
+          "selector": ".login-panel>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 18
+        },
+        {
+          "selector": ".login-panel #password-help",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        },
+        {
+          "selector": ".login-visual>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(244, 247, 251)",
+          "ratio": 5.644188934059945,
+          "font_px": 18
+        },
+        {
+          "selector": ".password-toggle",
+          "color": "rgb(0, 101, 129)",
+          "background": "rgb(233, 244, 250)",
+          "ratio": 5.910214170873395,
+          "font_px": 18
+        }
+      ]
+    },
+    {
+      "name": "presentation login labels and descriptions enlarged",
+      "result": "PASS",
+      "actual": [
+        {
+          "selector": ".login-panel .form-label",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 17
+        },
+        {
+          "selector": ".login-panel>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 18
+        },
+        {
+          "selector": ".login-panel #password-help",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        }
+      ]
+    },
+    {
+      "name": "keyboard reveals password without submitting",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard hides password and preserves value",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "real login submit shows loading on submit, not reveal",
+      "result": "PASS",
+      "actual": [
+        {
+          "busy": "true",
+          "label": "Đang xác thực…",
+          "revealBusy": null
+        }
+      ]
+    },
+    {
+      "name": "failed login is clear and generic",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "four real overview cards",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard charts rendered",
+      "result": "PASS",
+      "actual": {
+        "charts_rendered": true
+      }
+    },
+    {
+      "name": "chart data equals backend counts",
+      "result": "PASS",
+      "actual": {
+        "data": [
+          1,
+          3,
+          1
+        ],
+        "source": {
+          "allowed": 1,
+          "blocked": 3,
+          "missed": 1
+        }
+      }
+    },
+    {
+      "name": "desktop sidebar collapses",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "compact sidebar keeps accessible links",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "browser suite completed",
+      "result": "FAIL",
+      "actual": "Locator.click: Error: strict mode violation: locator(\"[data-navigation-form] button\") resolved to 2 elements:\n    1) <button class=\"btn btn-primary\">Lọc bảng và thống kê</button> aka get_by_role(\"button\", name=\"Lọc bảng và thống kê\")\n    2) <button type=\"submit\" class=\"btn btn-outline-primary\">Lưu cấu hình</button> aka get_by_role(\"button\", name=\"Lưu cấu hình\")\n\nCall log:\n  - waiting for locator(\"[data-navigation-form] button\")\n"
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "launch_args": [],
+  "screenshots": [
+    "01_public_desktop.png",
+    "02_blocked_request.png",
+    "03_login_desktop.png",
+    "login_error_desktop.png",
+    "04_dashboard_desktop.png"
+  ],
+  "browser_version": "157.0.4341.60",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "passed": 27,
+  "failed": 1
+}

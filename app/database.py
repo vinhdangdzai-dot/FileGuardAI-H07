@@ -71,12 +71,13 @@ def insert_log(db_path, ip, path, score, ml_label, action, status, reason, durat
     if not _finite_number(duration_ms) or duration_ms < 0:
         raise ValueError('Invalid duration in log')
     with closing(connect(db_path)) as con, con:
-        con.execute('''INSERT INTO access_logs
+        cursor = con.execute('''INSERT INTO access_logs
             (created_at, client_ip, requested_path, ml_score, ml_label,
              action, http_status, reason, duration_ms)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
             (datetime.now(timezone.utc).isoformat(timespec='seconds'), ip,
              path[:4096], score, ml_label, action, status, reason, duration_ms))
+        return cursor.lastrowid
 
 
 def recent_logs(db_path, limit=100, action=None, ml_label=None, http_status=None, start=None, end=None):

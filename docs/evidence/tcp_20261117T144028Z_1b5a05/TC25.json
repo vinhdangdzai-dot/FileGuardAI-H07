@@ -1,0 +1,33 @@
+{
+  "tc": "TC25",
+  "name": "Windows superscript device",
+  "uri": "/download?path=COM%C2%B9.txt",
+  "framework_path": "COM¹.txt",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:31 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3576",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3576,
+  "response_sha256": "070d236c546430289a779dab765ffdda8e417e01f2fb5d77e5c8ecc62c5c2504",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:31.150857+00:00",
+  "ended_utc": "2026-11-17T14:40:31.165642+00:00"
+}

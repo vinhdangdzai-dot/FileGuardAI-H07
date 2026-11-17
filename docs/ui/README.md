@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> Mục mới: [Phân tích AI bổ sung](../ai_api/README.md), có công tắc Admin, chế độ offline và ảnh kiểm thử adapter giả lập (không phải API thật).
+
 > Thương hiệu hiện hành: [CANH GÁC SỐ — by HuuVinh](BRAND_CANH_GAC_SO.md), logo SVG khiên/mắt, khẩu hiệu mới và ảnh Light/Dark. Repository/đề tài/bằng chứng lịch sử giữ nguyên.
 
 > Tài khoản mới: [đổi mật khẩu Admin, hash bền vững và thu hồi phiên](../auth/PASSWORDS.md), giữ Light/Dark và cỡ chữ18px. Chỉ thiết lập CLI lần đầu khi chưa có hash.

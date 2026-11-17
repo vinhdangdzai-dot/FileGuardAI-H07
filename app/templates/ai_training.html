@@ -13,8 +13,9 @@
 <p class="small">Nhãn 1 là cú pháp nghi vấn, không phải bằng chứng đọc được file ngoài kho. Dataset tổng hợp và benchmark đã xem không chứng minh độ chính xác ngoài thực tế.</p>
 <form method="post" action="{{url_for('export_training')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input type="hidden" name="kind" value="dataset"><button class="btn btn-outline-primary">Tải CSV dữ liệu</button></form>
 <details class="mt-3"><summary>Số mẫu theo nhóm</summary><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Nhóm</th><th>Số mẫu</th></tr></thead><tbody>{% for name,count in dataset.family_counts.items() %}<tr><td>{{name}}</td><td>{{count}}</td></tr>{% endfor %}</tbody></table></div></details>
-<details><summary>20 mẫu đầu của CSV</summary><div class="table-responsive"><table class="table table-sm"><thead><tr><th>Path</th><th>Nhãn</th><th>Nhóm</th></tr></thead><tbody>{% for r in dataset.preview %}<tr><td class="path-cell">{{r.path}}</td><td>{{r.label}}</td><td>{{r.family}}</td></tr>{% endfor %}</tbody></table></div></details></div>
+{% include '_training_dataset.html' %}</div>
 {% else %}<div class="panel mb-4">CSV chưa có hoặc không hợp lệ. Không tạo dữ liệu thay thế tự động.</div>{% endif %}
+{% include '_training_results.html' %}
 {% for name,model in models.items() %}<div class="panel mb-4"><h2 class="h5">Logistic Regression {{name}} <span class="model-chip {{'deployed' if name=='v1' else ''}}">{{'Đang triển khai' if name=='v1' else 'Thử nghiệm · frozen reference'}}</span></h2>
 {% if model %}<p>{{model.features}} đặc trưng · Train {{model.train_samples}} mẫu · C={{model.C}} · Intercept={{'%.6f'|format(model.intercept)}}</p>
 <form method="post" action="{{url_for('export_training')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><input type="hidden" name="kind" value="{{name}}"><button class="btn btn-outline-primary">Tải trọng số CSV {{name}}</button></form>

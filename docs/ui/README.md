@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> C?p nh?t d? li?u: [AI Training ph?n trang to?n b? 10.000 m?u](../datasets/INTEGRATION_10000.md), t?m ki?m/l?c ph?a m?y ch? v? ch?n run strict.
+
 > Hiện hành: [Sáng / Tối / Theo hệ thống](LIGHT_DARK_MODE.md),143 pytest PASS/3 SKIP,241 browser checks PASS trên Edge local. Chrome local bị đóng; Chrome CI được kiểm và báo riêng trên PR. Không gộp hai môi trường hoặc ghi giả PASS. Các đợt dưới đây là lịch sử.
 
 > Bản hoàn thiện tiếp theo: [Login + AI Evaluation theo run](REFINEMENT_LOGIN_AI.md),135 pytest PASS/3 SKIP và85 browser checks PASS, kèm ảnh trước/sau. Các số và ảnh bên dưới là đợt baseline5866eb8, giữ để đối chiếu.

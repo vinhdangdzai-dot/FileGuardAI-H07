@@ -23,7 +23,7 @@ from .auth import configure_auth, roles_required
 from .log_filters import normalize_filters
 from .evaluation_results import validate_evaluation
 from .ml_features import extract_features
-from .training_view import read_dataset, dataset_stats, inspect_models, evaluation_history
+from .training_view import read_dataset, dataset_stats, dataset_page, inspect_models, evaluation_history
 from .security import RejectedPath, list_allowed_files, open_authorized
 
 BASE = Path(__file__).resolve().parent.parent
@@ -227,14 +227,30 @@ def create_app(config=None):
     @app.get('/dashboard/ai-training')
     @admin_required
     def ai_training():
+        page = None
         try:
             rows = read_dataset(app.config['TRAINING_DATA_PATH'])
             dataset = dataset_stats(rows, app.config['TRAINING_DATA_PATH'])
         except (OSError, ValueError, UnicodeError):
             dataset = None
+        if dataset:
+            try:
+                page = dataset_page(rows, request.args)
+            except ValueError:
+                abort(400)
+        history = evaluation_history(app.config['EVALUATION_ROOT'])
+        # Prefer a validated strict run without changing the global latest pointer.
+        selected = request.args.get('run')
+        if selected is not None and selected not in {r['run'] for r in history}:
+            abort(404)
+        if selected is None:
+            selected = next((r['run'] for r in history
+                             if r.get('experiment_type') == 'canonical_grouped_validation'), None)
+        evaluation, folder = evaluation_data(selected) if selected else (None, None)
         models = inspect_models(predictor, app.config['EXPERIMENTAL_MODEL_PATH'])
         return render_template('ai_training.html', dataset=dataset, models=models,
-                               history=evaluation_history(app.config['EVALUATION_ROOT']))
+                               history=history, dataset_page=page, evaluation=evaluation,
+                               run=folder.name if folder else None)
 
     @app.post('/dashboard/ai-training/export')
     @admin_required

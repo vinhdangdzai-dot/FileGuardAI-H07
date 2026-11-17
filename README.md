@@ -1,5 +1,7 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+> Dataset 10.000 m?u: [h??ng d?n xem, ph?n trang, xu?t CSV v? th?c nghi?m th?c t?](docs/datasets/INTEGRATION_10000.md).
+
 Mới nhất: [Light / Dark / Theo hệ thống](docs/ui/LIGHT_DARK_MODE.md) cho cả5 trang và lỗi403/404/503, lưu lựa chọn, đổi palette chart tại chỗ. Pytest143 PASS/3 SKIP,acceptance6 bước exit0;browser local241 PASS trên Edge, Chrome local/CI báo riêng với bằng chứng. Không thay backend, auth, dữ liệu hoặc mô hình.
 
 Đợt hoàn thiện mới: [Login, chọn run và giải thích kết quả AI](docs/ui/REFINEMENT_LOGIN_AI.md). Pytest135 PASS/0 FAIL/0 ERROR/3 SKIP;Chrome85 PASS ở1440/768/390px;acceptance6 bước exit0. Giữ nguyên auth/policy/model/dữ liệu; ảnh trước/sau và trường metadata thiếu được ghi rõ.

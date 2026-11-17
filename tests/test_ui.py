@@ -115,7 +115,9 @@ def test_training_label_chart_uses_csv_not_demo_numbers(ui):
     assert '18 đặc trưng' in html and '30 đặc trưng' in html
     assert 'Đang triển khai' in html and 'Thử nghiệm' in html
     forms = [attrs for tag,attrs in page.tags if tag=='form']
-    assert all(attrs.get('action') in ['/logout','/dashboard/ai-training/export'] for attrs in forms)
+    assert all(attrs.get('action') in ['/logout','/dashboard/ai-training/export','/dashboard/ai-training'] for attrs in forms)
+    browsing = [attrs for attrs in forms if attrs.get('action')=='/dashboard/ai-training']
+    assert len(browsing)==2 and all(attrs.get('method')=='get' for attrs in browsing)
 
 
 def test_evaluation_cards_and_json_match_saved_artifact(ui):

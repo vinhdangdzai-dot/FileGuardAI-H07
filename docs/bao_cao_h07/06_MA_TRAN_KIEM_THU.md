@@ -1,5 +1,7 @@
 # 06 — Ma trận kiểm thử thực tế
 
+> C?p nh?t Dataset/UI: [b?o c?o t?ch h?p 10.000 m?u](../datasets/INTEGRATION_10000.md) ghi k?t qu? m?i v? b?ng ch?ng ri?ng; c?c m?c c? b?n d??i gi? nguy?n.
+
 > **Cập nhật sửa quyền temp:** [báo cáo13](13_SUA_LOI_PYTEST_WINDOWS11.md). Lệnh pytest thông thường mới:116 PASS,0 FAIL,0 ERROR,3 SKIP;15 subtests PASS. Dùng runtime UUID riêng, không dùng pytest-of-user hoặc cache cũ. Kết quả109 PASS bên dưới là mốc nghiệm thu trước bản sửa, không phải lần chạy mới.
 
 Bản nghiệm thu ngày 17/11/2026 (giờ Việt Nam). Phạm vi: MVP localhost Windows 11; không phải chứng nhận triển khai Internet.

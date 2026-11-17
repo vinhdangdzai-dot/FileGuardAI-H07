@@ -1,3 +1,7 @@
+## Giao diện Cybersecurity Dashboard — nhánh review
+
+[Bàn giao giao diện, ảnh thật và bằng chứng](docs/ui/README.md): dark theme, sidebar responsive, tìm kiếm tệp, biểu đồ dữ liệu thật và các trang AI chỉ đọc. Nhánh `h07/cybersecurity-ui` dựa trên `bb87b23`; không đổi backend hoặc mô hình. Kiểm thử đợt UI:127 pytest PASS/3 SKIP,42 browser checks PASS,acceptance6 bước exit0. Phần hồ sơ bên dưới giữ các số baseline trước nâng cấp UI theo mốc lịch sử.
+
 ## Hồ sơ nghiệm thu H07 hiện hành — 17/11/2026
 
 [12 tài liệu và ma trận nghiệm thu](docs/bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md):[bản sửa temp Windows](docs/bao_cao_h07/13_SUA_LOI_PYTEST_WINDOWS11.md) đạt116 pytest PASS,0 FAIL,0 ERROR,3 SKIP trong môi trường Codex; cần chạy lại bằng tài khoản người dùng. TCP dashboard41 PASS,download33 PASS/3 SKIP;144 request hiệu năng không lỗi. Chính sách: chỉ admin xem dashboard/log/AI/CSV; auditor chỉ kho công khai. AI Training chỉ đọc, không tự fit/deploy. 11/12 PI PASS,PI3.1 PARTIAL do symlink thật thiếu quyền Windows11 cục bộ. Các số/quyền ở phần lịch sử bên dưới cần đọc theo mốc thời gian.

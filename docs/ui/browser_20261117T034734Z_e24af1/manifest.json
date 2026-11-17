@@ -1,0 +1,15 @@
+{
+  "01_public_desktop.png": "37a19f6eeeb532e385017a5d5a4843a139cfda0afe02552dc234f6709961f6bf",
+  "02_blocked_request.png": "a3264e2ac65e748b4b885d9d4b739d32c4e07ebdd21b1b675a38fffa74a104ef",
+  "03_login_desktop.png": "e6f54190095437968daca2460bd746d6326910cbccacac9e030348c0abb2aadb",
+  "04_dashboard_desktop.png": "9a0e6f88b3380622a2ae253f197a964b66b548e34bc8fc9453ebaf64cbb05879",
+  "05_evaluation_desktop.png": "1f129a9cb4d180172225ca02fac7a57f7255a4fc3c138fbd964b866c9e5af1f7",
+  "06_training_desktop.png": "bf444b673d2c039288feddcc98bc7ce50401893b05f8ef06aa864b594cda1042",
+  "dashboard_mobile.png": "76796d76121965c50969b403d7f2d0b8d7a39365469f8e969bc10c2f2eb9eb38",
+  "evaluation_mobile.png": "8e63716ba73a284c79485e6b8fced7124351a279470481b3b76e1a9b0f7b51cf",
+  "login_mobile.png": "0c30f24a1d361670ebd4352290f3fa5111580f52d469b80fc2ae410cf7b12375",
+  "public_mobile.png": "deeb9731f89b4db1b25b2baf626f883d061b2f95fb5bf160b78501e9b69ba4ff",
+  "results.json": "d49de498a80f18d97a575227ac995bfec7b8ba250dfc12801d139eb67a247b2f",
+  "sidebar_mobile.png": "9b8f67401d6ac1c58b01f9765e9ee87bb872a4175a52b91ff191608d0abfea34",
+  "training_mobile.png": "d3288d2fac457c4ccbe3aa5458ea58616b37efaca617cd697b5a74ebfe16e463"
+}

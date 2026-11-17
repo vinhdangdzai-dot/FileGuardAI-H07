@@ -1,0 +1,16 @@
+﻿test_path,test_family,train_path,train_family,canonical_key
+..%2Fpassword_3897.txt,1-14,%2e%2e/password_3897.txt,1-17,../password_3897.txt
+tailieu/../../settings_377.ini,1-03,tailieu/..%5c..%5csettings_377.ini,1-18,tailieu/../../settings_377.ini
+%252e%252e%252fprivate_5256.key,1-16,%2e%2e%2fprivate_5256.key,1-13,../private_5256.key
+%252e%252e%252fconfig_9600.env,1-16,%2e%2e%2fconfig_9600.env,1-13,../config_9600.env
+%252e%252e%252fconfig_1813.env,1-16,%2e%2e/config_1813.env,1-17,../config_1813.env
+%252e%252e%252fsettings_190.ini,1-16,%2e%2e%2fsettings_190.ini,1-13,../settings_190.ini
+%252e%252e%252fsettings_1690.ini,1-16,%2e%2e%2fsettings_1690.ini,1-13,../settings_1690.ini
+%252e%252e%252fpassword_7986.txt,1-16,%2e%2e%2fpassword_7986.txt,1-13,../password_7986.txt
+%252e%252e%252fconfig_9939.env,1-16,%2e%2e%2fconfig_9939.env,1-13,../config_9939.env
+%252e%252e%252fsettings_1392.ini,1-16,%2e%2e/settings_1392.ini,1-17,../settings_1392.ini
+..%2Fprivate_4051.key,1-14,%2e%2e/private_4051.key,1-17,../private_4051.key
+..%2Fprivate_6545.key,1-14,%2E%2E%5Cprivate_6545.key,1-15,../private_6545.key
+%252e%252e%252fpassword_6133.txt,1-16,%2e%2e%2fpassword_6133.txt,1-13,../password_6133.txt
+%252e%252e%252fconfig_4441.env,1-16,..\config_4441.env,1-05,../config_4441.env
+..%2Fsecret_5199.txt,1-14,../secret_5199.txt,1-00,../secret_5199.txt

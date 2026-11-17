@@ -1,0 +1,55 @@
+{
+  "tc": "TC29",
+  "name": "alternate data stream",
+  "uri": "/download?path=baocao.pdf%3Astream",
+  "framework_path": "baocao.pdf:stream",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 03:51:30 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "1788",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 1788,
+  "response_sha256": "cb0b70e34e792a396a6536dfca98860d07f366eb3d2fd86c2e14eda0c0fedca7",
+  "sqlite_rows": [
+    {
+      "id": 34,
+      "created_at": "2026-11-17T03:51:30+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "baocao.pdf:stream",
+      "ml_score": 0.5086949101935996,
+      "ml_label": "suspicious",
+      "action": "BLOCK",
+      "http_status": 403,
+      "reason": "Tên tệp chứa ký tự không hợp lệ",
+      "duration_ms": 1.7463999975007027
+    }
+  ],
+  "started_utc": "2026-11-17T03:51:30.581302+00:00",
+  "ended_utc": "2026-11-17T03:51:30.613132+00:00"
+}

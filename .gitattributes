@@ -16,3 +16,6 @@ docs/reviews/** -text -diff -whitespace
 docs/h07/evidence/** -text -diff -whitespace
 data/external/** -text -diff -whitespace
 docs/bao_cao_h07/evidence/** -text -diff -whitespace
+app/static/vendor/** -text
+docs/ui/browser_*/** -text -diff -whitespace
+docs/ui/pytest_*/** -text -diff -whitespace

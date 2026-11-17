@@ -16,6 +16,7 @@ from pathlib import Path
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    send_file, session, url_for)
 from werkzeug.security import check_password_hash
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .database import (init_db, insert_log, recent_logs, summary, insert_security_event,
                        recent_security_events, failed_login_count)
@@ -31,6 +32,11 @@ BASE = Path(__file__).resolve().parent.parent
 
 def create_app(config=None):
     app = Flask(__name__)
+    # Opt in only behind one trusted, header-overwriting reverse proxy.
+    # ProxyFix counts hops; it does not authenticate the connecting peer.
+    if os.environ.get('TRUST_PROXY') == '1':
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1,
+                               x_host=0, x_port=0, x_prefix=0)
     app.config.update(
         SECRET_KEY=os.environ.get('SECRET_KEY') or secrets.token_hex(32),
         SESSION_COOKIE_HTTPONLY=True,

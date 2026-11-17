@@ -65,12 +65,30 @@ def main():
             page = context.new_page()
             page.on('pageerror', lambda error:results['browser_errors'].append(str(error)))
             page.on('response',lambda response:results['static_errors'].append({'url':response.url,'status':response.status}) if '/static/' in response.url and response.status>=400 else None)
-            def shot(name):
-                page.screenshot(path=str(out/(name+'.png')), full_page=True)
+            def shot(name,view=None):
+                (view or page).screenshot(path=str(out/(name+'.png')), full_page=True)
                 results['screenshots'].append(name+'.png')
+            def navigation_bounds(view,name):
+                bounds=view.evaluate('''() => {
+                  const controls=[...document.querySelectorAll('.topbar a,.topbar button')].filter(n=>n.getClientRects().length);
+                  return controls.filter(n=>{const r=n.getBoundingClientRect();return r.left<0||r.right>innerWidth+1||n.scrollWidth>n.clientWidth+1;}).map(n=>({text:n.textContent.trim(),width:n.clientWidth,scroll:n.scrollWidth}));
+                }''')
+                check(name+' navbar text/buttons not clipped',not bounds,bounds)
             def no_overflow(name):
                 values = page.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})')
                 check(name, values['scroll']<=values['width']+1, values)
+                navigation_bounds(page,name)
+            def contrast(selectors):
+                return page.evaluate('''selectors => {
+                  const rgb=text=>text.match(/[\\d.]+/g).map(Number);
+                  const luminance=color=>rgb(color).slice(0,3).map(n=>{n/=255;return n<=.04045?n/12.92:((n+.055)/1.055)**2.4;}).reduce((sum,n,i)=>sum+n*[.2126,.7152,.0722][i],0);
+                  return selectors.map(selector=>{
+                    const node=document.querySelector(selector);let ancestor=node;let background='rgb(9,14,26)';
+                    while(ancestor){const value=getComputedStyle(ancestor).backgroundColor;const parts=rgb(value);if(parts.length===3||parts[3]===1){background=value;break;}ancestor=ancestor.parentElement;}
+                    const style=getComputedStyle(node),a=luminance(style.color),b=luminance(background);
+                    return {selector,color:style.color,background,ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05),font_px:parseFloat(style.fontSize)};
+                  });
+                }''',selectors)
             page.goto(url, wait_until='networkidle')
             shot('01_public_desktop')
             no_overflow('public desktop no document overflow')
@@ -101,7 +119,32 @@ def main():
                 check('HTTP '+payload, response.status==expected and sentinel not in response.text(), response.status)
             page.goto(url+'/login', wait_until='networkidle')
             shot('03_login_desktop')
+            no_overflow('login desktop no document overflow')
             check('login CSRF present', bool(page.locator('form input[name=csrf_token]').input_value()))
+            measured=contrast(['.login-panel .form-label','.login-panel>p','.login-panel #password-help','.login-visual>p','.password-toggle'])
+            check('critical login text contrast at least 4.5 to 1',all(value['ratio']>=4.5 for value in measured),measured)
+            check('presentation login labels and descriptions enlarged',measured[0]['font_px']>=15 and measured[1]['font_px']>=16 and measured[2]['font_px']>=14,measured[:3])
+            page.locator('#pw').fill('visibility-fixture-only')
+            page.locator('#password-toggle').focus()
+            page.keyboard.press('Space')
+            check('keyboard reveals password without submitting',page.locator('#pw').get_attribute('type')=='text' and page.locator('#password-toggle').get_attribute('aria-pressed')=='true' and page.url.endswith('/login'))
+            page.keyboard.press('Enter')
+            check('keyboard hides password and preserves value',page.locator('#pw').get_attribute('type')=='password' and page.locator('#pw').input_value()=='visibility-fixture-only')
+            page.locator('#pw').fill('wrong-fixture-password')
+            # Observe after ui.js's submit handler, without blocking or mocking
+            # navigation/response. Record no input values or credentials.
+            loading_states=[]
+            page.expose_function('__recordLoginState',lambda state:loading_states.append(state))
+            page.evaluate('''() => document.querySelector('.login-panel form').addEventListener('submit',() => {
+              const button=document.querySelector('.login-panel button[type=submit]');
+              window.__recordLoginState({busy:button.getAttribute('aria-busy'),label:button.textContent,revealBusy:document.getElementById('password-toggle').getAttribute('aria-busy')});
+            })''')
+            with page.expect_response(lambda r:r.url==url+'/login' and r.request.method=='POST') as info:
+                page.locator('.login-panel button[type=submit]').click()
+            page.wait_for_load_state('networkidle')
+            check('real login submit shows loading on submit, not reveal',bool(loading_states) and loading_states[0]['busy']=='true' and 'Đang xác thực' in loading_states[0]['label'] and loading_states[0]['revealBusy'] is None,loading_states)
+            check('failed login is clear and generic',info.value.status==200 and 'Đăng nhập không thành công' in page.locator('[role=alert]').inner_text() and 'wrong-fixture-password' not in page.content() and 'Traceback' not in page.content())
+            shot('login_error_desktop')
             page.locator('#pw').fill(password)
             page.locator('.login-panel button[type=submit]').click()
             page.wait_for_url('**/dashboard')
@@ -128,10 +171,44 @@ def main():
             check('filtered CSV export', 'BLOCK' in exported and ',ALLOW,' not in exported and ',MISS,' not in exported)
             page.goto(url+'/dashboard/ai-evaluation',wait_until='networkidle')
             shot('05_evaluation_desktop')
+            no_overflow('evaluation desktop no document overflow')
             check('evaluation metrics and confusion images',page.locator('.stat-grid .stat-card').count()==4 and page.locator('img.img-fluid').count()==3)
             check('evaluation comparison chart rendered',page.evaluate("!!Chart.getChart('metricsChart')"))
+            check('scientific warning visible',page.locator('.science-warning').is_visible() and 'không chứng minh hệ thống phát hiện hoặc ngăn chặn 100%' in page.locator('.science-warning').inner_text())
+            measured=contrast(['.science-warning p','.science-warning h2','.context-facts dt','.context-note'])
+            check('scientific warning and metadata text contrast at least 4.5 to 1',all(value['ratio']>=4.5 for value in measured),measured)
+            options=page.locator('#evaluation-run option').evaluate_all('(nodes)=>nodes.map(n=>n.value).filter(Boolean)')
+            artifacts={name:json.loads((ROOT/'docs/evaluations'/name/'results.json').read_text(encoding='utf-8')) for name in options}
+            old=next((name for name,data in artifacts.items() if not data.get('selection')),None)
+            strict=next((name for name,data in artifacts.items() if data.get('experiment_type')=='canonical_grouped_validation'),None)
+            check('selector includes historical and strict canonical runs',bool(old and strict))
+            for kind,run in [('legacy',old),('strict',strict)]:
+                if run is None: continue
+                page.locator('#evaluation-run').select_option(run)
+                page.locator('.run-picker button[type=submit]').click()
+                page.wait_for_load_state('networkidle')
+                data=artifacts[run]
+                selection=data.get('selection') or {}
+                values=page.locator('[data-field]').evaluate_all('(nodes)=>Object.fromEntries(nodes.map(n=>[n.dataset.field,n.textContent.trim()]))')
+                expected={'fit_samples':selection.get('fit_samples') if selection else data['train_samples'],
+                          'validation_samples':selection.get('validation_samples'),'test_samples':data['test_samples'],
+                          'refit_samples':data['train_samples'],'canonical_overlap':len(data['split']['canonical_overlap']) if 'canonical_overlap' in data['split'] else None}
+                check(kind+' run metadata is exact without fabricated validation',values['run']==run and all(values[key]==(str(value) if value is not None else 'Không được cung cấp') for key,value in expected.items()),{key:values[key] for key in expected})
+                source=page.evaluate("JSON.parse(document.getElementById('evaluation-data').textContent)")
+                check(kind+' run metrics equal its results.json',source['v1']==data['logistic_regression'] and source['regex']==data['regex'] and source['v2']==data.get('improved_logistic_regression'))
+                plotted=page.evaluate("Chart.getChart('metricsChart').data.datasets.map(d=>d.data)")
+                methods=[data['logistic_regression']]+([data['improved_logistic_regression']] if 'improved_logistic_regression' in data else [])+[data['regex']]
+                check(kind+' run plotted metrics equal source',plotted==[[method[key]*100 for key in ('accuracy','precision','recall','f1')] for method in methods])
+                pinned=page.locator('img.img-fluid').evaluate_all('(nodes)=>nodes.map(n=>new URL(n.src).searchParams.get("run"))')
+                check(kind+' run image sources remain pinned',len(pinned)==3 and all(name==run for name in pinned),pinned)
+                shot('evaluation_'+kind+'_desktop')
+            page.locator('.glossary summary').click()
+            check('glossary expands with all key terms',page.locator('.glossary').get_attribute('open') is not None and page.locator('.glossary dt').count()==8)
+            invalid=context.request.get(url+'/dashboard/ai-evaluation?run=..%2F..%2Finstance')
+            check('invalid run does not expose or silently substitute data',invalid.status==200 and 'evaluation-data' not in invalid.text())
             page.goto(url+'/dashboard/ai-training',wait_until='networkidle')
             shot('06_training_desktop')
+            no_overflow('training desktop no document overflow')
             check('training real features and read-only labels', 'view_max_parent_components' in page.content() and 'READ-ONLY' in page.content())
             actual=page.evaluate("({data:Chart.getChart('labelsChart').data.datasets[0].data,source:JSON.parse(document.getElementById('training-label-data').textContent)})")
             check('training chart equals CSV counts',actual['data']==[actual['source'].get(k,0) for k in ('0','1')],actual)
@@ -154,6 +231,15 @@ def main():
             native.goto(url,wait_until='networkidle')
             check('no-JS native file links available',native.locator('[data-download-link]').count()==len(names))
             offline.close()
+            guest=browser.new_context()
+            guest_page=guest.new_page()
+            for width,height in [(1440,1000),(768,1024),(390,844)]:
+                guest_page.set_viewport_size({'width':width,'height':height})
+                guest_page.goto(url+'/login',wait_until='networkidle')
+                navigation_bounds(guest_page,'guest login '+str(width))
+                check('guest login '+str(width)+' no document overflow',guest_page.evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
+                shot('login_guest_'+str(width),guest_page)
+            guest.close()
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])
             check('all local static assets load',not results['static_errors'],results['static_errors'])
             context.close()

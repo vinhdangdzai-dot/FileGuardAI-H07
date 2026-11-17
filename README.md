@@ -1,5 +1,7 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+Đợt hoàn thiện mới: [Login, chọn run và giải thích kết quả AI](docs/ui/REFINEMENT_LOGIN_AI.md). Pytest135 PASS/0 FAIL/0 ERROR/3 SKIP;Chrome85 PASS ở1440/768/390px;acceptance6 bước exit0. Giữ nguyên auth/policy/model/dữ liệu; ảnh trước/sau và trường metadata thiếu được ghi rõ.
+
 [Bàn giao giao diện, ảnh thật và bằng chứng](docs/ui/README.md): dark theme, sidebar responsive, tìm kiếm tệp, biểu đồ dữ liệu thật và các trang AI chỉ đọc. Nhánh `h07/cybersecurity-ui` dựa trên `bb87b23`; không đổi backend hoặc mô hình. Kiểm thử đợt UI:127 pytest PASS/3 SKIP,42 browser checks PASS,acceptance6 bước exit0. Phần hồ sơ bên dưới giữ các số baseline trước nâng cấp UI theo mốc lịch sử.
 
 ## Hồ sơ nghiệm thu H07 hiện hành — 17/11/2026

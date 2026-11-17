@@ -1,0 +1,10 @@
+{
+  "command": [
+    "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-rs"
+  ],
+  "returncode": 0
+}

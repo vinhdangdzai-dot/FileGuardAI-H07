@@ -293,7 +293,8 @@ def create_app(config=None):
     def ai_evaluation():
         data, folder = evaluation_data(request.args.get('run'))
         return render_template('ai_evaluation.html', evaluation=data,
-                               run=folder.name if folder else None)
+                               run=folder.name if folder else None,
+                               history=evaluation_history(app.config['EVALUATION_ROOT']))
 
     @app.get('/dashboard/ai-evaluation/chart/<name>')
     @admin_required

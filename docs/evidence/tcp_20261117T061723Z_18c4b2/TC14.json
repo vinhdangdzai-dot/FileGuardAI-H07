@@ -1,0 +1,55 @@
+{
+  "tc": "TC14",
+  "name": "encoded Windows separator",
+  "uri": "/download?path=%2e%2e%5csecret.txt",
+  "framework_path": "..\\secret.txt",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 06:17:26 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "1821",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 1821,
+  "response_sha256": "3ca0f7b14aebaeb3637967c2be00d6ba96c2a8feb31d2ffbc5af3ec0ac5ca7cd",
+  "sqlite_rows": [
+    {
+      "id": 24,
+      "created_at": "2026-11-17T06:17:26+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "..\\secret.txt",
+      "ml_score": 0.9997181945510809,
+      "ml_label": "suspicious",
+      "action": "BLOCK",
+      "http_status": 403,
+      "reason": "Đường dẫn tuyệt đối hoặc ký tự phân cách không hợp lệ",
+      "duration_ms": 3.625500001362525
+    }
+  ],
+  "started_utc": "2026-11-17T06:17:26.114578+00:00",
+  "ended_utc": "2026-11-17T06:17:26.150490+00:00"
+}

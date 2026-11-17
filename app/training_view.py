@@ -92,6 +92,7 @@ def evaluation_history(root):
                 continue
             data = validate_evaluation(json.loads(file.read_text(encoding='utf-8')))
             history.append({'run': folder.name, 'created_at_utc': data['created_at_utc'],
+                            'experiment_type': data.get('experiment_type'),
                             'test_samples': data['test_samples'], 'v1_f1': data['logistic_regression']['f1'],
                             'v2_f1': data.get('improved_logistic_regression', {}).get('f1')})
         except (OSError, ValueError, TypeError, KeyError):

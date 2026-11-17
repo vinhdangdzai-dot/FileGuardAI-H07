@@ -1,0 +1,54 @@
+{% macro fact(label,value,key) -%}
+<div><dt>{{label}}</dt><dd data-field="{{key}}">{% if value is number and value is not boolean %}{{value}}{% else %}<span class="unavailable-value">Không được cung cấp</span>{% endif %}</dd></div>
+{%- endmacro %}
+{% macro overlap(label,value,key) -%}
+<div><dt>{{label}}</dt><dd data-field="{{key}}">{% if value is sequence and value is not string and value is not mapping %}{{value|length}}{% else %}<span class="unavailable-value">Không được cung cấp</span>{% endif %}</dd></div>
+{%- endmacro %}
+{% set selection=evaluation.get('selection') or {} %}
+{% set strict=evaluation.get('experiment_type')=='canonical_grouped_validation' %}
+{% set fit_samples=selection.get('fit_samples') if selection else evaluation.train_samples %}
+<aside class="science-warning mb-4" aria-labelledby="science-warning-title"><span class="warning-symbol" aria-hidden="true">!</span><div><h2 id="science-warning-title">Diễn giải kết quả một cách thận trọng</h2><p>Kết quả 100% trên tập dữ liệu kiểm thử không chứng minh hệ thống phát hiện hoặc ngăn chặn 100% các cuộc tấn công Path Traversal trong thực tế.</p></div></aside>
+<div class="evaluation-context mb-4">
+<section class="panel" aria-labelledby="data-context-title"><div class="panel-header"><h2 id="data-context-title"><span class="context-letter" aria-hidden="true">A</span>Thông tin dữ liệu</h2><span class="status">{{'STRICT' if strict else 'HISTORICAL'}}</span></div>
+<dl class="context-facts">
+{{fact('Tổng số mẫu',evaluation.audit.rows,'rows')}}
+{{fact('Số nhóm dữ liệu',evaluation.audit.family_counts|length,'families')}}
+{{fact('Nhãn 0 · benign',evaluation.audit.label_counts.get('0'),'label_0')}}
+{{fact('Nhãn 1 · suspicious',evaluation.audit.label_counts.get('1'),'label_1')}}
+{{fact('Train · fit chọn C v2' if selection else 'Train',fit_samples,'fit_samples')}}
+{{fact('Validation · chọn C v2' if selection else 'Validation',selection.get('validation_samples'),'validation_samples')}}
+{{fact('Test · đánh giá',evaluation.test_samples,'test_samples')}}
+{{fact('Development / refit',evaluation.train_samples,'refit_samples')}}
+{{fact('Dòng trùng nguyên bản dư',evaluation.audit.duplicate_excess_rows,'duplicate_excess_rows')}}
+{{overlap('Group Overlap',evaluation.split.family_overlap,'group_overlap')}}
+{{overlap('Exact Path Overlap',evaluation.split.path_overlap,'path_overlap')}}
+{{overlap('Canonical Path Overlap',evaluation.split.get('canonical_overlap'),'canonical_overlap')}}
+</dl><p class="context-note">{% if selection %}Train và Validation dùng để chọn cấu hình v2; refit dùng lại phần development sau lựa chọn, không phải một tập độc lập để cộng thêm vào tổng mẫu.{% else %}Run không ghi Validation. Không suy ra số này từ Train hoặc từ một run khác. Development là trường train_samples của artifact.{% endif %}</p></section>
+<section class="panel" aria-labelledby="model-context-title"><div class="panel-header"><h2 id="model-context-title"><span class="context-letter" aria-hidden="true">B</span>Cấu hình mô hình</h2></div>
+<dl class="context-facts">
+<div class="full-fact"><dt>Phương pháp có kết quả</dt><dd>Logistic Regression v1{% if evaluation.improved_logistic_regression %}, v2{% endif %} · Regex</dd></div>
+{{fact('C · LR v1',none,'c_v1')}}
+{% if evaluation.improved_logistic_regression %}{{fact('C · LR v2 đã chọn',selection.get('selected_C'),'c_v2')}}{% endif %}
+{{fact('Threshold',evaluation.threshold,'threshold')}}
+{{fact('Random seed',evaluation.seed,'seed')}}
+<div class="full-fact"><dt>Phương pháp chia dữ liệu</dt><dd data-field="split_method">{{'Strict canonical split · gộp family chung khóa chuẩn hóa, chia train/validation/test theo component' if strict else 'Group split theo family · metadata train/test lịch sử'}}</dd></div>
+<div class="full-fact"><dt>Mã thực nghiệm</dt><dd><code data-field="run">{{run}}</code></dd></div>
+<div class="full-fact"><dt>Thời điểm xuất artifact · UTC</dt><dd><time datetime="{{evaluation.created_at_utc}}">{{evaluation.created_at_utc}}</time></dd></div>
+</dl><p class="context-note">C của v1 không được ghi trong results.json của các run hiện có; không lấy tham số model triển khai để điền vào run. Thời điểm xuất artifact không đồng nghĩa mọi thành phần được đo lại.{% if evaluation.reference_run %} Run tham chiếu được artifact ghi: <code>{{evaluation.reference_run}}</code>.{% endif %}</p></section>
+<section class="panel evaluation-limits" aria-labelledby="limits-context-title"><div class="panel-header"><h2 id="limits-context-title"><span class="context-letter" aria-hidden="true">C</span>Độ tin cậy và giới hạn</h2></div>
+<ul class="limits-list"><li><strong>Kiểm tra trùng lặp:</strong> số ở trên chỉ phản ánh phép kiểm tra mà run ghi lại. {% if evaluation.split.get('canonical_overlap') is none %}Run này không cung cấp giao nhau canonical; giao nhau nhóm hoặc chuỗi nguyên bản bằng 0 chưa chứng minh không rò rỉ sau chuẩn hóa.{% else %}Run strict ghi giao nhau canonical theo khóa audit trên các phân hoạch; không đại diện mọi phép biến đổi đường dẫn.{% endif %}</li>
+<li><strong>Phạm vi dữ liệu:</strong> mẫu tổng hợp và nhãn cú pháp không đại diện đầy đủ traffic thực. Test lịch sử đã được xem trước; strict split mới vẫn sử dụng nguồn tổng hợp đã biết, không phải đánh giá thực tế mù.</li>
+<li><strong>Test và tập ngoài:</strong> thẻ chỉ số và biểu đồ so sánh chính dùng test của run này. Các bảng tập ngoài hiển thị riêng từng dataset; nhãn từ nguồn công khai có thể chịu source bias.</li>
+<li><strong>Triển khai và thực nghiệm:</strong> LR v1 đang phục vụ tải tệp; LR v1/v2 trong run là artifact thực nghiệm. Chọn run không thay model. AI chỉ hỗ trợ cảnh báo, không quyết định quyền tải tệp.</li></ul>
+<p class="context-note">Nguồn các trường: <code>{{run}}/results.json</code> → <code>audit</code>, <code>selection</code>, <code>split</code>, <code>seed</code>, <code>threshold</code>. Trường thiếu giữ nguyên là “không được cung cấp”.</p></section>
+</div>
+<details class="panel glossary mb-4"><summary>Giải thích thuật ngữ · Train, Validation, Test, Seed, C, Threshold và Overlap</summary><dl class="glossary-grid">
+<div><dt>Train</dt><dd>Mẫu để fit scaler và mô hình. Khi chọn C v2, đây là phần fit trước validation; development/refit được ghi riêng.</dd></div>
+<div><dt>Validation</dt><dd>Tập từ nhóm train để chọn cấu hình. Không dùng nhãn test; nếu artifact không ghi, giao diện không tự tính.</dd></div>
+<div><dt>Test</dt><dd>Tập đánh giá sau khi đóng băng cấu hình. Chỉ số của tập này không được coi là khả năng phát hiện mọi tấn công thực tế.</dd></div>
+<div><dt>Seed</dt><dd>Hạt giống ngẫu nhiên giúp tái lập cách chia tập. Seed cố định không tự bảo đảm độc lập hoặc loại rò rỉ.</dd></div>
+<div><dt>C</dt><dd>Nghịch đảo mức regularization của Logistic Regression; C nhỏ thường phạt trọng số mạnh hơn. Đây không phải xác suất.</dd></div>
+<div><dt>Threshold</dt><dd>Ngưỡng phân loại điểm AI thành nhãn cảnh báo. Không phải điều kiện cấp quyền tải tệp.</dd></div>
+<div><dt>Group Overlap</dt><dd>Số nhóm family chung theo metadata split. Bằng 0 không loại trừ mọi dạng mẫu tương đương.</dd></div>
+<div><dt>Canonical Path Overlap</dt><dd>Số khóa đường dẫn chuẩn hóa chung mà run ghi nhận. Run strict dùng NFC, hai lượt URL decode, đổi backslash thành slash và casefold cho audit; không dùng chuỗi này để mở tệp.</dd></div>
+</dl></details>

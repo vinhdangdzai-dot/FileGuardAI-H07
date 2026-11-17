@@ -90,6 +90,39 @@
   }
   document.querySelector('[data-download-form]')?.addEventListener('submit', event => pendingDownload(event.target.querySelector('button')));
   document.querySelectorAll('[data-download-link]').forEach(link => link.addEventListener('click', event => { if (!event.ctrlKey && !event.metaKey) pendingDownload(link); }));
-  document.querySelectorAll('[data-navigation-form]').forEach(form => form.addEventListener('submit', () => form.querySelector('button')?.setAttribute('aria-busy', 'true')));
-  window.addEventListener('pageshow', () => document.querySelectorAll('[aria-busy=true]').forEach(node => node.removeAttribute('aria-busy')));
+  const password = document.getElementById('pw');
+  const reveal = document.getElementById('password-toggle');
+  if (password && reveal) {
+    reveal.hidden = false;
+    reveal.addEventListener('click', () => {
+      const visible = password.type === 'password';
+      password.type = visible ? 'text' : 'password';
+      reveal.textContent = visible ? 'Ẩn' : 'Hiện';
+      reveal.setAttribute('aria-pressed', String(visible));
+      reveal.setAttribute('aria-label', visible ? 'Ẩn mật khẩu' : 'Hiện mật khẩu');
+    });
+  }
+  const originalLabels = new WeakMap();
+  document.querySelectorAll('[data-navigation-form]').forEach(form => form.addEventListener('submit', () => {
+    // Do not target the password toggle or change submitted fields/CSRF.
+    const button = form.querySelector('button[type="submit"],button:not([type])');
+    if (!button) return;
+    button.setAttribute('aria-busy', 'true');
+    if (button.dataset.loadingLabel) {
+      if (!originalLabels.has(button)) originalLabels.set(button, button.textContent);
+      button.textContent = button.dataset.loadingLabel;
+    }
+  }));
+  window.addEventListener('pageshow', () => {
+    document.querySelectorAll('[aria-busy=true]').forEach(node => {
+      node.removeAttribute('aria-busy');
+      if (originalLabels.has(node)) node.textContent = originalLabels.get(node);
+    });
+    if (password && reveal) {
+      password.type = 'password';
+      reveal.textContent = 'Hiện';
+      reveal.setAttribute('aria-pressed', 'false');
+      reveal.setAttribute('aria-label', 'Hiện mật khẩu');
+    }
+  });
 })();

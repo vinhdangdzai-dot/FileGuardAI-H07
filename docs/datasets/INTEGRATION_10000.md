@@ -71,7 +71,7 @@ Các bảng 18 đặc trưng v1, 30 đặc trưng v2 và hệ số vẫn thuộc
 
 - [Pytest stdout](../ui/pytest_20261117T081620Z/stdout.txt): **158 PASS, 0 FAIL, 0 ERROR, 3 SKIP**, 15 subtests PASS, 74,68 s. Baseline 143 PASS/3 SKIP; thêm 15 regression cases. SKIP giữ nguyên lý do quyền symlink Windows.
 - [Edge TCP/browser](../ui/browser_20261117T081653Z_148fdc/results.json): **248 PASS, 0 FAIL**, không lỗi JavaScript/static. Thêm 7 checks cho dataset, giữ kiểm tra auth/download/traversal và Light/Dark tại 1440/768/390px. [Ảnh Training](../ui/browser_20261117T081653Z_148fdc/06_training_desktop.png).
-- Acceptance: xem [summary](../bao_cao_h07/evidence/20261117T081743Z_92c28e/summary.json) và stdout/JUnit/HTTP test cases cùng thư mục. Kết quả hoàn tất được cập nhật dưới đây.
+- Acceptance: xem [summary](../bao_cao_h07/evidence/20261117T081743Z_92c28e/summary.json) và stdout/JUnit/HTTP test cases cùng thư mục. Hoàn tất **6/6 bước exit 0**; pytest 158 PASS/3 SKIP; dashboard TCP 41 PASS; download 33 PASS/3 symlink SKIP; hiệu năng 144 request, 144 dòng SQLite fixture, 0 lỗi. Hash CSV/deployed v1/frozen v2/SQLite nghiệp vụ trước và sau đều không đổi. Probe symlink exit 0 không biến các ca thiếu quyền thành PASS.
 - Chrome local vẫn có giới hạn crash môi trường đã ghi ở [báo cáo theme](../ui/LIGHT_DARK_MODE.md). Workflow Chrome bắt buộc trên Windows CI chạy cùng suite; trạng thái và artifact của commit xem trên PR #2, không lấy kết quả Edge làm Chrome PASS.
 
 | TC | Nội dung | Kết quả / minh chứng |

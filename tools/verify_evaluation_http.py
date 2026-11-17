@@ -5,21 +5,23 @@ import http.client
 import json
 from pathlib import Path
 import secrets
+import re
 import sys
 import threading
-from urllib.parse import urlencode
+from urllib.parse import urlencode, parse_qs
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from werkzeug.serving import make_server
+from werkzeug.security import generate_password_hash
 from app import create_app
 
 
 def main():
     root = ROOT / 'docs/evaluations'
     run = json.loads((root / 'latest.json').read_text())['run']
-    results = json.loads((root / run / 'results.json').read_text())
+    results = json.loads((root / run / 'results.json').read_text(encoding='utf-8'))
     evidence = {'run': run, 'transport': 'TCP localhost', 'checks': []}
     # Preserve the test database as evidence, avoiding Windows cleanup of a
     # SQLite connection that may remain alive until Python garbage collection.
@@ -28,7 +30,9 @@ def main():
     evidence['database'] = str(database_folder / 'events.sqlite3')
     with nullcontext(database_folder) as tmp:
         password = secrets.token_hex(16)
-        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_PASSWORD': password})
+        auditor_password = secrets.token_hex(16)
+        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_PASSWORD': password,
+                          'AUDITOR_PASSWORD_HASH': generate_password_hash(auditor_password)})
         server = make_server('127.0.0.1', 0, app)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -49,6 +53,10 @@ def main():
                 check = {'path': path, 'method': method, 'expected_http': expected,
                          'actual_http': response.status, 'pass': response.status == expected,
                          'sha256': hashlib.sha256(content).hexdigest()}
+                if body:
+                    public = parse_qs(body)
+                    check['public_form_fields'] = {k: v for k, v in public.items()
+                                                   if k in {'kind', 'role', 'action', 'ml_label', 'http_status', 'start', 'end'}}
                 evidence['checks'].append(check)
                 return content, dict(response.getheaders()), check
             finally:
@@ -57,9 +65,13 @@ def main():
         try:
             request('/dashboard/ai-evaluation', 302)
             request('/dashboard/ai-evaluation/chart/metrics.png?run=' + run, 302)
-            _, headers, _ = request('/login', 302, 'POST', urlencode({'password': password}))
+            request('/login', 403, 'POST', urlencode({'password': password}))
+            form, _, _ = request('/login', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            _, headers, _ = request('/login', 302, 'POST', urlencode({'password': password, 'csrf_token': token}))
             cookie = headers['Set-Cookie'].split(';', 1)[0]
             body, _, check = request('/dashboard/ai-evaluation', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', body).group(1).decode()
             check['run_present'] = run.encode() in body
             check['metrics_present'] = all(f'{results["logistic_regression"][k]:.4f}'.encode() in body
                                            for k in ('accuracy', 'precision', 'recall', 'f1'))
@@ -78,20 +90,53 @@ def main():
                 check['pass'] &= check['exact_png']
             request('/dashboard/ai-evaluation/chart/model.joblib?run=' + run, 404)
             request('/dashboard', 200)
+            training, _, training_check = request('/dashboard/ai-training', 200)
+            training_check['metadata_present'] = b'view_max_parent_components' in training and b'10000' in training
+            training_check['pass'] &= training_check['metadata_present']
+            for kind in ('dataset', 'v1', 'v2'):
+                csv_data, _, check = request('/dashboard/ai-training/export', 200, 'POST', urlencode({'kind': kind, 'csrf_token': token}))
+                check['csv_header_present'] = (b'path,label,family' in csv_data if kind == 'dataset' else b'feature,coefficient,train_mean,train_scale' in csv_data)
+                check['pass'] &= check['csv_header_present']
+            request('/dashboard/ai-training/export', 403, 'POST', urlencode({'kind': 'dataset'}))
+            request('/dashboard/ai-training/export', 400, 'POST', urlencode({'kind': '../../secret', 'csrf_token': token}))
             body, _, check = request('/download?path=baocao.pdf', 200)
             check['exact_file'] = body == (ROOT / 'shared_files/baocao.pdf').read_bytes()
             check['pass'] &= check['exact_file']
             request('/download?path=..%2fsecret.txt', 403)
             request('/download?path=__evaluation_missing__.txt', 404)
-            request('/logout', 302, 'POST', '')
+            request('/dashboard?action=BLOCK', 200)
+            request('/dashboard?action=invalid', 400)
+            request('/dashboard?ml_label=suspicious&http_status=403', 200)
+            request('/dashboard?start=2026-01-01T00:00:00Z&end=2027-01-01T00:00:00Z', 200)
+            request('/dashboard?ml_label=invalid', 400)
+            request('/dashboard?http_status=999', 400)
+            request('/dashboard?start=2027-01-01&end=2026-01-01', 400)
+            request('/dashboard/logs/export', 403, 'POST', '')
+            exported, _, exported_check = request('/dashboard/logs/export', 200, 'POST', urlencode({'csrf_token': token}))
+            exported_check['csv_header_present'] = b'requested_path' in exported and exported.startswith(b'\xef\xbb\xbf')
+            exported_check['pass'] &= exported_check['csv_header_present']
+            request('/logout', 403, 'POST', '')
+            request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
             request('/dashboard/ai-evaluation', 302)
+            form, _, _ = request('/login', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            request('/login', 302, 'POST', urlencode({'role': 'auditor', 'password': auditor_password, 'csrf_token': token}))
+            request('/dashboard', 403)
+            form, _, _ = request('/', 200)
+            token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
+            request('/dashboard/logs/export', 403, 'POST', urlencode({'csrf_token': token}))
+            request('/dashboard/ai-evaluation', 403)
+            request('/dashboard/ai-training', 403)
+            request('/dashboard/ai-training/export', 403, 'POST', urlencode({'kind': 'dataset', 'csrf_token': token}))
+            request('/logout', 302, 'POST', urlencode({'csrf_token': token}))
         finally:
             server.shutdown()
             thread.join(timeout=10)
             server.server_close()
     evidence['passed'] = sum(c['pass'] for c in evidence['checks'])
     evidence['failed'] = sum(not c['pass'] for c in evidence['checks'])
-    target = root / ('dashboard_http_' + run + '.json')
+    # Preserve every prior TCP evidence file, even for the same frozen run.
+    target = root / ('dashboard_http_' + run + '_' + database_folder.name + '.json')
     target.write_text(json.dumps(evidence, indent=2), encoding='utf-8')
     print(f"TCP dashboard: {evidence['passed']} PASS, {evidence['failed']} FAIL")
     print('Evidence:', target)

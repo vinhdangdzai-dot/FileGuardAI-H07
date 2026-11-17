@@ -1,0 +1,55 @@
+{
+  "tc": "TC17",
+  "name": "traversal in subdirectory",
+  "uri": "/download?path=tailieu/../../secret.txt",
+  "framework_path": "tailieu/../../secret.txt",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Mon, 16 Nov 2026 18:58:47 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "1279",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 1279,
+  "response_sha256": "3bad1afe5ed829296b4482b7ce217ce8280227bd2377992f55e4ebd738d69363",
+  "sqlite_rows": [
+    {
+      "id": 27,
+      "created_at": "2026-11-16T18:58:47+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "tailieu/../../secret.txt",
+      "ml_score": 0.9999995444460971,
+      "ml_label": "suspicious",
+      "action": "BLOCK",
+      "http_status": 403,
+      "reason": "Đường dẫn chứa thành phần không hợp lệ",
+      "duration_ms": 3.2485999981872737
+    }
+  ],
+  "started_utc": "2026-11-16T18:58:47.314086+00:00",
+  "ended_utc": "2026-11-16T18:58:47.350961+00:00"
+}

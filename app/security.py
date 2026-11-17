@@ -1,9 +1,9 @@
 """Path access boundary. AI scores never grant filesystem access.
 
-On POSIX, openat-style per-component O_NOFOLLOW prevents symlink replacement
-between authorization and open. On Windows, this local educational demo rejects
-links and checks resolved containment, but requires a trusted, non-writable
-file repository to avoid reparse-point / TOCTOU races.
+On POSIX, directory fds and O_NOFOLLOW protect per-component opening. Windows
+also verifies the normalized final path of the actual opened handle before
+streaming, closing the check/open junction-swap gap. Trusted repository ACLs
+remain required: this is not isolation against an OS-level adversary.
 """
 from __future__ import annotations
 
@@ -18,12 +18,18 @@ class RejectedPath(ValueError):
 
 
 _WINDOWS_RESERVED = re.compile(
-    r"^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?$", re.IGNORECASE
+    r"^(?:CON|PRN|AUX|NUL|CONIN\$|CONOUT\$|COM[1-9¹²³]|LPT[1-9¹²³])(?:\..*)?$", re.IGNORECASE
 )
 _WINDOWS_DRIVE = re.compile(r"^[A-Za-z]:")
 # Reserved URL escapes after Flask's single transport decode. %25 is reserved
 # too, so nested encodings are rejected in constant passes, never unwrapped.
 _RESIDUAL_STRUCTURE = re.compile(r"%(?:25|2e|2f|5c|00|3a)", re.IGNORECASE)
+
+
+def _link_or_reparse(metadata):
+    return (stat.S_ISLNK(metadata.st_mode)
+            or bool(getattr(metadata, 'st_file_attributes', 0)
+                    & getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x400)))
 
 
 def validate_relative_path(raw: str) -> tuple[str, ...]:
@@ -42,11 +48,40 @@ def validate_relative_path(raw: str) -> tuple[str, ...]:
     if any(
         p in {"", ".", ".."}
         or p.endswith(".") or p.endswith(" ")
-        or _WINDOWS_RESERVED.fullmatch(p)
+        or _WINDOWS_RESERVED.fullmatch(p.split('.', 1)[0].rstrip(' '))
         for p in parts
     ):
         raise RejectedPath("Đường dẫn chứa thành phần không hợp lệ")
     return parts
+
+
+def _windows_dos_path(value):
+    """Normalize only Win32 extended prefixes; never re-resolve a handle."""
+    if value.startswith('\\\\?\\UNC\\'):
+        value = '\\\\' + value[8:]
+    elif value.startswith('\\\\?\\'):
+        value = value[4:]
+    return Path(value)
+
+
+def _windows_opened_path(file):
+    """Return the normalized DOS/UNC name of the actual opened kernel handle."""
+    import ctypes
+    from ctypes import wintypes
+    import msvcrt
+    kernel = ctypes.WinDLL('kernel32', use_last_error=True)
+    get_path = kernel.GetFinalPathNameByHandleW
+    get_path.argtypes = [wintypes.HANDLE, wintypes.LPWSTR, wintypes.DWORD, wintypes.DWORD]
+    get_path.restype = wintypes.DWORD
+    handle = wintypes.HANDLE(msvcrt.get_osfhandle(file.fileno()))
+    needed = get_path(handle, None, 0, 0)
+    if not 0 < needed <= 32768:
+        raise RejectedPath('Không xác minh được đường dẫn của handle')
+    buffer = ctypes.create_unicode_buffer(needed + 1)
+    written = get_path(handle, buffer, len(buffer), 0)
+    if not written or written >= len(buffer):
+        raise RejectedPath('Không xác minh được đường dẫn của handle')
+    return _windows_dos_path(buffer.value)
 
 
 def safe_path(base: Path, raw: str) -> Path:
@@ -63,9 +98,7 @@ def safe_path(base: Path, raw: str) -> Path:
             metadata = current.lstat()
         except FileNotFoundError:
             continue
-        if (stat.S_ISLNK(metadata.st_mode)
-                or getattr(metadata, 'st_file_attributes', 0)
-                & getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x400)):
+        if _link_or_reparse(metadata):
             raise RejectedPath("Không cho phép symlink hoặc reparse point")
     target = candidate.resolve(strict=False)
     if not target.is_relative_to(base):
@@ -76,10 +109,10 @@ def safe_path(base: Path, raw: str) -> Path:
 def open_authorized(base: Path, raw: str):
     """Return an open *regular file*; caller must close after streaming.
 
-    POSIX implementation uses directory fds and O_NOFOLLOW for each path
-    component; on Windows use only with a repository that untrusted users
-    cannot mutate (see README limitation).
+    Windows checks the actual opened handle, not a fresh resolution of the
+    request string. Repository ACLs are still required.
     """
+    base = Path(base).resolve(strict=True)
     path = safe_path(base, raw)
     parts = validate_relative_path(raw)
     if os.name == 'posix' and hasattr(os, 'O_NOFOLLOW'):
@@ -112,25 +145,52 @@ def open_authorized(base: Path, raw: str):
         f = open(path, 'rb')
     except IsADirectoryError as exc:
         raise RejectedPath("Chỉ được phép tải tệp thông thường") from exc
-    if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+    try:
+        if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+            raise RejectedPath("Chỉ được phép tải tệp thông thường")
+        if os.name == 'nt':
+            final = _windows_opened_path(f)
+            if not final.is_relative_to(_windows_dos_path(str(base))):
+                raise RejectedPath('Handle trỏ ngoài thư mục cho phép')
+    except Exception as exc:
         f.close()
-        raise RejectedPath("Chỉ được phép tải tệp thông thường")
+        if isinstance(exc, RejectedPath):
+            raise
+        raise RejectedPath('Không xác minh được tệp đã mở') from exc
     return f
 
 
 def list_allowed_files(base: Path) -> list[str]:
-    """List only regular files that pass the same authorization policy."""
+    """Bounded walk, rejecting links/reparse points BEFORE descending.
+
+    Path.rglob can visit Windows junctions before individual files are checked.
+    Never enumerate an outside target, even when no file would be authorized.
+    """
     root = Path(base).resolve(strict=True)
     result = []
-    for p in root.rglob('*'):
-        if len(result) >= 200:
-            break
-        if p.is_symlink() or not p.is_file():
-            continue
-        rel = p.relative_to(root).as_posix()
+    pending = [root]
+    inspected = 0
+    while pending and inspected < 10000 and len(result) < 200:
+        directory = pending.pop()
         try:
-            safe_path(root, rel)
-        except (RejectedPath, OSError):
+            with os.scandir(directory) as entries:
+                for entry in entries:
+                    inspected += 1
+                    if inspected > 10000 or len(result) >= 200:
+                        break
+                    try:
+                        metadata = entry.stat(follow_symlinks=False)
+                        if _link_or_reparse(metadata):
+                            continue
+                        p = Path(entry.path)
+                        rel = p.relative_to(root).as_posix()
+                        safe_path(root, rel)
+                        if stat.S_ISDIR(metadata.st_mode):
+                            pending.append(p)
+                        elif stat.S_ISREG(metadata.st_mode):
+                            result.append(rel)
+                    except (RejectedPath, OSError):
+                        continue
+        except OSError:
             continue
-        result.append(rel)
     return sorted(result, key=str.casefold)

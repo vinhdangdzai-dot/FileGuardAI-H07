@@ -1,8 +1,24 @@
+## Hồ sơ nghiệm thu H07 hiện hành — 17/11/2026
+
+[12 tài liệu và ma trận nghiệm thu](docs/bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md):[bản sửa temp Windows](docs/bao_cao_h07/13_SUA_LOI_PYTEST_WINDOWS11.md) đạt116 pytest PASS,0 FAIL,0 ERROR,3 SKIP trong môi trường Codex; cần chạy lại bằng tài khoản người dùng. TCP dashboard41 PASS,download33 PASS/3 SKIP;144 request hiệu năng không lỗi. Chính sách: chỉ admin xem dashboard/log/AI/CSV; auditor chỉ kho công khai. AI Training chỉ đọc, không tự fit/deploy. 11/12 PI PASS,PI3.1 PARTIAL do symlink thật thiếu quyền Windows11 cục bộ. Các số/quyền ở phần lịch sử bên dưới cần đọc theo mốc thời gian.
+
 # H07 – FileGuard AI: Path Traversal Detection & Prevention (MVP)
 
 **Đề tài:** Xây dựng hệ thống phát hiện và ngăn chặn tấn công Path Traversal trên ứng dụng web sử dụng thuật toán Logistic Regression.
 
 **Trạng thái:** Phiên bản khởi đầu dành cho đồ án tốt nghiệp. Không phải một sản phẩm bảo mật production.
+
+**Hồ sơ H07 mới nhất (17/11/2026):** [ma trận 12 PI](docs/MA_TRAN_H07.md),
+[tài liệu bốn chương](docs/h07/CHUONG_1.md),
+[runbook quyền/mật khẩu/log](docs/h07/AN_NINH_VAN_HANH.md),
+[kết quả thực nghiệm](docs/h07/CHUONG_4.md).
+Tự đánh giá minimum: 11/12 Đạt, mục chứng minh symlink Windows còn Chưa đạt.
+Clone mới: cài `requirements-ci.txt`, chạy `python tools/prepare_workspace.py`
+trước pytest để khôi phục input bị gitignore mà không thay model có sẵn.
+
+**Kết quả rà soát tổng hợp mới nhất:** [docs/BAO_CAO_TONG_HOP.md](docs/BAO_CAO_TONG_HOP.md).
+Bao gồm các bản sửa ổn định/bảo mật, kiểm thử TCP, tính lại metrics và
+phát hiện 15 đường dẫn train/test tương đương sau chuẩn hóa encoding.
 
 ## 1. Tính năng có trong mã nguồn
 
@@ -122,6 +138,10 @@ confusion matrix, thời gian dự đoán và biểu đồ của lần đánh gi
 Các lần đánh giá được lưu riêng trong `docs/evaluations/`.
 
 Chạy `python -m ml.train_model`. Kết quả nằm ở `artifacts/training_results.json`:
+
+Lệnh huấn luyện giữ CSV hiện có, sao lưu model/results cũ vào
+`artifacts/history/` trước khi lưu output mới. Bộ sinh dữ liệu từ chối
+ghi đè file đã tồn tại; hãy chọn tên output mới cho một dataset mới.
 
 - Số mẫu trong train/test và các *template families* dành riêng cho kiểm thử.
 - Accuracy, Precision, Recall, F1, Confusion Matrix.

@@ -1,0 +1,26 @@
+@startuml
+title FileGuardAI H07 — Download Activity
+start
+:Decode HTTP query once in Flask;
+:Compute advisory ML score (or error/skipped);
+if (Exactly one path parameter?) then (yes)
+  if (Relative path syntax valid?) then (yes)
+    if (No link/reparse and resolved containment?) then (yes)
+      :Open only regular file;
+      if (File exists and readable?) then (yes)
+        :200 ALLOW, stream authorized handle;
+      else (missing)
+        :404 MISS (permission/nonregular => 403);
+      endif
+    else (no)
+      :403 BLOCK;
+    endif
+  else (no)
+    :403 BLOCK;
+  endif
+else (no)
+  :403 BLOCK;
+endif
+:Append SQLite event including ML advisory;
+stop
+@enduml

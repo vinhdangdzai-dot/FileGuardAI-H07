@@ -1,0 +1,8 @@
+{
+  "models": {
+    "baseline_model.joblib": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+    "improved_model.joblib": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368"
+  },
+  "selection_sha256": "05b7380f1f33cb939f5a32617c26810ac9d429c14b5fad02484dc96eedc0e43a",
+  "policy": "max 200/class; canonical disjoint from original 10000 and previous external 400; public syntactic positives; Starlette relative-path controls; prefer deepest encoding per canonical group; round-robin raw/one/two decode buckets by SHA256 order; no predictions or labels from original test used for selection"
+}

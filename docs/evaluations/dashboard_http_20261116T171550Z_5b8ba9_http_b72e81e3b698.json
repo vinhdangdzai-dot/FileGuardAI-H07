@@ -1,0 +1,153 @@
+{
+  "run": "20261116T171550Z_5b8ba9",
+  "transport": "TCP localhost",
+  "checks": [
+    {
+      "path": "/dashboard/ai-evaluation",
+      "method": "GET",
+      "expected_http": 302,
+      "actual_http": 302,
+      "pass": true,
+      "sha256": "5da82accbf2ff96f465a16f1cdcc2d40c70e57c66897bcdc06a6925f033102ee"
+    },
+    {
+      "path": "/dashboard/ai-evaluation/chart/metrics.png?run=20261116T171550Z_5b8ba9",
+      "method": "GET",
+      "expected_http": 302,
+      "actual_http": 302,
+      "pass": true,
+      "sha256": "5da82accbf2ff96f465a16f1cdcc2d40c70e57c66897bcdc06a6925f033102ee"
+    },
+    {
+      "path": "/login",
+      "method": "POST",
+      "expected_http": 403,
+      "actual_http": 403,
+      "pass": true,
+      "sha256": "c47a2202d244b6bc9d7557e13b2235a5510e2403190a31b95f3443b6cbb2f68b"
+    },
+    {
+      "path": "/login",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "a3a33083f9dfa1302f46dd61ff0a19838535d8be2822f0155520a1c8791e7f59"
+    },
+    {
+      "path": "/login",
+      "method": "POST",
+      "expected_http": 302,
+      "actual_http": 302,
+      "pass": true,
+      "sha256": "277417c41a4f388148f5d417ab45695967adf8e7ea28bce7ef634adc1e01c419"
+    },
+    {
+      "path": "/dashboard/ai-evaluation",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "46a2b21748f464a7f20700c4af4e43a4219c0f84071225726b71220d3a737e3a",
+      "run_present": true,
+      "metrics_present": true,
+      "comparison_metrics_present": true,
+      "comparison_labels_present": true
+    },
+    {
+      "path": "/dashboard/ai-evaluation/chart/confusion_matrix.png?run=20261116T171550Z_5b8ba9",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "5da4f93b09e657e2560bd6927d5b73e25ca83a4286d7836493febae20362880e",
+      "exact_png": true
+    },
+    {
+      "path": "/dashboard/ai-evaluation/chart/metrics.png?run=20261116T171550Z_5b8ba9",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "2e4abee5db9589c471f53e886072c965777c1bb5609f2e9cd32717768111e178",
+      "exact_png": true
+    },
+    {
+      "path": "/dashboard/ai-evaluation/chart/latency.png?run=20261116T171550Z_5b8ba9",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "cc9a3a2fb5dd9bdfae66d287b39bd1a8d301a87e9575985e3193b081f75dae94",
+      "exact_png": true
+    },
+    {
+      "path": "/dashboard/ai-evaluation/chart/model.joblib?run=20261116T171550Z_5b8ba9",
+      "method": "GET",
+      "expected_http": 404,
+      "actual_http": 404,
+      "pass": true,
+      "sha256": "e9639e3c4681ce85f852fbac48e2eeee5ba51296dbfec57c200d59b76237ab80"
+    },
+    {
+      "path": "/dashboard",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "9fbd94749f6ee06bb7621007e0c2bf303b07aeb75dadf66d3382daf721b67b9e"
+    },
+    {
+      "path": "/download?path=baocao.pdf",
+      "method": "GET",
+      "expected_http": 200,
+      "actual_http": 200,
+      "pass": true,
+      "sha256": "06a6d4f2e1df2afe667b91bee024d065945fbe79941ac0b503d5eb81f39f32bd",
+      "exact_file": true
+    },
+    {
+      "path": "/download?path=..%2fsecret.txt",
+      "method": "GET",
+      "expected_http": 403,
+      "actual_http": 403,
+      "pass": true,
+      "sha256": "f295d60cb529e253d001ccd91dc2ba6a5f7b564d9a64b2435d0492cb2c2a03e2"
+    },
+    {
+      "path": "/download?path=__evaluation_missing__.txt",
+      "method": "GET",
+      "expected_http": 404,
+      "actual_http": 404,
+      "pass": true,
+      "sha256": "c4ac6e6cfe91aaa601b2b3befa3349f144c254c492f773e42d63d64f3973b95b"
+    },
+    {
+      "path": "/logout",
+      "method": "POST",
+      "expected_http": 403,
+      "actual_http": 403,
+      "pass": true,
+      "sha256": "c47a2202d244b6bc9d7557e13b2235a5510e2403190a31b95f3443b6cbb2f68b"
+    },
+    {
+      "path": "/logout",
+      "method": "POST",
+      "expected_http": 302,
+      "actual_http": 302,
+      "pass": true,
+      "sha256": "9cd515fe301e7cace88e57e496565c1a145bfe0f883e29a03877d05789d6546c"
+    },
+    {
+      "path": "/dashboard/ai-evaluation",
+      "method": "GET",
+      "expected_http": 302,
+      "actual_http": 302,
+      "pass": true,
+      "sha256": "5da82accbf2ff96f465a16f1cdcc2d40c70e57c66897bcdc06a6925f033102ee"
+    }
+  ],
+  "database": "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\evaluations\\http_b72e81e3b698\\events.sqlite3",
+  "passed": 17,
+  "failed": 0
+}

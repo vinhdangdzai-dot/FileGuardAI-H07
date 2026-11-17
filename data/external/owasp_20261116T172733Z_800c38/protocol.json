@@ -1,0 +1,19 @@
+{
+  "payloads": [
+    "%2e%2e%2f",
+    "%2e%2e/",
+    "..%2f",
+    "%2e%2e%5c",
+    "%2e%2e\\",
+    "..%5c",
+    "%252e%252e%255c",
+    "..%255c",
+    "..%c0%af",
+    "..%c1%9c"
+  ],
+  "threshold": 0.5,
+  "baseline_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "improved_sha256": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+  "labels": "1 for verbatim OWASP attack-intent examples (legacy overlong included, not exploit success); 0 for first ten SHA-ordered real Starlette paths from new corpus; no prediction-based selection",
+  "created_at_utc": "2026-11-16T17:27:33.371103+00:00"
+}

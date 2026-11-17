@@ -37,8 +37,8 @@ FILES_SENSITIVE = [
 
 
 def create_rows(n=10000, seed=2026):
-    if n < 60:
-        raise ValueError('Use at least 60 examples for group holdout')
+    if n < 60 or n % 2:
+        raise ValueError('Use an even number of at least 60 examples for balanced group holdout')
     rng = random.Random(seed)
     rows = []
     seen_paths = set()  # Avoid exact duplicate input paths
@@ -62,7 +62,8 @@ def write_dataset(path: Path, n=10000, seed=2026):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     rows = create_rows(n=n, seed=seed)
-    with path.open('w', newline='', encoding='utf-8-sig') as f:
+    # Refuse accidental replacement; use a different output path for new data.
+    with path.open('x', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=['path', 'label', 'family'])
         writer.writeheader()
         writer.writerows(rows)

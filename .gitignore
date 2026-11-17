@@ -6,3 +6,31 @@ __pycache__/
 instance/*.sqlite3
 artifacts/*.joblib
 data/*.csv
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Secrets and local databases
+.env
+.env.*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Generated caches
+**/.matplotlib/
+
+# Local authentication material, generated DB backups and credential history
+instance/*.hash
+instance/credential_history/
+instance/*.tmp
+.verification/
+.test_runtime/
+.test_runtime_*/

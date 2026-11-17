@@ -13,8 +13,8 @@
     <div class="d-flex gap-3 align-items-center">
       <a class="nav-link" href="{{ url_for('index') }}">Tải tệp</a>
       <a class="nav-link" href="{{ url_for('dashboard') }}">Giám sát</a>
-      {% if session.get('is_admin') %}
-      <form method="post" action="{{ url_for('logout') }}"><button class="btn btn-outline-light btn-sm">Đăng xuất</button></form>
+      {% if session.get('role') %}
+      <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><button class="btn btn-outline-light btn-sm">Đăng xuất</button></form>
       {% endif %}
     </div></div>
   </nav>

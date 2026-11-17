@@ -10,7 +10,7 @@
  <p>Đánh giá trên dữ liệu tổng hợp, chia train/test theo nhóm mẫu. Nhãn 1 là cú pháp nghi vấn; AI không quyết định quyền tải tệp.</p>
  {% if evaluation.selection %}<p>LR v2: C={{evaluation.selection.selected_C}}, chọn bằng validation riêng {{evaluation.selection.validation_samples}} mẫu từ train; sau đó refit {{evaluation.selection.refit_samples}} mẫu train.</p>
  <p class="small text-secondary">Tập test cũ được giữ nguyên nhưng kết quả đã từng công bố. Tập ngoài chỉ đánh giá sau khi đóng băng model; không dùng để chọn cấu hình.</p>{% endif %}
- <p>Thời điểm UTC: {{evaluation.created_at_utc}} · Mã thực nghiệm: {{run}}</p>
+ <p>Thời điểm xuất artifact UTC: {{evaluation.created_at_utc}} · Mã thực nghiệm: {{run}}</p>
  <p>Tổng {{evaluation.audit.rows}} mẫu · Nhãn: {{evaluation.audit.label_counts}} · Dòng trùng dư: {{evaluation.audit.duplicate_excess_rows}} · {{evaluation.audit.family_counts|length}} nhóm.</p>
  <p>Train: {{evaluation.train_samples}} · Test: {{evaluation.test_samples}} · Seed: {{evaluation.seed}} · Ngưỡng: {{evaluation.threshold}}</p>
  <p>Giao nhau nhóm: {{evaluation.split.family_overlap|length}} · Giao nhau đường dẫn: {{evaluation.split.path_overlap|length}}</p>
@@ -26,14 +26,15 @@
  {% endfor %}</tbody></table>
 </div>
 {% if evaluation.datasets %}
+{% for dataset_name,external in evaluation.datasets.items() if dataset_name != 'frozen_holdout' %}
 <div class="panel mb-4 table-responsive"><h2 class="h5">Tập kiểm thử ngoài từ nguồn công khai</h2>
- {% set external=evaluation.datasets.external_public %}
- <p>{{external.samples}} mẫu · Nhãn: {{external.label_counts}}. Payload SecLists và tên file tương đối trong repo Flask làm đối chứng. Đây là nhãn cú pháp theo chính sách công bố, không phải traffic thực hoặc bằng chứng khai thác thành công.</p>
+ <p>{{dataset_name}} · {{external.samples}} mẫu · Nhãn: {{external.label_counts}}. {% if evaluation.dataset_descriptions %}{{evaluation.dataset_descriptions.get(dataset_name, dataset_name)}}{% endif %} Đây là nhãn cú pháp theo chính sách công bố, không phải traffic thực hoặc bằng chứng khai thác thành công.</p>
  <table class="table"><thead><tr><th>Phương pháp</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>TN / FP / FN / TP</th></tr></thead><tbody>
  {% for key,label in methods %}{% set m=external.models[key] %}
  <tr><td>{{label}}</td>{% for metric in ['accuracy','precision','recall','f1'] %}<td>{{'%.4f'|format(m[metric])}}</td>{% endfor %}<td>{{m.confusion_matrix[0][0]}} / {{m.confusion_matrix[0][1]}} / {{m.confusion_matrix[1][0]}} / {{m.confusion_matrix[1][1]}}</td></tr>
  {% endfor %}</tbody></table>
 </div>
+{% endfor %}
 {% endif %}
 <div class="panel mb-4 table-responsive">
  <h2 class="h5">Thời gian dự đoán</h2>

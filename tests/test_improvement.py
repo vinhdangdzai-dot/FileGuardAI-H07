@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def current_run():
     root = ROOT / 'docs/evaluations'
-    run = root / json.loads((root / 'latest.json').read_text())['run']
+    # Regression checks must not depend on which experiment the UI last viewed.
+    run = root / '20261116T154448Z_7a27a7'
     return run, json.loads((run / 'results.json').read_text(encoding='utf-8'))
 
 
@@ -85,7 +86,8 @@ def test_metrics_recompute_and_external_provenance():
     assert manifest['frozen_selection_sha256'] == sha256(run / 'selection.json')
     assert manifest['created_at_utc'] >= manifest['frozen_at_utc']
     for source in manifest['sources']:
-        assert sha256(Path(manifest['dataset_path']) / source['file']) == source['sha256']
+        folder = ROOT / 'data/external' / Path(manifest['dataset_path'].replace('\\', '/')).name
+        assert sha256(folder / source['file']) == source['sha256']
 
 
 def test_comparison_dashboard_preserves_download_policy(tmp_path):
@@ -93,7 +95,13 @@ def test_comparison_dashboard_preserves_download_policy(tmp_path):
     base = tmp_path / 'shared'
     base.mkdir()
     (base / 'ok.txt').write_bytes(b'PUBLIC')
+    evaluation_root = tmp_path / 'evaluations'
+    target = evaluation_root / run.name
+    target.mkdir(parents=True)
+    (target / 'results.json').write_text(json.dumps(result), encoding='utf-8')
+    (evaluation_root / 'latest.json').write_text(json.dumps({'run': run.name}), encoding='utf-8')
     app = create_app({'TESTING': True, 'FILES_ROOT': base, 'DATABASE': tmp_path / 'log.sqlite3',
+                      'EVALUATION_ROOT': evaluation_root,
                       'ADMIN_PASSWORD': 'test-password'})
     c = app.test_client()
     assert c.get('/dashboard/ai-evaluation').status_code == 302

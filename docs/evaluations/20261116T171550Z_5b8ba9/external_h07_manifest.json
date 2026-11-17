@@ -1,0 +1,46 @@
+{
+  "created_at_utc": "2026-11-16T17:15:53.841206+00:00",
+  "rows": 236,
+  "label_counts": {
+    "0": 118,
+    "1": 118
+  },
+  "positive_decode_depth_counts": {
+    "0": 118
+  },
+  "previous_canonical_overlap": 0,
+  "internal_canonical_duplicates": 0,
+  "cases_sha256": "43f1a7f903405576e70ebbc550378886fc90f989c2fee4e74c14639c79a743b2",
+  "snapshots": [
+    {
+      "url": "https://raw.githubusercontent.com/danielmiessler/SecLists/4d5e414c9631f3c12ee1ac86ff7234d848391fd3/Fuzzing/LFI/LFI-LFISuite-pathtotest.txt",
+      "file": "payloads.txt",
+      "sha256": "aa19c81e1048550749dadc4b6fee70816be9e33a84587eb5e9eea5d95b1a40e8"
+    },
+    {
+      "url": "https://api.github.com/repos/encode/starlette/commits/0.48.0",
+      "file": "starlette_commit.json",
+      "sha256": "2da396aa2c034d5dc1b302793178309437865ea1808f77e64544c536824d3966"
+    },
+    {
+      "url": "https://api.github.com/repos/encode/starlette/git/trees/e18637c68e36d112b1983bc0c8b663681e6a4c50?recursive=1",
+      "file": "starlette_tree.json",
+      "sha256": "0e93073cb164959a0859494f13e3ae5cacf3cf18854ec4d532cf7ac87ea14c72"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/encode/starlette/e18637c68e36d112b1983bc0c8b663681e6a4c50/LICENSE.md",
+      "file": "Starlette_LICENSE.md",
+      "sha256": "dcb95677a02240243187e964f941847d19b17821cf99e5afae684fab328c19bf"
+    }
+  ],
+  "models_frozen_before_fetch": {
+    "models": {
+      "baseline_model.joblib": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+      "improved_model.joblib": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368"
+    },
+    "selection_sha256": "05b7380f1f33cb939f5a32617c26810ac9d429c14b5fad02484dc96eedc0e43a",
+    "policy": "max 200/class; canonical disjoint from original 10000 and previous external 400; public syntactic positives; Starlette relative-path controls; prefer deepest encoding per canonical group; round-robin raw/one/two decode buckets by SHA256 order; no predictions or labels from original test used for selection"
+  },
+  "source_directory": "data\\external\\h07_20261116T171550Z_5b8ba9",
+  "limitations": "New public source, weak lexical annotation with source/label confounding; not blind human-reviewed real traffic. No model or threshold modified."
+}

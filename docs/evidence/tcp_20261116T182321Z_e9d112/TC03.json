@@ -1,0 +1,55 @@
+{
+  "tc": "TC03",
+  "name": "subdirectory",
+  "uri": "/download?path=tailieu/chuong1.pdf",
+  "framework_path": "tailieu/chuong1.pdf",
+  "expected_http": 200,
+  "actual_http": 200,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Mon, 16 Nov 2026 18:23:21 GMT",
+    "Content-Disposition": "attachment; filename=chuong1.pdf",
+    "Content-Type": "application/octet-stream",
+    "Cache-Control": "no-store",
+    "Accept-Ranges": "bytes",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Connection": "close"
+  },
+  "response_length": 1659,
+  "response_sha256": "875da24a97a9c09dc084031287aff64d67e9d4167452eb593bf10846d28d9bcf",
+  "sqlite_rows": [
+    {
+      "id": 13,
+      "created_at": "2026-11-16T18:23:21+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "tailieu/chuong1.pdf",
+      "ml_score": 0.00493526152015916,
+      "ml_label": "benign",
+      "action": "ALLOW",
+      "http_status": 200,
+      "reason": "Nằm trong thư mục cho phép",
+      "duration_ms": 2.6701000024331734
+    }
+  ],
+  "started_utc": "2026-11-16T18:23:21.863491+00:00",
+  "ended_utc": "2026-11-16T18:23:21.889392+00:00"
+}

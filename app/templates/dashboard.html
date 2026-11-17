@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Giám sát · FileGuard AI{% endblock %}
+{% extends "base.html" %}{% block title %}Giám sát · CANH GÁC SỐ{% endblock %}
 {% block content %}
 <div class="page-heading" id="overview"><div><span class="eyebrow">SECURITY OVERVIEW</span><h1>Nhật ký và cảnh báo</h1><p>Theo dõi truy cập tệp, quyết định bảo vệ và tín hiệu AI. Số liệu theo bộ lọc hiện tại.</p></div><a href="{{url_for('index')}}" class="btn btn-outline-primary">↗ Thử nghiệm yêu cầu</a></div>
 {% set missed=(counts.total or 0)-(counts.allowed or 0)-(counts.blocked or 0) %}

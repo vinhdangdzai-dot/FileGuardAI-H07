@@ -1,6 +1,8 @@
-{% extends "base.html" %}{% block title %}Kho tệp · FileGuard AI{% endblock %}
+{% extends "base.html" %}{% block title %}Kho tệp · CANH GÁC SỐ{% endblock %}
 {% block content %}
 <div class="page-heading"><div><span class="eyebrow">SECURE FILE WORKSPACE</span><h1>Kho tài liệu được bảo vệ</h1><p>Tải tài liệu trong phạm vi cho phép. Mỗi yêu cầu được kiểm tra đường dẫn và phân tích dấu hiệu Path Traversal.</p></div><span class="heading-tag">H07 / APPLICATION SECURITY</span></div>
+<p class="product-slogan">Giám sát thông minh – Bảo vệ dữ liệu an toàn.</p>
+<p class="panel-caption">Hệ thống phát hiện, cảnh báo và ngăn chặn tấn công Path Traversal trong ứng dụng web với sự hỗ trợ của trí tuệ nhân tạo Logistic Regression.</p>
 <div class="row g-3 mb-4"><div class="col-lg-8"><section class="panel"><div class="panel-header"><h2><span class="section-icon" aria-hidden="true">↓</span>Tải tệp theo đường dẫn</h2></div>
 <form method="get" action="{{url_for('download')}}" class="download-form" data-download-form>
 <label for="download-path" class="visually-hidden">Đường dẫn tệp</label><input id="download-path" name="path" class="form-control" placeholder="tailieu/chuong1.pdf" required autocomplete="off"><button class="btn btn-primary" type="submit">↓ Tải tệp</button></form>

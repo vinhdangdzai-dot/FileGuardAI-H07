@@ -4,7 +4,7 @@
 <script src="{{url_for('static',filename='theme.js')}}"></script>
 <script src="{{url_for('static',filename='text-size.js')}}"></script>
 <link rel="icon" href="{{url_for('static',filename='favicon.svg')}}" type="image/svg+xml">
-<title>{% block title %}FileGuard AI · H07{% endblock %}</title>
+<title>{% block title %}CANH GÁC SỐ · H07{% endblock %}</title>
 <link href="{{url_for('static',filename='vendor/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{url_for('static',filename='style.css')}}" rel="stylesheet">
 <script defer src="{{url_for('static',filename='ui.js')}}"></script></head>
@@ -13,7 +13,7 @@
 <a class="skip-link" href="#main-content">Đến nội dung chính</a>
 {% if management %}
 <aside class="sidebar" id="sidebar" aria-label="Điều hướng quản trị">
-<a class="brand sidebar-brand" href="{{url_for('dashboard')}}" aria-label="FileGuard AI · Overview"><span class="brand-mark" aria-hidden="true">F</span><span class="brand-copy">FileGuard<span class="brand-ai">AI</span><small>SECURITY WORKSPACE · H07</small></span></a>
+<a class="brand sidebar-brand" href="{{url_for('dashboard')}}" aria-label="CANH GÁC SỐ · Overview">{% include '_brand.html' %}</a>
 <span class="nav-section">WORKSPACE</span><nav class="side-nav">
 {% for endpoint,label,icon,fragment in [('dashboard','Overview','◈','#overview'),('dashboard','Security Logs','≡','#security-logs'),('ai_evaluation','AI Evaluation','◷',''),('ai_training','AI Training','◇','')] %}
 <a href="{{url_for(endpoint)}}{{fragment}}" aria-label="{{label}}" title="{{label}}" class="side-link {{'active' if request.endpoint==endpoint and fragment!='#security-logs' else ''}}" {% if request.endpoint==endpoint and fragment!='#security-logs' %}aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">{{icon}}</span><span class="nav-label">{{label}}</span></a>
@@ -23,7 +23,7 @@
 {% endif %}
 <div class="app-frame"><header class="topbar"><div class="topbar-inner">
 {% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{'Monitoring' if request.endpoint=='dashboard' else 'AI Evaluation' if request.endpoint=='ai_evaluation' else 'Tài khoản' if request.endpoint=='change_password' else 'AI Training'}}</strong></div>
-{% else %}<a class="brand" href="{{url_for('index')}}"><span class="brand-mark" aria-hidden="true">F</span><span class="brand-copy">FileGuard<span class="brand-ai">AI</span><small>PATH TRAVERSAL DEFENSE · H07</small></span></a>{% endif %}
+{% else %}<a class="brand" href="{{url_for('index')}}">{% include '_brand.html' %}</a>{% endif %}
 <nav class="topbar-actions" aria-label="Tài khoản và kho tệp">
 <div id="text-size-controls" class="text-size-controls" role="group" aria-label="Cỡ chữ" hidden>{% for size,text,label in [('small','A−','Nhỏ · 16px'),('medium','A','Vừa · 18px'),('large','A+','Lớn · 20px')] %}<button type="button" data-text-size="{{size}}" aria-label="Cỡ chữ {{label}}" title="{{label}}" aria-pressed="false">{{text}}</button>{% endfor %}</div>
 {% if not management %}<a class="top-link" href="{{url_for('index')}}">Kho tệp</a><a class="top-link" href="{{url_for('dashboard')}}">Giám sát</a>{% endif %}
@@ -36,5 +36,5 @@
 {% with messages=get_flashed_messages(with_categories=true) %}{% for category,msg in messages %}<div class="alert {{'notice notice-cyan' if category=='success' else 'alert-danger'}} {{'login-feedback' if request.endpoint=='login' else ''}}" role="{{'status' if category=='success' else 'alert'}}">{% if request.endpoint=='login' and category!='success' %}<strong>Đăng nhập không thành công</strong><p class="mb-0">{{msg}}</p>{% else %}{{msg}}{% endif %}</div>{% endfor %}{% endwith %}
 {% if management %}<noscript><nav class="notice mb-4" aria-label="Điều hướng khi JavaScript tắt"><a href="{{url_for('dashboard')}}">Overview / Security Logs</a> · <a href="{{url_for('ai_evaluation')}}">AI Evaluation</a> · <a href="{{url_for('ai_training')}}">AI Training</a></nav></noscript>{% endif %}
 {% block content %}{% endblock %}</main>
-<footer class="app-footer"><span>FILEGUARD AI <span class="footer-separator">/</span> Đồ án tốt nghiệp H07</span><span>Logistic Regression cảnh báo · Kiểm soát tệp độc lập</span></footer></div>
+<footer class="app-footer"><span>CANH GÁC SỐ · by HuuVinh <span class="footer-separator">/</span> Đồ án tốt nghiệp H07</span><span>Logistic Regression cảnh báo · Kiểm soát tệp độc lập</span></footer></div>
 {% block scripts %}{% endblock %}</body></html>

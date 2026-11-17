@@ -1,3 +1,14 @@
+Mới nhất — thương hiệu CANH GÁC SỐ / by HuuVinh:
+
+Đổi nhận diện hiển thị trên navbar/sidebar, Login, kho tệp, Dashboard, AI Training/Evaluation, Account, footer, lỗi403/404/503 và tab. SVG khiên+mắt sắc nét dùng cho logo/favicon; byline đúng case, khẩu hiệu/mô tả tiếng Việt đúng yêu cầu. Giữ Light/Dark/System, chữ18px/A−/A/A+, sidebar compact. Không rename repo/package/routes/localStorage, không đổi đề tài, backend, dataset, model, SQLite, policy/auth/password hoặc kết quả lưu trữ.
+
+Local: pytest214 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0;dashboard41 PASS,download33 PASS/3 SKIP,144 request/144 rows/0 lỗi. Edge439 PASS,0 FAIL,0 JS/static errors, gồm37 checks thương hiệu mới và402 checks chức năng cũ.26 ảnh brand Light/Dark desktop/mobile; giữ lượt423 PASS/16 FAIL do đo trước animation sidebar, sửa chờ vị trí thật chứ không giảm assertion.
+
+[Báo cáo/file/ảnh](docs/ui/BRAND_CANH_GAC_SO.md). Evidence cuối docs/ui/browser_20261117T124911Z_c0c6a8/. Hash dữ liệu được bảo vệ không đổi. Chrome CI báo riêng theo commit. PR draft, không merge main.
+
+---
+Lịch sử trước đổi thương hiệu:
+
 Chính sách mới:6–128 ký tự cho CLI Admin/Auditor, bootstrap và website đổi mật khẩu; min6 trên cả hai trường mới/xác nhận, giữ max128. Không yêu cầu uppercase/special character. Hash đã lưu không đổi khi restart; giữ CSRF/role/throttling/current verification/atomic write/session revocation.
 
 Local: pytest205 PASS,0 FAIL/ERROR,3 symlink SKIP;15 subtests PASS. Acceptance6/6 exit0. Kiểm các mốc5/6/8/12/128/129 ở CLI hai role, bootstrap và web;20 TCP assertions qua hai subprocess restart với password6 ký tự;browser402 PASS với đổi password6 ký tự. Dataset/model/SQLite không đổi; không đặt/reset password thật. [Báo cáo và file](docs/auth/PASSWORD_LENGTH_6.md). Chrome CI báo riêng theo commit. PR draft, không merge main.

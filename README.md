@@ -1,5 +1,9 @@
 ## Giao diện Cybersecurity Dashboard — nhánh review
 
+**CANH GÁC SỐ — *by HuuVinh*** · Giám sát thông minh – Bảo vệ dữ liệu an toàn.
+
+[Nhận diện mới, ảnh Light/Dark và kiểm thử thực tế](docs/ui/BRAND_CANH_GAC_SO.md). Đây là tên sản phẩm trên website; repository, định danh kỹ thuật và tên đề tài khóa luận giữ nguyên.
+
 > Tài khoản: [lưu hash qua restart và đổi mật khẩu trên website](docs/auth/PASSWORDS.md). Lần đầu chưa có hash: chạy `python tools/manage_credentials.py --role admin` để nhập kín, rồi `python run.py`. Không còn in mật khẩu tạm.
 
 > Cỡ chữ mới: [18px mặc định, A− / A / A+ và báo cáo kiểm thử](docs/ui/TEXT_SIZE.md).

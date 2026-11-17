@@ -1,5 +1,7 @@
 # Nâng cấp giao diện FileGuardAI-H07
 
+> Thương hiệu hiện hành: [CANH GÁC SỐ — by HuuVinh](BRAND_CANH_GAC_SO.md), logo SVG khiên/mắt, khẩu hiệu mới và ảnh Light/Dark. Repository/đề tài/bằng chứng lịch sử giữ nguyên.
+
 > Tài khoản mới: [đổi mật khẩu Admin, hash bền vững và thu hồi phiên](../auth/PASSWORDS.md), giữ Light/Dark và cỡ chữ18px. Chỉ thiết lập CLI lần đầu khi chưa có hash.
 
 > Mới nhất: [cỡ chữ trình chiếu 18px, tùy chọn 16/18/20px](TEXT_SIZE.md), 165 pytest PASS/3 SKIP và385 Edge checks PASS. Zoom là reflow mô phỏng; native zoom chưa được xác minh.

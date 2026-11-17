@@ -270,6 +270,8 @@ def main():
             verify_themes(browser,url,context,check,out,results,args.browser,results['launch_args'])
             from tools.ui_text_size_checks import verify_text_sizes
             verify_text_sizes(browser,url,context,check,out,results)
+            from tools.ui_brand_checks import verify_branding
+            verify_branding(browser,url,context,check,out,results)
             from tools.ui_password_checks import verify_password_change
             verify_password_change(browser,url,context,check,out,results,password)
             check('no JavaScript runtime errors',not results['browser_errors'],results['browser_errors'])

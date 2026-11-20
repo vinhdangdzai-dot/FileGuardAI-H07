@@ -1,0 +1,70 @@
+{
+  "mode": "LIVE_GOOGLE_API",
+  "status": "FAIL",
+  "created_at_utc": "2026-11-18T15:01:09.322566+00:00",
+  "model": "gemini-2.5-flash-lite",
+  "same_key_and_model": true,
+  "max_http_requests": 5,
+  "minimal_native": {
+    "provider": "gemini-native",
+    "model": "gemini-2.5-flash-lite",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+    "operation": "probe_minimal",
+    "timeout_seconds": 20.0,
+    "status": "FAIL",
+    "error": {
+      "code": "model_unavailable",
+      "diagnostic": null,
+      "http_status": 404,
+      "category": "configuration",
+      "retryable": false,
+      "upstream_status": "NOT_FOUND",
+      "error_format": "json_error"
+    },
+    "duration_ms": 387.0270999977947
+  },
+  "minimal_openai_compatible": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash-lite",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    "operation": "probe_minimal",
+    "timeout_seconds": 20.0,
+    "status": "FAIL",
+    "error": {
+      "code": "model_unavailable",
+      "diagnostic": null,
+      "http_status": 404,
+      "category": "configuration",
+      "retryable": false,
+      "upstream_status": null,
+      "error_format": "unrecognized_error_body"
+    },
+    "duration_ms": 317.70179999875836
+  },
+  "native_model_metadata": {
+    "provider": "gemini-native",
+    "model": "gemini-2.5-flash-lite",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite",
+    "operation": "model_info",
+    "timeout_seconds": 20.0,
+    "status": "PASS",
+    "metadata": {
+      "name": "gemini-2.5-flash-lite",
+      "http_status": 200,
+      "supported_methods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ],
+      "generate_content_supported": true
+    },
+    "duration_ms": 234.76759999903152
+  },
+  "conclusion": "both_404_model_endpoint_or_access_unavailable",
+  "pipeline": {
+    "status": "NOT_RUN",
+    "reason": "no_successful_minimal_generation; no repeated failed requests"
+  },
+  "http_requests_attempted": 3
+}

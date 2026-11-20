@@ -15,7 +15,7 @@ from pathlib import Path
 
 from flask import (Flask, abort, flash, redirect, render_template, request,
                    send_file, session, url_for)
-from werkzeug.security import check_password_hash
+from .passwords import check_password_hash, password_hash as hash_password, PasswordBusy
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .database import (init_db, insert_log, recent_logs, summary, insert_security_event,
@@ -26,6 +26,7 @@ from .evaluation_results import validate_evaluation
 from .ml_features import extract_features
 from .training_view import read_dataset, dataset_stats, dataset_page, inspect_models, evaluation_history
 from .security import RejectedPath, list_allowed_files, open_authorized
+from .documents import catalog, visibility, enforce, LoginRequired
 
 BASE = Path(__file__).resolve().parent.parent
 
@@ -61,6 +62,8 @@ def create_app(config=None):
     private_base = Path(app.config['DATABASE']).parent if app.testing else BASE / 'instance'
     app.config.setdefault('ADMIN_HASH_FILE', private_base / 'admin_password.hash')
     app.config.setdefault('AUDITOR_HASH_FILE', private_base / 'auditor_password.hash')
+    app.config.setdefault('MFA_KEY_FILE', (os.environ.get('ACCOUNT_MFA_KEY_FILE') if not app.testing else None) or Path(app.config['DATABASE']).parent/'mfa_keys.json')
+    app.config.setdefault('MFA_KEYS',os.environ.get('ACCOUNT_MFA_KEYS') if not app.testing else None)
 
     app.config.setdefault('AI_EXPLANATION_DATABASE',Path(app.config['DATABASE']).parent/'ai_explanations.sqlite3')
     if Path(app.config['AI_EXPLANATION_DATABASE']).resolve()==Path(app.config['DATABASE']).resolve():
@@ -69,22 +72,60 @@ def create_app(config=None):
     for private in (app.config['AI_EXPLANATION_DATABASE'],app.config['DATABASE'], app.config['MODEL_PATH'], app.config['TRAINING_DATA_PATH'],
                     app.config['EXPERIMENTAL_MODEL_PATH'], app.config['EVALUATION_ROOT'],
                     app.config.get('ADMIN_HASH_FILE', BASE / 'instance/admin_password.hash'),
-                    app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash')):
+                    app.config.get('AUDITOR_HASH_FILE', BASE / 'instance/auditor_password.hash'),app.config['MFA_KEY_FILE']):
         if Path(private).resolve().is_relative_to(root.resolve()):
             raise ValueError('Private logs, credentials and model must be outside FILES_ROOT')
     configure_auth(app, BASE)
     root.mkdir(parents=True, exist_ok=True)
     init_db(Path(app.config['DATABASE']))
+    from .mfa import MFAService, MFARejected, MFARateLimited, Principal
+    from .mfa_keys import MFACryptoError
+    from .mfa_views import bp as mfa_blueprint
+    app.extensions['mfa']=MFAService(app)
+    app.register_blueprint(mfa_blueprint)
 
-    from .ai_explanations import ExplanationService, ChatCompletionProvider
+    @app.errorhandler(PasswordBusy)
+    @app.errorhandler(MFACryptoError)
+    def authentication_unavailable(error):
+        app.logger.error('Authentication service temporarily unavailable')
+        return render_template('error.html',code=503,message='Dịch vụ xác thực tạm thời không khả dụng. Vui lòng thử lại hoặc liên hệ quản trị.'),503
+
+    @app.errorhandler(MFARateLimited)
+    def mfa_throttled(error):
+        return render_template('error.html',code=429,message='Thử xác thực quá nhiều lần. Vui lòng thử lại sau.'),429,{'Retry-After':'300'}
+
+    @app.errorhandler(MFARejected)
+    def mfa_rejected(error):
+        session.clear()
+        return redirect(url_for('login'))
+    app.config.setdefault('ACCOUNT_REGISTER_LIMIT',5)
+    app.config.setdefault('ACCOUNT_RESET_ORIGIN',os.environ.get('ACCOUNT_RESET_ORIGIN'))
+    for name in ('HOST','FROM','USERNAME','PASSWORD'):
+        app.config.setdefault('ACCOUNT_SMTP_'+name,os.environ.get('ACCOUNT_SMTP_'+name))
+    try:smtp_port=int(os.environ.get('ACCOUNT_SMTP_PORT','587'))
+    except ValueError:smtp_port=587
+    app.config.setdefault('ACCOUNT_SMTP_PORT',smtp_port)
+    app.config.setdefault('ACCOUNT_SMTP_SSL',os.environ.get('ACCOUNT_SMTP_SSL')=='1')
+    from .account_mail import RecoveryMail
+    from .account_views import bp as account_blueprint
+    app.extensions['recovery_mail']=RecoveryMail(app)
+    app.register_blueprint(account_blueprint)
+
+    from .ai_explanations import ExplanationService, ChatCompletionProvider, GeminiProvider, GeminiNativeProvider
     adapter = app.config.get('AI_EXPLANATION_ADAPTER')
     api_key = os.environ.get('AI_EXPLANATION_API_KEY')
     model = os.environ.get('AI_EXPLANATION_MODEL')
     if adapter is None and not app.testing and api_key and model:
         try:
-            if os.environ.get('AI_EXPLANATION_PROVIDER','openai-compatible')!='openai-compatible':
+            provider_name=os.environ.get('AI_EXPLANATION_PROVIDER','openai-compatible')
+            if provider_name in {'gemini','gemini-native'}:
+                provider_class=GeminiNativeProvider if provider_name=='gemini-native' else GeminiProvider
+                adapter=provider_class(api_key,model,os.environ.get('AI_EXPLANATION_TIMEOUT','20'),
+                                       max_tokens=os.environ.get('AI_EXPLANATION_MAX_TOKENS','2048'))
+            elif provider_name=='openai-compatible':
+                adapter = ChatCompletionProvider(api_key,os.environ.get('AI_EXPLANATION_ENDPOINT','https://api.openai.com/v1/chat/completions'),model,os.environ.get('AI_EXPLANATION_TIMEOUT','3'))
+            else:
                 raise ValueError('Unsupported AI provider')
-            adapter = ChatCompletionProvider(api_key,os.environ.get('AI_EXPLANATION_ENDPOINT','https://api.openai.com/v1/chat/completions'),model,os.environ.get('AI_EXPLANATION_TIMEOUT','3'))
         except (ValueError,TypeError):
             app.logger.error('AI explanation provider configuration invalid; offline mode retained')
     try:
@@ -135,8 +176,8 @@ def create_app(config=None):
         response.headers['Referrer-Policy'] = 'no-referrer'
         response.headers['Cache-Control'] = 'no-store'
         response.headers['Content-Security-Policy'] = (
-            "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; "
-            "script-src 'self' https://cdn.jsdelivr.net; "
+            "default-src 'self'; style-src 'self'; "
+            "script-src 'self'; "
             "img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'"
         )
         return response
@@ -148,7 +189,9 @@ def create_app(config=None):
 
     @app.get('/')
     def index():
-        return render_template('index.html', files=list_allowed_files(root),
+        documents=catalog(root,authenticated=session.get('role') in {'admin','auditor','user'})
+        return render_template('index.html', files=[r['path'] for r in documents],
+                               document_access={r['path']:r['visibility'] for r in documents},
                                model_ready=predictor is not None)
 
     @app.get('/download')
@@ -157,40 +200,69 @@ def create_app(config=None):
         # Flask decodes query transport once. Preserve this value for AI/logs;
         # security rejects residual structural escapes without decoding again.
         raw = request.args.get('path', '')
+        ids_start = time.perf_counter()
         score, ml_label = score_path(raw)
+        ids_ms = (time.perf_counter() - ids_start) * 1000
+        ips_start = time.perf_counter()
         ip = request.remote_addr or 'unknown'
         f = None
+        context={'path_outcome':'rejected','visibility':'unknown','access_outcome':'not_applicable'}
+        authenticated=session.get('role') in {'admin','auditor','user'}
         try:
             if len(request.args.getlist('path')) != 1:
                 raise RejectedPath('Yêu cầu phải có đúng một tham số path')
+            context['visibility']=visibility(root,raw)
+            context['path_outcome']='permitted'
+            enforce(context['visibility'],authenticated)
+            context['access_outcome']='allowed'
             f = open_authorized(root, raw)
+            context['visibility']=visibility(root,raw,f)
+            enforce(context['visibility'],authenticated)
+            context['access_outcome']='allowed'
             # We send an *already opened* file handle, never an unchecked path.
             response = send_file(f, as_attachment=True,
                                  download_name=raw.split('/')[-1],
                                  mimetype='application/octet-stream')
             response.call_on_close(f.close)
             action, status, reason = 'ALLOW', 200, 'Nằm trong thư mục cho phép'
+        except LoginRequired as exc:
+            if f is not None:f.close();f=None
+            context['access_outcome']='login_required'
+            action,status,reason='BLOCK',403,str(exc)
+            response=render_template('error.html',code=403,message=reason,login_required=True),403
         except (RejectedPath, PermissionError) as exc:
             if f is not None:
                 f.close()
-            action, status, reason = 'BLOCK', 403, str(exc) or 'Không được phép truy cập'
+            action, status, reason = 'BLOCK', 403, (str(exc) if isinstance(exc,RejectedPath) else 'Không được phép truy cập tệp theo chính sách.')
+            context['path_outcome']='rejected'
             response = render_template('error.html', code=403, message=reason), 403
         except (FileNotFoundError, NotADirectoryError):
+            if f is not None:f.close()
+            context['path_outcome']='missing'
             action, status, reason = 'MISS', 404, 'Không tìm thấy tệp'
             response = render_template('error.html', code=404, message=reason), 404
         except OSError:
+            if f is not None:f.close()
             action, status, reason = 'BLOCK', 403, 'Yêu cầu không thể truy cập'
             response = render_template('error.html', code=403, message=reason), 403
+            context['path_outcome']='rejected'
+        except sqlite3.Error:
+            if f is not None:f.close()
+            raise
+        ips_ms = (time.perf_counter() - ips_start) * 1000
+        total_ms = (time.perf_counter() - start) * 1000
         try:
             event_id = insert_log(app.config['DATABASE'], ip, raw, score, ml_label,
-                       action, status, reason, (time.perf_counter() - start) * 1000)
+                       action, status, reason, total_ms, context=context,
+                       timing={'ids_ms':ids_ms,'ips_ms':ips_ms,'total_ms':total_ms})
         except (sqlite3.Error, ValueError):
             if f is not None:
                 f.close()
             app.logger.exception('Cannot persist access event; file response withheld')
             return render_template('error.html', code=503, message='Không thể ghi nhật ký. Vui lòng thử lại sau.'), 503
         try:
-            explanations.submit(event_id,raw,action,ml_label=='suspicious')
+            if context['access_outcome']!='login_required':
+                explanations.submit(event_id,raw,action,ml_label=='suspicious')
         except Exception:
             # Supplementary processing must never withhold or alter the file response.
             pass
@@ -204,31 +276,69 @@ def create_app(config=None):
             if failed_login_count(app.config['DATABASE'], ip, since) >= app.config['LOGIN_MAX_FAILURES']:
                 insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_throttled')
                 return 'Thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.', 429, {'Retry-After': str(app.config['LOGIN_WINDOW_SECONDS'])}
+            identifier=request.form.get('identifier','').strip()
+            if identifier:
+                from .account_store import authenticate,take_rate,identity,find
+                candidate=find(app.config['DATABASE'],identifier=identifier) if len(identifier)<=254 else None
+                rate_identity=candidate['username'] if candidate else identity(identifier)
+                if len(identifier)>254 or not take_rate(app.config['DATABASE'],'login_identity',rate_identity,5,300):
+                    insert_security_event(app.config['DATABASE'],ip,'anonymous','login_throttled')
+                    return 'Thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.',429,{'Retry-After':'300'}
+                account=authenticate(app.config['DATABASE'],identifier,request.form.get('password',''))
+                if account:
+                    from .account_store import clear_login_rate
+                    clear_login_rate(app.config['DATABASE'],rate_identity)
+                    principal=app.extensions['mfa'].principal(user=account)
+                    if account['role']=='admin':
+                        app.extensions['mfa'].create_challenge(principal)
+                        insert_security_event(app.config['DATABASE'],ip,'anonymous','login_password_verified')
+                        return redirect(url_for('mfa.verify'))
+                    app.extensions['mfa'].grant_password_session(principal,ip)
+                    return redirect(url_for('accounts.profile'))
+                insert_security_event(app.config['DATABASE'],ip,'anonymous','login_failed')
+                flash('Thông tin đăng nhập không hợp lệ.','danger')
+                return render_template('login.html')
             role = request.form.get('role', 'admin')
+            if role in {'admin','auditor'}:
+                from .account_store import take_rate
+                if not take_rate(app.config['DATABASE'],'login_identity','legacy:'+role,5,300):
+                    insert_security_event(app.config['DATABASE'],ip,'anonymous','login_throttled')
+                    return render_template('error.html',code=429,message='Thử đăng nhập quá nhiều lần. Vui lòng thử lại sau.'),429,{'Retry-After':'300'}
             try:
                 password_hash = app.extensions['credentials'].current(role) if role in {'admin','auditor'} else None
             except (OSError, ValueError):
                 return render_template('error.html',code=503,message='Kho thông tin xác thực tạm thời không khả dụng.'),503
             supplied_password = request.form.get('password', '')
             if len(supplied_password) <= 128 and password_hash and check_password_hash(password_hash, supplied_password):
+                from .account_store import clear_login_rate
+                clear_login_rate(app.config['DATABASE'],'legacy:'+role)
                 # Persist the authentication event BEFORE granting a role.
-                insert_security_event(app.config['DATABASE'], ip, role, 'login_success')
-                session.clear()
-                session.permanent = True
-                session['is_admin'] = role == 'admin'
-                session['role'] = role
-                session['_credential_version'] = app.extensions['credentials'].version(role, password_hash)
-                return redirect(url_for('dashboard' if role == 'admin' else 'index'))
+                try:
+                    password_hash=app.extensions['credentials'].upgrade(role,password_hash,supplied_password)
+                except OSError:
+                    app.logger.warning('Credential algorithm upgrade deferred')
+                except ValueError:
+                    raise MFARejected('Credentials changed') from None
+                principal=Principal('legacy:'+role,role,app.extensions['credentials'].version(role,password_hash))
+                if role=='admin':
+                    app.extensions['mfa'].create_challenge(principal)
+                    insert_security_event(app.config['DATABASE'],ip,'anonymous','login_password_verified')
+                    return redirect(url_for('mfa.verify'))
+                app.extensions['mfa'].grant_password_session(principal,ip)
+                return redirect(url_for('index'))
             insert_security_event(app.config['DATABASE'], ip, 'anonymous', 'login_failed')
             flash('Sai mật khẩu quản trị.')
         return render_template('login.html')
 
     @app.route('/account/password', methods=['GET', 'POST'])
-    @admin_required
+    @roles_required('admin','auditor','user')
     def change_password():
+        if session.get('user_id'):
+            from .account_views import change_password as account_change_password
+            return account_change_password()
+        if session.get('role')!='admin':abort(403)
         from .credential_store import credential_lock, atomic_hash_write
         from .database import failed_password_change_count
-        from werkzeug.security import generate_password_hash
         error, status, committed = None, 200, False
         if request.method == 'POST':
             ip = request.remote_addr or 'unknown'
@@ -255,7 +365,7 @@ def create_app(config=None):
                     else:
                         # Fail before mutation if the audit store is unavailable.
                         insert_security_event(app.config['DATABASE'],ip,'admin','password_change_requested')
-                        atomic_hash_write(app.config['ADMIN_HASH_FILE'],generate_password_hash(new))
+                        atomic_hash_write(app.config['ADMIN_HASH_FILE'],hash_password(new))
                         committed = True
             except OSError:
                 if not committed:
@@ -275,16 +385,23 @@ def create_app(config=None):
         return render_template('change_password.html',error=error),status
 
     @app.post('/logout')
-    @roles_required('admin', 'auditor')
+    @roles_required('admin', 'auditor','user')
     def logout():
         try:
+            app.extensions['mfa'].revoke_current()
+        except sqlite3.Error:
+            session.clear()
+            raise
+        try:
             insert_security_event(app.config['DATABASE'], request.remote_addr or 'unknown', session['role'], 'logout')
+            if session.get('user_id'):insert_security_event(app.config['DATABASE'],request.remote_addr or 'unknown',session['role'],'account_logout:'+str(session['user_id']))
         except sqlite3.Error:
             app.logger.exception('Logout audit unavailable; session will still be cleared')
         finally:
             session.clear()
         return redirect(url_for('index'))
 
+    @app.get('/admin',endpoint='admin_entry')
     @app.get('/dashboard')
     @admin_required
     def dashboard():
@@ -294,9 +411,104 @@ def create_app(config=None):
             abort(400)
         logs = recent_logs(app.config['DATABASE'], **filters)
         counts = summary(app.config['DATABASE'], **filters)
+        from .database import download_statistics
         return render_template('dashboard.html', logs=logs, counts=counts,
+                               download_stats=download_statistics(app.config['DATABASE'],**filters),
                                security_events=recent_security_events(app.config['DATABASE']), filters=filters,
                                ai_explanations=explanations.snapshot())
+
+    @app.get('/dashboard/events/<int:event_id>')
+    @admin_required
+    def event_detail(event_id):
+        from .database import connect
+        from contextlib import closing
+        from .ai_explanations import safe_features
+        with closing(connect(app.config['DATABASE'])) as db:
+            row=db.execute('SELECT * FROM access_logs WHERE id=?',(event_id,)).fetchone()
+            linked_alert=db.execute('SELECT a.* FROM alerts a JOIN alert_events e ON e.alert_id=a.id WHERE e.event_id=?',(event_id,)).fetchone()
+            context=db.execute('SELECT * FROM download_context WHERE event_id=?',(event_id,)).fetchone()
+            timing=db.execute('SELECT * FROM processing_timings WHERE event_id=?',(event_id,)).fetchone()
+        if row is None:abort(404)
+        event=dict(row)
+        snapshot=explanations.snapshot(event_id)
+        return render_template('event_detail.html',event=event,download_context=dict(context) if context else None,
+                               processing_timing=dict(timing) if timing else None,
+                               linked_alert=dict(linked_alert) if linked_alert else None,ai_explanations=snapshot,
+                               analysis=snapshot['rows'][0] if snapshot['rows'] else None,
+                               indicators=safe_features(event['requested_path'],event['action'],event['ml_label']=='suspicious'))
+
+    @app.get('/admin/documents')
+    @admin_required
+    def admin_documents():
+        return render_template('documents.html',documents=catalog(root,authenticated=True))
+
+    @app.get('/admin/ips')
+    @admin_required
+    def application_ips():
+        from .database import ips_statistics
+        return render_template('ips.html', ips=ips_statistics(app.config['DATABASE']),
+                               model_status=model_status)
+
+    @app.get('/dashboard/alerts')
+    @admin_required
+    def alert_manager():
+        from contextlib import closing
+        from .database import connect
+        from .alerts import listing,settings,RULES
+        state=request.args.get('state','');priority=request.args.get('priority','')
+        try:
+            page=int(request.args.get('page','1'))
+            with closing(connect(app.config['DATABASE'])) as db:
+                rows,total=listing(db,state,priority,page)
+                enabled=settings(db)
+        except ValueError:abort(400)
+        return render_template('alerts.html',alerts=rows,total=total,page=page,state=state,
+                               priority=priority,notifications=enabled,rules=RULES)
+
+    @app.post('/dashboard/alerts/<int:alert_id>/state')
+    @admin_required
+    def alert_state(alert_id):
+        from contextlib import closing
+        from .database import connect
+        state=request.form.get('state')
+        if state not in {'new','seen','resolved'}:abort(400)
+        with closing(connect(app.config['DATABASE'])) as db,db:
+            if not db.execute('UPDATE alerts SET state=? WHERE id=?',(state,alert_id)).rowcount:abort(404)
+            db.execute('INSERT INTO security_events(created_at,client_ip,actor_role,event) VALUES(?,?,?,?)',
+                       (datetime.now(timezone.utc).isoformat(timespec='seconds'),request.remote_addr or 'unknown','admin',f'alert:{alert_id}:state:{state}'))
+        return redirect(url_for('alert_manager'))
+
+    @app.post('/dashboard/alerts/settings')
+    @admin_required
+    def alert_settings():
+        from contextlib import closing
+        from .database import connect
+        value=request.form.get('enabled')
+        if value not in {'0','1'}:abort(400)
+        with closing(connect(app.config['DATABASE'])) as db,db:
+            db.execute('INSERT INTO alert_settings VALUES(1,?) ON CONFLICT(id) DO UPDATE SET notifications=excluded.notifications',(int(value),))
+            db.execute('INSERT INTO security_events(created_at,client_ip,actor_role,event) VALUES(?,?,?,?)',
+                       (datetime.now(timezone.utc).isoformat(timespec='seconds'),request.remote_addr or 'unknown','admin','alert_notifications:'+value))
+        return redirect(url_for('alert_manager'))
+
+    @app.get('/dashboard/alerts/feed')
+    @admin_required
+    def alert_feed():
+        from contextlib import closing
+        from .database import connect
+        from .alerts import settings
+        after=request.args.get('after')
+        try:
+            cursor=int(after) if after is not None else None
+            if cursor is not None and not 0<=cursor<=9223372036854775807:raise ValueError()
+        except ValueError:abort(400)
+        with closing(connect(app.config['DATABASE'])) as db:
+            enabled=settings(db)
+            latest=db.execute('SELECT COALESCE(MAX(id),0) FROM alerts').fetchone()[0]
+            new=db.execute("SELECT COUNT(*) FROM alerts WHERE state='new'").fetchone()[0]
+            items=[dict(r) for r in db.execute('SELECT id,last_event_id,priority,rule,occurrences FROM alerts WHERE id>? ORDER BY id LIMIT 20',(cursor,))] if cursor is not None and enabled else []
+        return {'enabled':enabled,'new_count':new,'items':items,
+                'cursor':items[-1]['id'] if items else latest}
 
     @app.post('/dashboard/ai-analysis/settings')
     @admin_required

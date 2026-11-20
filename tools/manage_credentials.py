@@ -1,4 +1,4 @@
-"""Prompt locally for a password and persist ONLY its Werkzeug hash."""
+"""Prompt locally for a password and persist ONLY its salted Argon2id hash."""
 import argparse
 from datetime import datetime, timezone
 from getpass import getpass
@@ -7,11 +7,11 @@ from pathlib import Path
 import shutil
 import uuid
 import sys
-from werkzeug.security import generate_password_hash
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from app.credential_store import credential_lock, atomic_hash_write
+from app.passwords import password_hash
 
 
 def store_password(password, path):
@@ -24,7 +24,7 @@ def store_password(password, path):
             history = path.parent / 'credential_history'
             history.mkdir(exist_ok=True)
             shutil.copy2(path, history / (datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ') + '_' + uuid.uuid4().hex + '.hash'))
-        atomic_hash_write(path, generate_password_hash(password))
+        atomic_hash_write(path, password_hash(password))
 
 
 if __name__ == '__main__':

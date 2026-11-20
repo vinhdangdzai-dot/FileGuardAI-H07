@@ -1,0 +1,543 @@
+{
+  "created_at_utc": "2026-11-18T17:51:51.719029+00:00",
+  "python": "3.12.10",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "versions": {
+    "Flask": "3.1.3",
+    "scikit-learn": "1.9.1",
+    "numpy": "2.5.5",
+    "joblib": "1.6.0",
+    "pytest": "9.2.0",
+    "matplotlib": "3.11.2"
+  },
+  "python_files_parsed": 91,
+  "source_sha256": {
+    "app/__init__.py": "5bb3fdf71ffdf3015fca9e5ebcc198e2c3da424758aebf6700caec1a1c656fad",
+    "app/account_mail.py": "2ca5cec0b81668493d03df0ad3e956917947b65b5454a5009736d0868e9672c1",
+    "app/account_store.py": "5a20d98465784beb6dd11fd989539dfb71f9a1266411febab0b8206ce654bc21",
+    "app/account_views.py": "ee026d6caf8d0a3526174af950364b3098f687e81fdff222688ab5ad8ae71dbc",
+    "app/ai_explanations.py": "0657d7c62dd30f704955d3d43013954aa5efee587c240bab5d3a6ed60bd8a017",
+    "app/alerts.py": "04aa1b7dc15199491d2eaf2f8c7cefd268f53ea93b5bc5aa24bd85700c1d28fd",
+    "app/auth.py": "842998eefe26e36eb56c96aa24b953b8b450383a6f59a1c8cd13af43005129ec",
+    "app/credential_store.py": "fb5a4bc17f95c893961ca67a13005727f7cf26a1a2e49e2cff8aa021e7a5cf2f",
+    "app/database.py": "67ce27459070f1dffb266be90646edb44d8181b529912a997962d3a4e97ab886",
+    "app/evaluation_results.py": "671dd9153f191740fb7402f27318c9c7dfa00f4c84c63f10b98c6e757d372ce4",
+    "app/log_filters.py": "960623d569a6241c6371c50a14865d9c7e384da8c4be7c5f22139f5b27794121",
+    "app/mfa.py": "cff8d3db5b9327b9a5e1342a31bd36528d9720d5fbb10a64640d97acf67c22da",
+    "app/mfa_keys.py": "cf2192eef5ded9704464e857fac878824713141cc1c500b8b9b411d733beb355",
+    "app/mfa_views.py": "36066a89e51438bbef261eb317181a1dacde94f77e401c24adb4cef80edfc3c7",
+    "app/ml_features.py": "49e1069017f87d7bd21a4562655a0783b447523e3847cbbef579bf731de9818b",
+    "app/passwords.py": "5e039b23734049163c2f4ec28b3f714367ad9dbbf6ffeedf73097e3a58be72f1",
+    "app/security.py": "5202f97fffa93038bb32ac2c520925144f4391368143cf56efabf3029efe4123",
+    "app/training_view.py": "bb810433433a11625e7ad13b3c61ec8cbff6620a141486555b00af514ff9f94f",
+    "app/web.py": "18b9646d398e804913147e1f4e09c144bf75a827e4a57ce08cbfbaa0ddfdd6d9",
+    "ml/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "ml/evaluate.py": "f7eec271a7ff8b3cee3ba87e1f58b3dce1b9aafda7023bb510915b8b23a5e150",
+    "ml/external_corpus.py": "29efc9dba0c8900689feb84dd5a236c38b1f18ef4741573fa8fdfa6b2850f480",
+    "ml/generate_dataset.py": "a96e0bf4df95b8acdd58833cc1cf700df5506feda5eda03773f8fdeff2856f30",
+    "ml/improve.py": "dac63b4550f69b04ec3f1bdb5831cc0cc04f839b950dd59699803cc864ae7479",
+    "ml/strict_groups.py": "b45ec61e779a64bfad3b1e0699fe79b43768fb69eb2582d85f2daaec88f50896",
+    "ml/train_model.py": "f3a80482920e8bee98039b60095c72cca8a884ce0cfd583a8c3600913cd84702",
+    "run.py": "f6b2efb5a7022093e86d1d8763288dbb05b9f63be89b85040860fe002286fb63",
+    "tests/auth_support.py": "daf1f6cc11fbf9ed9ca043d8e3985c980f099597e5b5b44bbcc214f5c8157c41",
+    "tests/test_acceptance_extensions.py": "456247a603bfa3e6a48a33ce8239d0057189f6bc5c171ea3cff35110015a3fc6",
+    "tests/test_acceptance_timeout.py": "ed7f5b09dcbe9dfcd431c2edde1c3ac3aaa23f5dcf43e603d4f553b903d9ed25",
+    "tests/test_account_mail.py": "09938e611681d12f8498a31881991ab806006f478f40ba4df3d9eaeb03bbc1fb",
+    "tests/test_accounts.py": "0f7c9ac4ea61b30a46f23a071c3594f63fed132d966b92a1635de5d9b12e14ef",
+    "tests/test_ai_explanations.py": "6cac3457d7ecff2bdcb51137b9215ef21fb83c12814d527e002b082b68063df0",
+    "tests/test_alerts.py": "a3d6e2cbca22af9fc231e97e4c35729abf42499a2c453f66290258e0735cd9b7",
+    "tests/test_app.py": "e48da947a55379af9334ae70de363fc90d74a2b7e9ab6a0cc68f6a61e80d060c",
+    "tests/test_auth.py": "7951c920f1fa06bc5ff26dd5b973d7b242fe5d7b28280e5c3a9ae0a30a447dc1",
+    "tests/test_branding_ui.py": "6b4879d7b70ab49d7517a31ddfe493fc91755a89ecc382fcc031583b676f93a9",
+    "tests/test_evaluation.py": "7e8f59baa5ca7d235e8ff13296f54703e1d46979e2792f628249bd4e6f11d2c8",
+    "tests/test_gemini.py": "9807feb4c271ccb3d67d863b90c4bc4dad0c62fa359475ae5aec2e45158b44ca",
+    "tests/test_gemini_comparison.py": "272f3af5a73f004dbbd60528281660c202e119da6680650ada4599cb0ebc4df3",
+    "tests/test_gemini_live.py": "d241283ea866d5979735608f03bcbf48c33c9fdc5540224cca1c22e93e03f3d3",
+    "tests/test_gemini_native.py": "f438fdb9db41514d3622ee80ea619e80a4df2daf1ba84cb8447398defbe08bac",
+    "tests/test_h07_evaluation.py": "3a63936058a5c72d8f3c21da2a86de5d0c88279daf719c7de2f839830c2b13cd",
+    "tests/test_improvement.py": "cc98ffad9d7d8eeac07274fa75175836bc8faa61f72e68cba6cba1b8c6f8de56",
+    "tests/test_mfa.py": "2abba79695d0e96e598d5c904922171dccc0d235efb9dc3079ec7b931ffd657c",
+    "tests/test_ml.py": "fb9ba69ac25fec184887b09d0a85ca0e29cf6b9c9e79f9cee1283c24a6a087a1",
+    "tests/test_password_change.py": "f97d99b337d2e33177fe5f6095e397cad948546743958ed27b99fa70501e4752",
+    "tests/test_probe_diagnostics.py": "0e722bf30f9a6402c7c4f73ad6783cf6b200426ff4bffda9dc65e1bc5aa880dc",
+    "tests/test_proxy_fix.py": "90c2945ef4519d62a8dcab5f4743cf4a281c855c0c4633964e45f04c9ccf9ef3",
+    "tests/test_pytest_runtime.py": "7ce9724590f00460b16eb082e2be3ba28c20f6b20a7c948bee00bcbea4303355",
+    "tests/test_review.py": "0e87fb8784491865ca856d07f64be88bb713ef2f5b3af3cdffaa8a77d99d16fa",
+    "tests/test_security.py": "2fe27cdc7c7c355ddcc2ebf3ea4d01ba0d17c7fed2cdb105d6ff2d92f0de5007",
+    "tests/test_strict_groups.py": "514ab1a0a5a699b767ddc99ba2597cd7e53eaa0c83709084e6f1dbc551047499",
+    "tests/test_text_size_ui.py": "248aa7f48c094015c002f0d8f6760346eac74dbe64850d6fb800ccf4573ec4bb",
+    "tests/test_theme_ui.py": "399c850c3752f578ed223d39e111abb6cc22015e3e766a282490875efb0db3e0",
+    "tests/test_training_dataset.py": "2a00dd5ae505a94050b8938db8e991593a5368a19d0ed4c074a62db13cb7af5b",
+    "tests/test_ui.py": "4af1b64aebf4ed0238c562d91118e3cb785f3e5397820cee88aa16d1274dc9c2",
+    "tests/test_ui_refinement.py": "d38454905e8759459de400cfed41c2a010440027589e2dfa04920c1fdfcfb2ed",
+    "tests/test_windows_handle.py": "34573f6dc7810f423527953d628dd9aca5ff08ebbc1182b6a5cd1a34452920e5",
+    "tools/audit_project.py": "bf830e644954aa0d6f1de40fe93f4be839dd03ba1b254fb67e778340394722fa",
+    "tools/audit_training_dataset.py": "250a95335acb494f012fd7376e0f522f40d00d85bf594a5fe40ad532dae42249",
+    "tools/backup_logs.py": "f3232c3e9750b774efef4b827665731b244d5f50baab38aeabee362d2f451786",
+    "tools/check_gemini_connection.py": "3d34aa8c8b003de10b06cb9be4e39dbf068d0e0c2f941fb14e60558c95cf1692",
+    "tools/check_symlinks.py": "d27d898f8c3ad05c1273c08041510e07309901c8b009aebfed40be93b1f44b63",
+    "tools/compare_gemini_apis.py": "2960f579ae9cd5c38d01c0382bf54dc3fdd60f1ee4e74c475547e93e5c1890f0",
+    "tools/evaluate_strict_groups.py": "522b4090aafe98c5ba9d15e09686cfdbc3fe6b2a3566c12f76611409ce0e1b9e",
+    "tools/h07_acceptance.py": "4d1ef552324981ddf4d138095fddbb7132c7fec4b9caffdd174d591f94182b0f",
+    "tools/h07_experiment.py": "c863e00e5463af1ffffde6767e884215b28772ee01185d6b06b5e82f976e8c3a",
+    "tools/h07_owasp_challenge.py": "85ca15523b1a5276f5a02d8dfc266cb86b2a9c38f2f65764b608c9de4a2c1f4f",
+    "tools/manage_credentials.py": "a2b07cae33e81f68f03055fcc7db40be9e65973a5dd433cefbeaaa301aadcaa6",
+    "tools/manage_mfa.py": "95bc7a6f21d877b3a3c800ea0d0b4a8a183e312a1bb081bddbd1b43e2a0d3366",
+    "tools/mfa_fixture.py": "1aa7c2222aa055a1298b5bafb967d497d108620739e2d90a0e66f3cada607199",
+    "tools/prepare_workspace.py": "d77192c0c31017d47e0222901b34c21012322216207746d2a770d6740bbd7708",
+    "tools/publish_pr.py": "d4c26e9e075fbf9171ddef171353c2f28c1e55ad0dba3c404c9d2c37bef26056",
+    "tools/pytest_runtime.py": "d9debc12eb6de7ca983e01384bccf592fcbde66781889b3b5114c316f361f032",
+    "tools/run_h07_acceptance.py": "f55f91e1046ddcfee2d93318321b1c65ccdf89736e823ef23d42720f1b8e3ca1",
+    "tools/run_with_gemini.py": "134b635b3fd3065fe48fb2fef1c699c40b2dad7a794d0508a73dcce4ddea5f36",
+    "tools/smoke_http.py": "7d070ac1054ffa30df1405f4d4946e09351ea79434947a02918318544e78b3fb",
+    "tools/ui_ai_analysis_checks.py": "56f5977986efe8543e53d580ccb3134043ba7ff9aafb2fb26abe5a4056f11c8d",
+    "tools/ui_brand_checks.py": "44381d57c5288c9580b58222a58d864bcb0664776dad4e8697a8e74cdeb4807d",
+    "tools/ui_password_checks.py": "4cf23ee12ef76c88b9299fd634c7f9eaf626b0704dacdfa4102fdd6d0d7a6281",
+    "tools/ui_text_size_checks.py": "99e574ed6935f94d15b3d5ad60779b4c6a6c00d7788d464b4bdeba582f320ddb",
+    "tools/ui_theme_checks.py": "0b1a09effdf81c2d9f9a9effb62b44bc78b597614f42d91b58e29f533a4a2548",
+    "tools/verify_accounts_browser.py": "2539f8956b04950d05978c9b0b693398c288fd16844c5e30528d6d67dd17a2cd",
+    "tools/verify_alerts_browser.py": "8742413beeb7eca9b1c5ae6be7211bc921ad12efb6ee075752134c04c8b2858f",
+    "tools/verify_credentials_tcp.py": "00e975d6232b714a197f8627749ef8d3f7d31a5f5a4e11ee1b371170c8f10efb",
+    "tools/verify_evaluation_http.py": "7a2a6542286900a2b7dc9465b8f873c9250a5e62b2b341c09e4177ee66fe8b4e",
+    "tools/verify_gemini_live.py": "d8ef9db678f504bc0a3118f75a98c2dfae8d6f5eafc8894bbc38b5caa2476313",
+    "tools/verify_tcp.py": "6e3b9361aeb64e5cdd7239d94358f5a32aa82a5c942c9e889ea87d49c60bcdb9",
+    "tools/verify_ui_browser.py": "6fb93701b365c6664f8abadd1c11c4f364f0f4a4bec578bc87432e44beb19ab7",
+    "tools/write_h07_report.py": "1113aedd22dda5ef55836ba6b22f21b5d998673cf237b05bd02885fa9c69eb93"
+  },
+  "protected_sha256": {
+    "dataset": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+    "deployed_model": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322"
+  },
+  "dataset_audit": {
+    "rows": 10000,
+    "unique_paths": 10000,
+    "duplicate_excess_rows": 0,
+    "duplicate_path_groups": 0,
+    "label_counts": {
+      "0": 5000,
+      "1": 5000
+    },
+    "conflicting_path_labels": 0,
+    "mixed_label_families": 0,
+    "family_counts": {
+      "0-00": 334,
+      "0-01": 334,
+      "0-02": 334,
+      "0-03": 334,
+      "0-04": 334,
+      "0-05": 333,
+      "0-06": 333,
+      "0-07": 333,
+      "0-08": 333,
+      "0-09": 333,
+      "0-10": 333,
+      "0-11": 333,
+      "0-12": 333,
+      "0-13": 333,
+      "0-14": 333,
+      "1-00": 250,
+      "1-01": 250,
+      "1-02": 250,
+      "1-03": 250,
+      "1-04": 250,
+      "1-05": 250,
+      "1-06": 250,
+      "1-07": 250,
+      "1-08": 250,
+      "1-09": 250,
+      "1-10": 250,
+      "1-11": 250,
+      "1-12": 250,
+      "1-13": 250,
+      "1-14": 250,
+      "1-15": 250,
+      "1-16": 250,
+      "1-17": 250,
+      "1-18": 250,
+      "1-19": 250
+    }
+  },
+  "split": {
+    "family_overlap": [],
+    "path_overlap": [],
+    "train_label_counts": {
+      "1": 4000,
+      "0": 3999
+    },
+    "test_label_counts": {
+      "0": 1001,
+      "1": 1000
+    }
+  },
+  "canonical_train_test_overlap_count": 15,
+  "models": {
+    "deployed_features": 18,
+    "v1_features": 18,
+    "v2_features": 30,
+    "selected_C": 0.1
+  },
+  "fresh_measurements": {
+    "frozen_holdout": {
+      "samples": 2001,
+      "label_counts": {
+        "0": 1001,
+        "1": 1000
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 0.8750624687656172,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              250,
+              750
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              0,
+              1000
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 0.8750624687656172,
+          "precision": 1.0,
+          "recall": 0.75,
+          "f1": 0.8571428571428571,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              250,
+              750
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            0.4713,
+            0.4347,
+            0.4346,
+            0.4097,
+            0.4064,
+            0.391,
+            0.3829
+          ],
+          "median_batch_ms": 0.4097,
+          "p95_batch_ms": 0.46031999999999995,
+          "amortized_us_per_path": 0.20474762618690653
+        },
+        "lr_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            33.346,
+            34.9666,
+            32.8156,
+            37.0527,
+            34.2788,
+            33.1967,
+            31.5644
+          ],
+          "median_batch_ms": 33.346,
+          "p95_batch_ms": 36.42687,
+          "amortized_us_per_path": 16.664667666166917
+        },
+        "improved_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            0.4906,
+            0.4577,
+            0.4351,
+            0.4851,
+            0.5678,
+            0.4959,
+            0.4798
+          ],
+          "median_batch_ms": 0.4851,
+          "p95_batch_ms": 0.5462299999999999,
+          "amortized_us_per_path": 0.24242878560719638
+        },
+        "improved_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            65.639,
+            66.2769,
+            73.2083,
+            69.4529,
+            64.174,
+            78.3781,
+            80.6968
+          ],
+          "median_batch_ms": 69.4529,
+          "p95_batch_ms": 80.00119,
+          "amortized_us_per_path": 34.70909545227386
+        },
+        "regex_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 2001,
+          "batch_ms": [
+            3.2758,
+            2.7863,
+            2.6692,
+            2.5658,
+            2.785,
+            3.7904,
+            3.735
+          ],
+          "median_batch_ms": 2.7863,
+          "p95_batch_ms": 3.77378,
+          "amortized_us_per_path": 1.3924537731134434
+        }
+      }
+    },
+    "external_public": {
+      "samples": 400,
+      "label_counts": {
+        "0": 200,
+        "1": 200
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              200,
+              0
+            ],
+            [
+              0,
+              200
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            1.0646,
+            2.0388,
+            1.2921,
+            0.9523,
+            3.0802,
+            0.5105,
+            0.4859
+          ],
+          "median_batch_ms": 1.0646,
+          "p95_batch_ms": 2.7677799999999992,
+          "amortized_us_per_path": 2.6614999999999998
+        },
+        "lr_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            9.3706,
+            7.7643,
+            7.4665,
+            6.8784,
+            7.1703,
+            7.0304,
+            7.2648
+          ],
+          "median_batch_ms": 7.2648,
+          "p95_batch_ms": 8.888709999999998,
+          "amortized_us_per_path": 18.162
+        },
+        "improved_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            0.3931,
+            0.4001,
+            0.374,
+            0.347,
+            0.3457,
+            0.3252,
+            0.3175
+          ],
+          "median_batch_ms": 0.347,
+          "p95_batch_ms": 0.398,
+          "amortized_us_per_path": 0.8675
+        },
+        "improved_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            15.9066,
+            16.2429,
+            16.5471,
+            16.4487,
+            16.7437,
+            16.9804,
+            16.3633
+          ],
+          "median_batch_ms": 16.4487,
+          "p95_batch_ms": 16.90939,
+          "amortized_us_per_path": 41.12174999999999
+        },
+        "regex_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 400,
+          "batch_ms": [
+            0.5008,
+            0.5106,
+            0.4854,
+            0.4872,
+            0.4885,
+            0.4961,
+            0.4849
+          ],
+          "median_batch_ms": 0.4885,
+          "p95_batch_ms": 0.50766,
+          "amortized_us_per_path": 1.22125
+        }
+      }
+    }
+  },
+  "database_read_only": {
+    "integrity_check": [
+      [
+        "ok"
+      ]
+    ],
+    "row_count": 69,
+    "columns": [
+      "id",
+      "created_at",
+      "client_ip",
+      "requested_path",
+      "ml_score",
+      "ml_label",
+      "action",
+      "http_status",
+      "reason",
+      "duration_ms"
+    ],
+    "action_http_counts": [
+      [
+        "ALLOW",
+        200,
+        9
+      ],
+      [
+        "BLOCK",
+        403,
+        46
+      ],
+      [
+        "MISS",
+        404,
+        14
+      ]
+    ]
+  },
+  "archived_manifest_checks": {
+    "20261116T153450Z_e5b13b": {
+      "confusion_matrix.png": true,
+      "environment.txt": true,
+      "latency.png": true,
+      "metrics.png": true,
+      "model.joblib": true,
+      "predictions.csv": true,
+      "REPORT.md": true,
+      "results.json": true,
+      "split.csv": true
+    },
+    "20261116T154448Z_7a27a7": {
+      "baseline_model.joblib": true,
+      "confusion_matrix.png": true,
+      "development_split.csv": true,
+      "external_manifest.json": true,
+      "external_predictions.csv": true,
+      "holdout_predictions.csv": true,
+      "improved_model.joblib": true,
+      "latency.png": true,
+      "metrics.png": true,
+      "protocol.json": true,
+      "REPORT.md": true,
+      "results.json": true,
+      "selection.json": true
+    }
+  },
+  "preexisting_protected_checks": {},
+  "checks": {
+    "fixed_test_membership_and_labels": true,
+    "train_test_family_disjoint": true,
+    "train_test_exact_disjoint": true,
+    "archived_manifests_intact": true,
+    "external_csv_intact": true,
+    "external_sources_intact": true,
+    "external_canonical_disjoint": true,
+    "baseline_reproduced": true,
+    "improved_reproduced": true,
+    "external_metrics_reproduced": true,
+    "deployed_matches_v1_scores": true,
+    "user_sqlite_intact": true,
+    "protected_data_and_model_unchanged": true
+  },
+  "passed": 13,
+  "failed": 0,
+  "limitations": "No refit or tuning. Existing test was disclosed; external labels are lexical and source-correlated. External selected set lacks double-decode-only examples."
+}

@@ -2,13 +2,14 @@
 from pathlib import Path
 import pytest
 from app import create_app
+from tests.auth_support import login
 
 @pytest.mark.parametrize('route',['/','/login','/dashboard','/dashboard/ai-training','/dashboard/ai-evaluation','/download?path=absent.txt'])
 def test_shared_text_controls_and_early_loader(tmp_path,route):
     public=tmp_path/'public';public.mkdir()
     app=create_app({'TESTING':True,'FILES_ROOT':public,'DATABASE':tmp_path/'test.sqlite3','ADMIN_PASSWORD':'fixture-only'})
     client=app.test_client()
-    with client.session_transaction() as session:session['role']='admin';session['_credential_version']=client.application.extensions['credentials'].version('admin');session.permanent=True
+    login(client,password='fixture-only')
     response=client.get(route)
     html=response.get_data(as_text=True)
     assert html.index('text-size.js')<html.index('style.css')

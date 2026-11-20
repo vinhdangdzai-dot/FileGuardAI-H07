@@ -35,6 +35,10 @@
     if (id === 'eventsChart') chart.data.datasets[0].backgroundColor = theme.decisions;
     if (id === 'labelsChart') chart.data.datasets[0].backgroundColor = theme.colors.slice(0,2);
     if (id === 'trendChart') Object.assign(chart.data.datasets[0], {borderColor:theme.colors[0], backgroundColor:theme.fill});
+    if (id === 'ipsTrendChart') {
+      Object.assign(chart.data.datasets[0], {borderColor:theme.colors[0]});
+      Object.assign(chart.data.datasets[1], {borderColor:theme.decisions[1], backgroundColor:theme.fill});
+    }
     if (id === 'metricsChart') chart.data.datasets.forEach(dataset => { dataset.backgroundColor = theme.colors[dataset.fgPaletteIndex]; });
     chart.resize();
     chart.update('none');
@@ -78,6 +82,11 @@
     });
   }
   const evaluation = read('evaluation-data');
+  const ipsTrend = read('ips-trend-data');
+  if (ipsTrend) draw('ipsTrendChart', {type:'line',data:{labels:ipsTrend.map(x=>x.minute.replace('T',' ')),datasets:[
+    {label:'Tổng request',data:ipsTrend.map(x=>x.total),borderColor:colors[0],backgroundColor:'transparent',tension:.25},
+    {label:'BLOCK',data:ipsTrend.map(x=>x.blocked),borderColor:initial.decisions[1],backgroundColor:initial.fill,tension:.25,fill:true}
+  ]},options:{...base,scales:{y:{beginAtZero:true,ticks:{precision:0}},x:{grid:{display:false},ticks:{maxTicksLimit:6,maxRotation:0}}}}});
   if (evaluation) {
     const metrics = ['accuracy','precision','recall','f1'];
     const methods = [['v1','LR v1'],['v2','LR v2 · thử nghiệm'],['regex','Regex']];

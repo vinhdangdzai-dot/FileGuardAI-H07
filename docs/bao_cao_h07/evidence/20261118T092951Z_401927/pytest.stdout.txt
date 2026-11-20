@@ -1,0 +1,9 @@
+.......................................................s................ [ 26%]
+........................................................................ [ 53%]
+...............................................................s.suuuuuu [ 79%]
+uuuuuuuuu.........................................................       [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_app.py:49: Windows requires symlink privilege or Developer Mode
+SKIPPED [1] tests\test_security.py:54: Symlink unavailable without permissions on this system
+SKIPPED [1] tests\test_security.py:66: Symlink unavailable
+264 passed, 3 skipped, 15 subtests passed in 164.78s (0:02:44)

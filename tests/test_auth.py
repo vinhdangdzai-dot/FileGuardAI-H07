@@ -5,7 +5,9 @@ import sqlite3
 from contextlib import closing
 
 import pytest
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
+from app.passwords import check_password_hash
+from tests.auth_support import complete_mfa
 
 from app import create_app
 from app.database import init_db, insert_log, recent_logs
@@ -31,6 +33,7 @@ def test_csrf_and_admin_session(auth):
     assert c.post('/login', data={'password': 'admin-secret-test'}).status_code == 403
     token = csrf(c)
     assert c.post('/login', data={'password': 'admin-secret-test', 'csrf_token': token}).status_code == 302
+    complete_mfa(c)
     assert c.get('/dashboard').status_code == 200
     assert c.post('/logout').status_code == 403
     token = csrf(c, '/dashboard')
@@ -73,6 +76,7 @@ def test_append_only_backup_and_export_formula_safety(auth, tmp_path):
                 db.execute(query)
     token = csrf(c)
     c.post('/login', data={'csrf_token': token, 'password': 'admin-secret-test'})
+    complete_mfa(c)
     with c.post('/dashboard/logs/export', data={'csrf_token': csrf(c, '/dashboard')}) as r:
         assert r.status_code == 200 and b"'=HYPERLINK" in r.data
     destination = backup_logs(dbpath, tmp_path / 'backup.sqlite3')
@@ -106,5 +110,6 @@ def test_log_filter_validated_and_parameterized(auth):
     with pytest.raises(ValueError):
         recent_logs(app.config['DATABASE'], action="' OR 1=1 --")
     c.post('/login', data={'csrf_token': csrf(c), 'password': 'admin-secret-test'})
+    complete_mfa(c)
     assert c.get('/dashboard?action=MISS').status_code == 200
     assert c.get('/dashboard?action=invalid').status_code == 400

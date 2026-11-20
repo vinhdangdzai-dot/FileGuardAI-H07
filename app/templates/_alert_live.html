@@ -1,0 +1,2 @@
+<section class="notice notice-cyan mb-4" id="alert-live" data-feed="{{url_for('alert_feed')}}" aria-label="Thông báo cảnh báo trực tiếp"><a href="{{url_for('alert_manager')}}">Cảnh báo an ninh</a><p id="alert-live-status" role="status" aria-live="polite">Đang tải trạng thái cảnh báo…</p><div id="alert-live-items"></div></section>
+<script defer src="{{url_for('static',filename='alerts.js')}}"></script>

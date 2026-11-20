@@ -1,0 +1,18 @@
+﻿TC,name,input,expected_http,actual_http,result
+DL01,public,/download?path=public.txt,200,200,PASS
+DL02,Unicode,/download?path=b%C3%A1o+c%C3%A1o.txt,200,200,PASS
+DL03,subfolder,/download?path=docs/chapter.txt,200,200,PASS
+DL04,restricted guest,/download?path=restricted/internal-secret.txt,403,403,PASS
+DL05,restricted nonexistent guest,/download?path=restricted/absent.txt,403,403,PASS
+DL06,direct traversal,/download?path=../outside.txt,403,403,PASS
+DL07,Windows separator,/download?path=..%5Coutside.txt,403,403,PASS
+DL08,Windows absolute,/download?path=C:/Windows/win.ini,403,403,PASS
+DL09,URL encoded,/download?path=%2e%2e%2foutside.txt,403,403,PASS
+DL10,double encoded,/download?path=%252e%252e%252foutside.txt,403,403,PASS
+DL11,missing public,/download?path=absent.txt,404,404,PASS
+DL12,legitimate lexical passwd,/download?path=etc/passwd,200,200,PASS
+DL13,Partial Admin restricted denied,/download?path=restricted/internal-secret.txt,403,403,PASS
+DL14,Admin traversal still blocked,/download?path=../outside.txt,403,403,PASS
+DL15,User restricted allowed,/download?path=restricted/internal-secret.txt,200,200,PASS
+DL16,Repeated traversal keeps Event ID,/download?path=../outside.txt,403,403,PASS
+DL17,Repeated traversal keeps Event ID,/download?path=../outside.txt,403,403,PASS

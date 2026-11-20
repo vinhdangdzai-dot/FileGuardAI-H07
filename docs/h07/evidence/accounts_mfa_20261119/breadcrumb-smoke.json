@@ -1,0 +1,42 @@
+[
+  {
+    "path": "/dashboard",
+    "http": 200,
+    "result": "PASS"
+  },
+  {
+    "path": "/dashboard/ai-evaluation",
+    "http": 200,
+    "result": "PASS"
+  },
+  {
+    "path": "/dashboard/ai-training",
+    "http": 200,
+    "result": "PASS"
+  },
+  {
+    "path": "/account/password",
+    "http": 200,
+    "result": "FAIL"
+  },
+  {
+    "path": "/account",
+    "http": 200,
+    "result": "FAIL"
+  },
+  {
+    "path": "/admin/accounts",
+    "http": 200,
+    "result": "FAIL"
+  },
+  {
+    "path": "/account/mfa",
+    "http": 200,
+    "result": "FAIL"
+  },
+  {
+    "path": "/dashboard/alerts",
+    "http": 200,
+    "result": "PASS"
+  }
+]

@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT))
 from werkzeug.serving import make_server
 from werkzeug.security import generate_password_hash
 from app import create_app
+from tools.mfa_fixture import Authenticator
 
 
 def main():
@@ -31,7 +32,8 @@ def main():
     with nullcontext(database_folder) as tmp:
         password = secrets.token_hex(16)
         auditor_password = secrets.token_hex(16)
-        app = create_app({'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_HASH_FILE':Path(tmp)/'admin_password.hash', 'AUDITOR_HASH_FILE':Path(tmp)/'auditor_password.hash', 'ADMIN_PASSWORD': password,
+        app = create_app({'TESTING':True,'CSRF_ENABLED':True,'SECRET_KEY':secrets.token_hex(32),
+                          'DATABASE': Path(tmp) / 'events.sqlite3', 'ADMIN_HASH_FILE':Path(tmp)/'admin_password.hash', 'AUDITOR_HASH_FILE':Path(tmp)/'auditor_password.hash', 'ADMIN_PASSWORD': password,
                           'AUDITOR_PASSWORD_HASH': generate_password_hash(auditor_password)})
         server = make_server('127.0.0.1', 0, app)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -70,6 +72,12 @@ def main():
             token = re.search(rb'name="csrf_token" value="([^"]+)"', form).group(1).decode()
             _, headers, _ = request('/login', 302, 'POST', urlencode({'password': password, 'csrf_token': token}))
             cookie = headers['Set-Cookie'].split(';', 1)[0]
+            mfa_form, _, _ = request('/login/mfa', 200)
+            mfa_form=mfa_form.decode('utf-8')
+            authenticator=Authenticator()
+            mfa_token=re.search(r'name="csrf_token" value="([^"]+)"',mfa_form)[1]
+            codes, _, _=request('/login/mfa',200,'POST',urlencode({'csrf_token':mfa_token,'code':authenticator.factor(mfa_form)}))
+            authenticator.remember(codes.decode('utf-8'))
             body, _, check = request('/dashboard/ai-evaluation', 200)
             token = re.search(rb'name="csrf_token" value="([^"]+)"', body).group(1).decode()
             check['run_present'] = run.encode() in body

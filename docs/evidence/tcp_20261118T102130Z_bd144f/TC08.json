@@ -1,0 +1,55 @@
+{
+  "tc": "TC08",
+  "name": "POSIX absolute",
+  "uri": "/download?path=/etc/passwd",
+  "framework_path": "/etc/passwd",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Wed, 18 Nov 2026 10:21:31 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3598",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3598,
+  "response_sha256": "2eb70b90939bba85d94f7ad8a3d66bbc5b0c8f250e49a2a50cf7ff6e8ffa16a5",
+  "sqlite_rows": [
+    {
+      "id": 18,
+      "created_at": "2026-11-18T10:21:31+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "/etc/passwd",
+      "ml_score": 0.9999676276486762,
+      "ml_label": "suspicious",
+      "action": "BLOCK",
+      "http_status": 403,
+      "reason": "Đường dẫn tuyệt đối hoặc ký tự phân cách không hợp lệ",
+      "duration_ms": 1.3763000006292714
+    }
+  ],
+  "started_utc": "2026-11-18T10:21:31.722503+00:00",
+  "ended_utc": "2026-11-18T10:21:31.751707+00:00"
+}

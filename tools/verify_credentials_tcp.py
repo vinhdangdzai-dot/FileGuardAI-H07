@@ -21,9 +21,16 @@ def serve(scope):
     from werkzeug.serving import make_server,WSGIRequestHandler
     class Quiet(WSGIRequestHandler):
         def log_request(self,*args,**kwargs):pass
+    class OfflineProvider:
+        identity='credential-fixture-offline'
+        def analyze(self,features):
+            from app.ai_explanations import ProviderError
+            raise ProviderError('offline_fixture')
     app=create_app({'FILES_ROOT':scope/'shared','DATABASE':scope/'audit.sqlite3',
         'ADMIN_HASH_FILE':scope/'admin_password.hash','AUDITOR_HASH_FILE':scope/'auditor_password.hash',
-        'ADMIN_PASSWORD':None,'SECRET_KEY':os.environ['H07_FIXTURE_SESSION_KEY']})
+        'ADMIN_PASSWORD':None,'SECRET_KEY':os.environ['H07_FIXTURE_SESSION_KEY'],
+        'MFA_KEY_FILE':scope/'mfa_keys.json','MFA_KEYS':None,'AI_EXPLANATION_ADAPTER':OfflineProvider(),
+        'ACCOUNT_SMTP_HOST':'','ACCOUNT_SMTP_FROM':'','ACCOUNT_RESET_ORIGIN':''})
     server=make_server('127.0.0.1',0,app)
     print(server.server_port,flush=True)
     server.serve_forever()
@@ -32,7 +39,9 @@ def serve(scope):
 def main():
     from tools.pytest_runtime import create_runtime
     from tools.manage_credentials import store_password
-    from werkzeug.security import check_password_hash
+    from app.passwords import check_password_hash
+    from tools.mfa_fixture import Authenticator
+    authenticator=Authenticator()
     scope=create_runtime(ROOT,'pytest')['root']
     (scope/'shared').mkdir();(scope/'shared/ok.txt').write_text('PUBLIC')
     old,new=secrets.token_urlsafe(24),secrets.token_hex(3)
@@ -64,12 +73,21 @@ def main():
     def token(port,path):
         status,data=request(port,path)
         return re.search(rb'name="csrf_token" value="([^"]+)"',data)[1].decode()
+    def complete_mfa(port):
+        check('Password alone does not grant dashboard',request(port,'/dashboard')[0]==302)
+        status,form=request(port,'/login/mfa')
+        form=form.decode('utf-8')
+        csrf=re.search(r'name="csrf_token" value="([^"]+)"',form)[1]
+        status,body=request(port,'/login/mfa',{'csrf_token':csrf,'code':authenticator.factor(form)})
+        authenticator.remember(body.decode('utf-8'))
+        check('Second factor verified over TCP',status in {200,302} and request(port,'/dashboard')[0]==200)
     for cycle in [1,2]:
         process,port=start()
         try:
             if cycle==1:
                 status,_=request(port,'/login',{'csrf_token':token(port,'/login'),'password':old})
                 check('First process accepts original password',status==302)
+                complete_mfa(port)
                 status,_=request(port,'/account/password',{'csrf_token':token(port,'/account/password'),'current_password':old,'new_password':new,'confirm_password':new})
                 check('First process commits new password',status==302)
                 check('Hash contains new password only through verification',check_password_hash((scope/'admin_password.hash').read_text().strip(),new))
@@ -78,6 +96,7 @@ def main():
                 check('Restart rejects old password',status==200)
                 status,_=request(port,'/login',{'csrf_token':token(port,'/login'),'password':new})
                 check('Restart accepts persisted new password',status==302)
+                complete_mfa(port)
                 check('Restart grants dashboard after valid login',request(port,'/dashboard')[0]==200)
                 check('Download still valid',request(port,'/download?path=ok.txt')[0]==200)
                 check('Encoded traversal still rejected',request(port,'/download?path=%252e%252e%252fsecret.txt')[0]==403)

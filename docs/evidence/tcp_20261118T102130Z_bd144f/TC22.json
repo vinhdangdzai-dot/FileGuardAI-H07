@@ -1,0 +1,5 @@
+{
+  "tc": "TC22",
+  "result": "SKIP",
+  "reason": "OSError: [WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\HUU VINH\\\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\\\FileGuardAI_H07\\\\docs\\\\evidence\\\\tcp_20261118T102130Z_bd144f' -> 'C:\\\\Users\\\\HUU VINH\\\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\\\FileGuardAI_H07\\\\shared_files\\\\__tcp_d760bd94ff8041e7bae07b7a3e1b4f93TC22'"
+}

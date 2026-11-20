@@ -106,6 +106,8 @@ def test_comparison_dashboard_preserves_download_policy(tmp_path):
     c = app.test_client()
     assert c.get('/dashboard/ai-evaluation').status_code == 302
     c.post('/login', data={'password': 'test-password'})
+    from tests.auth_support import complete_mfa
+    complete_mfa(c)
     response = c.get('/dashboard/ai-evaluation')
     assert response.status_code == 200
     assert b'LR v1' in response.data and b'LR v2' in response.data

@@ -64,11 +64,19 @@ def test_login_throttle_uses_effective_ip_and_successful_login(tmp_path,monkeypa
     assert client.post('/login',headers=HEADERS,data={'csrf_token':token,'password':'fixture-password-813'}).status_code==429
     other={**HEADERS,'X-Forwarded-For':'203.0.113.44'}
     response=client.post('/login',headers=other,data={'csrf_token':token,'password':'fixture-password-813'})
-    assert response.status_code==(302 if trust=='1' else 429)
+    # Account-level throttling now also prevents a source-IP change bypass.
+    assert response.status_code==429
     with closing(sqlite3.connect(app.config['DATABASE'])) as db:
         failed=db.execute("SELECT DISTINCT client_ip FROM security_events WHERE event='login_failed'").fetchall()
         assert failed==[('198.51.100.23' if trust=='1' else '127.0.0.1',)]
     if trust=='1':
+        from app import account_store
+        from tests.auth_support import complete_mfa
+        instant=account_store.clock()
+        monkeypatch.setattr(account_store,'clock',lambda:instant+301)
+        response=client.post('/login',headers=other,data={'csrf_token':token,'password':'fixture-password-813'})
+        assert response.status_code==302
+        complete_mfa(client,response,headers=other)
         assert client.get('/dashboard',headers=other).status_code==200
 
 

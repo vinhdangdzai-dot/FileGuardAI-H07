@@ -8,7 +8,9 @@ from concurrent.futures import ThreadPoolExecutor
 from unittest.mock import patch
 
 import pytest
-from werkzeug.security import check_password_hash,generate_password_hash
+from werkzeug.security import generate_password_hash
+from app.passwords import check_password_hash
+from tests.auth_support import complete_mfa
 from app import create_app
 from app.credential_store import atomic_hash_write,credential_lock,read_hash
 
@@ -30,7 +32,8 @@ def token(client,path='/login'):
 
 
 def login(client,password=OLD,role='admin'):
-    return client.post('/login',data={'csrf_token':token(client),'password':password,'role':role})
+    response=client.post('/login',data={'csrf_token':token(client),'password':password,'role':role})
+    return complete_mfa(client,response)
 
 
 def change(client,current=OLD,new=NEW,confirmation=None):

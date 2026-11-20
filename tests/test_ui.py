@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 from app import create_app, database
+from app.passwords import password_hash
+from tests.auth_support import login
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -42,15 +44,12 @@ def ui(tmp_path):
     data.write_text('path,label,family\nok.txt,0,normal\n../secret,1,parent\n', encoding='utf-8')
     app = create_app({'TESTING':True, 'CSRF_ENABLED':True, 'FILES_ROOT':public,
                       'DATABASE':tmp_path/'logs.sqlite3', 'TRAINING_DATA_PATH':data,
-                      'ADMIN_PASSWORD':'ui-fixture-secret'})
+                      'ADMIN_PASSWORD':'ui-fixture-secret','AUDITOR_PASSWORD_HASH':password_hash('auditor-fixture-only')})
     return app, app.test_client()
 
 
 def admin(client):
-    with client.session_transaction() as session:
-        session['role'] = 'admin'
-        session['_credential_version'] = client.application.extensions['credentials'].version('admin')
-        session.permanent = True
+    login(client,password='ui-fixture-secret')
 
 
 def test_public_search_and_download_still_use_backend(ui):
@@ -100,10 +99,7 @@ def test_empty_dashboard_has_no_invented_trend(ui):
 def test_management_ui_is_not_exposed_to_guest_or_auditor(ui,path):
     _, client = ui
     assert client.get(path).status_code == 302
-    with client.session_transaction() as session:
-        session['role'] = 'auditor'
-        session['_credential_version'] = client.application.extensions['credentials'].version('auditor')
-        session.permanent = True
+    login(client,password='auditor-fixture-only',role='auditor')
     assert client.get(path).status_code == 403
 
 

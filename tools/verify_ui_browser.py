@@ -151,6 +151,8 @@ def main():
             shot('login_error_desktop')
             page.locator('#pw').fill(password)
             page.locator('.login-panel button[type=submit]').click()
+            from tools.mfa_fixture import complete_browser
+            complete_browser(page)
             page.wait_for_url('**/dashboard')
             page.wait_for_load_state('networkidle')
             shot('04_dashboard_desktop')

@@ -5,6 +5,7 @@ from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 from .log_filters import LABELS, where_clause
+from .alerts import DDL as ALERT_DDL, record as record_alert
 
 DDL = '''
 CREATE TABLE IF NOT EXISTS access_logs (
@@ -20,6 +21,24 @@ CREATE TABLE IF NOT EXISTS access_logs (
     duration_ms REAL NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_access_logs_created ON access_logs(created_at);
+CREATE TABLE IF NOT EXISTS download_context (
+ event_id INTEGER PRIMARY KEY REFERENCES access_logs(id),
+ path_outcome TEXT NOT NULL CHECK(path_outcome IN ('permitted','rejected','missing')),
+ visibility TEXT NOT NULL CHECK(visibility IN ('public','authenticated','unknown')),
+ access_outcome TEXT NOT NULL CHECK(access_outcome IN ('allowed','login_required','not_applicable')));
+CREATE TABLE IF NOT EXISTS processing_timings (
+ event_id INTEGER PRIMARY KEY REFERENCES access_logs(id),
+ ids_ms REAL NOT NULL CHECK(ids_ms >= 0),
+ ips_ms REAL NOT NULL CHECK(ips_ms >= 0),
+ total_ms REAL NOT NULL CHECK(total_ms >= 0));
+CREATE TRIGGER IF NOT EXISTS processing_timings_no_update BEFORE UPDATE ON processing_timings
+BEGIN SELECT RAISE(ABORT, 'processing_timings is append-only'); END;
+CREATE TRIGGER IF NOT EXISTS processing_timings_no_delete BEFORE DELETE ON processing_timings
+BEGIN SELECT RAISE(ABORT, 'processing_timings is append-only'); END;
+CREATE TRIGGER IF NOT EXISTS download_context_no_update BEFORE UPDATE ON download_context
+BEGIN SELECT RAISE(ABORT, 'download_context is append-only'); END;
+CREATE TRIGGER IF NOT EXISTS download_context_no_delete BEFORE DELETE ON download_context
+BEGIN SELECT RAISE(ABORT, 'download_context is append-only'); END;
 CREATE TABLE IF NOT EXISTS security_events (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     created_at TEXT NOT NULL,
@@ -50,6 +69,9 @@ def init_db(db_path: Path):
     db_path.parent.mkdir(parents=True, exist_ok=True)
     with closing(connect(db_path)) as con, con:
         con.executescript(DDL)
+        con.executescript(ALERT_DDL)
+    from .account_store import migrate
+    migrate(db_path)
 
 
 def _finite_number(value):
@@ -61,7 +83,7 @@ def _finite_number(value):
         return False
 
 
-def insert_log(db_path, ip, path, score, ml_label, action, status, reason, duration_ms):
+def insert_log(db_path, ip, path, score, ml_label, action, status, reason, duration_ms, *, context=None, timing=None):
     if not all(isinstance(x, str) for x in (ip, path, ml_label, action, reason)) or not ip or not reason:
         raise ValueError('Invalid log text fields')
     if ml_label not in LABELS or {'ALLOW': 200, 'BLOCK': 403, 'MISS': 404}.get(action) != status or type(status) is not int:
@@ -70,6 +92,23 @@ def insert_log(db_path, ip, path, score, ml_label, action, status, reason, durat
         raise ValueError('Invalid probability in log')
     if not _finite_number(duration_ms) or duration_ms < 0:
         raise ValueError('Invalid duration in log')
+    if context is not None and (not isinstance(context,dict) or set(context)!={'path_outcome','visibility','access_outcome'}
+            or context['path_outcome'] not in {'permitted','rejected','missing'}
+            or context['visibility'] not in {'public','authenticated','unknown'}
+            or context['access_outcome'] not in {'allowed','login_required','not_applicable'}):
+        raise ValueError('Invalid download context')
+    if context is not None:
+        if ((context['path_outcome']=='rejected' and action!='BLOCK')
+                or (action=='MISS' and context['path_outcome']!='missing')
+                or (action=='ALLOW' and (context['path_outcome']!='permitted' or context['access_outcome']!='allowed'))
+                or (context['access_outcome']=='login_required' and
+                    (action!='BLOCK' or context['path_outcome']!='permitted' or context['visibility']!='authenticated'))):
+            raise ValueError('Inconsistent download context')
+    if timing is not None:
+        if (not isinstance(timing, dict) or set(timing) != {'ids_ms', 'ips_ms', 'total_ms'}
+                or any(not _finite_number(timing[key]) or timing[key] < 0 for key in timing)
+                or timing['total_ms'] + 1e-9 < timing['ids_ms'] + timing['ips_ms']):
+            raise ValueError('Invalid processing timing')
     with closing(connect(db_path)) as con, con:
         cursor = con.execute('''INSERT INTO access_logs
             (created_at, client_ip, requested_path, ml_score, ml_label,
@@ -77,7 +116,61 @@ def insert_log(db_path, ip, path, score, ml_label, action, status, reason, durat
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
             (datetime.now(timezone.utc).isoformat(timespec='seconds'), ip,
              path[:4096], score, ml_label, action, status, reason, duration_ms))
-        return cursor.lastrowid
+        event_id=cursor.lastrowid
+        if context is not None:
+            con.execute('INSERT INTO download_context VALUES(?,?,?,?)',
+                        (event_id,context['path_outcome'],context['visibility'],context['access_outcome']))
+        if timing is not None:
+            con.execute('INSERT INTO processing_timings VALUES(?,?,?,?)',
+                        (event_id,timing['ids_ms'],timing['ips_ms'],timing['total_ms']))
+        # Same transaction: an alert is durable before any Gemini work is queued.
+        record_alert(con,event_id,ip,path,action,ml_label,
+                     path_blocked=None if context is None else context['path_outcome']=='rejected')
+        return event_id
+
+
+def download_statistics(db_path, **filters):
+    where,params=where_clause(**filters)
+    with closing(connect(db_path)) as db:
+        row=db.execute('''SELECT
+            COALESCE(SUM(CASE WHEN action='BLOCK' AND COALESCE(c.access_outcome,'')!='login_required' THEN 1 ELSE 0 END),0) AS path_blocks,
+            COALESCE(SUM(CASE WHEN c.access_outcome='login_required' THEN 1 ELSE 0 END),0) AS login_required
+            FROM access_logs l LEFT JOIN download_context c ON c.event_id=l.id'''+where,params).fetchone()
+        return dict(row)
+
+
+def ips_statistics(db_path):
+    """Return only persisted IPS observations; never synthesize dashboard data."""
+    with closing(connect(db_path)) as db:
+        totals = dict(db.execute('''SELECT COUNT(*) AS total,
+            COALESCE(SUM(action='ALLOW'),0) AS allowed,
+            COALESCE(SUM(action='MISS'),0) AS missing,
+            COALESCE(SUM(action='BLOCK' AND COALESCE(c.access_outcome,'')!='login_required'),0) AS blocked,
+            COALESCE(SUM(c.access_outcome='login_required'),0) AS login_required,
+            COALESCE(SUM(ml_label='suspicious'),0) AS ids_suspicious
+            FROM access_logs l LEFT JOIN download_context c ON c.event_id=l.id''').fetchone())
+        reasons = [dict(row) for row in db.execute('''SELECT reason,COUNT(*) AS count
+            FROM access_logs l LEFT JOIN download_context c ON c.event_id=l.id
+            WHERE action='BLOCK' AND COALESCE(c.access_outcome,'')!='login_required'
+            GROUP BY reason ORDER BY count DESC,reason LIMIT 20''')]
+        timings = dict(db.execute('''SELECT COUNT(*) AS samples,
+            COALESCE(AVG(ids_ms),0) AS ids_avg_ms,
+            COALESCE(AVG(ips_ms),0) AS ips_avg_ms,
+            COALESCE(AVG(total_ms),0) AS total_avg_ms,
+            COALESCE(MAX(total_ms),0) AS total_max_ms FROM processing_timings''').fetchone())
+        logs = [dict(row) for row in db.execute('''SELECT l.*,c.path_outcome,c.visibility,c.access_outcome,
+            t.ids_ms,t.ips_ms,t.total_ms FROM access_logs l
+            LEFT JOIN download_context c ON c.event_id=l.id
+            LEFT JOIN processing_timings t ON t.event_id=l.id
+            WHERE l.action='BLOCK' AND COALESCE(c.access_outcome,'')!='login_required'
+            ORDER BY l.id DESC LIMIT 100''')]
+        trend = [dict(row) for row in db.execute('''SELECT substr(created_at,1,16) AS minute,
+            COUNT(*) AS total,
+            SUM(action='BLOCK' AND COALESCE(c.access_outcome,'')!='login_required') AS blocked
+            FROM access_logs l LEFT JOIN download_context c ON c.event_id=l.id
+            GROUP BY minute ORDER BY minute DESC LIMIT 60''')]
+    trend.reverse()
+    return {'totals': totals, 'reasons': reasons, 'timings': timings, 'logs': logs, 'trend': trend}
 
 
 def recent_logs(db_path, limit=100, action=None, ml_label=None, http_status=None, start=None, end=None):

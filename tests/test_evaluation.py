@@ -89,6 +89,8 @@ def test_evaluation_page_and_charts_require_login(experiment, tmp_path):
     chart = '/dashboard/ai-evaluation/chart/metrics.png?run=' + run.name
     assert c.get(chart).status_code == 302
     c.post('/login', data={'password': 'evaluation-test'})
+    from tests.auth_support import complete_mfa
+    complete_mfa(c)
     page = c.get('/dashboard/ai-evaluation')
     assert page.status_code == 200
     assert run.name.encode() in page.data
@@ -111,5 +113,7 @@ def test_missing_or_invalid_results_do_not_break_dashboard(tmp_path, pointer):
         (root / 'latest.json').write_text(pointer)
     c = evaluation_client(tmp_path, root)
     c.post('/login', data={'password': 'evaluation-test'})
+    from tests.auth_support import complete_mfa
+    complete_mfa(c)
     assert 'Chưa có kết quả'.encode() in c.get('/dashboard/ai-evaluation').data
     assert c.get('/dashboard').status_code == 200

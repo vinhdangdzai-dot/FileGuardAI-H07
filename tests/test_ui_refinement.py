@@ -5,6 +5,7 @@ from urllib.parse import parse_qs, urlsplit
 
 import pytest
 from test_ui import Page, admin, ui
+from tests.auth_support import login
 from app.training_view import evaluation_history
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -122,10 +123,7 @@ def test_password_toggle_cannot_submit_and_login_failure_remains_generic(ui):
 def test_run_selection_cannot_bypass_admin_authorization(ui,role):
     _,client=ui
     if role:
-        with client.session_transaction() as session:
-            session['role']=role
-            session['_credential_version']=client.application.extensions['credentials'].version(role)
-            session.permanent=True
+        login(client,password='auditor-fixture-only',role=role)
     response=client.get('/dashboard/ai-evaluation',query_string={'run':RUNS[2]})
     assert response.status_code==(403 if role else 302)
     assert 'data-field="run"' not in response.get_data(as_text=True)

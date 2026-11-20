@@ -147,6 +147,8 @@ def test_malformed_nested_artifact_falls_back_without_500(tmp_path, mutation):
     (root / 'latest.json').write_text(json.dumps({'run': run.name}))
     c = make_app(tmp_path, EVALUATION_ROOT=root).test_client()
     c.post('/login', data={'password': 'review-password'})
+    from tests.auth_support import complete_mfa
+    complete_mfa(c)
     response = c.get('/dashboard/ai-evaluation')
     assert response.status_code == 200 and 'Chưa có kết quả'.encode() in response.data
     assert c.get('/dashboard').status_code == 200
@@ -165,6 +167,8 @@ def test_chart_stays_on_archived_run_when_latest_changes(tmp_path):
     (root / 'latest.json').write_text(json.dumps({'run': first}))
     c = make_app(tmp_path, EVALUATION_ROOT=root).test_client()
     c.post('/login', data={'password': 'review-password'})
+    from tests.auth_support import complete_mfa
+    complete_mfa(c)
     assert first.encode() in c.get('/dashboard/ai-evaluation').data
     (root / 'latest.json').write_text(json.dumps({'run': second}))
     with c.get('/dashboard/ai-evaluation/chart/metrics.png', query_string={'run': first}) as response:

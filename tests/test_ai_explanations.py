@@ -10,6 +10,8 @@ from unittest.mock import Mock
 
 import pytest
 from app import create_app
+from app.passwords import password_hash
+from tests.auth_support import login
 from app.ai_explanations import ChatCompletionProvider,ExplanationService,ProviderError,safe_features
 
 OUTPUT={'why':'Encoded parent components','traversal_type':'encoded traversal','risk':'high','recommendations':'Keep independent path boundary checks.'}
@@ -27,10 +29,10 @@ class Provider:
 
 def app_fixture(tmp_path,provider=None):
     public=tmp_path/'public';public.mkdir();(public/'ok.txt').write_bytes(b'PUBLIC')
-    app=create_app({'TESTING':True,'CSRF_ENABLED':True,'FILES_ROOT':public,'DATABASE':tmp_path/'logs.sqlite3','AI_EXPLANATION_ADAPTER':provider})
+    app=create_app({'TESTING':True,'CSRF_ENABLED':True,'FILES_ROOT':public,'DATABASE':tmp_path/'logs.sqlite3','AI_EXPLANATION_ADAPTER':provider,
+                    'AUDITOR_PASSWORD_HASH':password_hash('auditor-fixture-only')})
     client=app.test_client()
-    with client.session_transaction() as s:
-        s['role']='admin';s.permanent=True;s['_credential_version']=app.extensions['credentials'].version('admin')
+    login(client)
     return app,client
 
 
@@ -94,7 +96,7 @@ def test_offline_and_admin_toggle_csrf_roles(tmp_path,monkeypatch):
     for role,status in [('auditor',403),(None,302)]:
         with client.session_transaction() as session:
             session.clear()
-            if role:session['role']=role;session['_credential_version']=app.extensions['credentials'].version(role)
+        if role:login(client,password='auditor-fixture-only',role=role)
         csrf=token(client,'/login')
         assert client.post('/dashboard/ai-analysis/settings',data={'enabled':'0','csrf_token':csrf}).status_code==status
 

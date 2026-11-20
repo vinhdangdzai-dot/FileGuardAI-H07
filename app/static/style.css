@@ -126,3 +126,7 @@ code,kbd,pre,samp,caption,.tooltip,.dropdown-menu,.modal-content{font-size:var(-
 .brand-copy .brand-author{font-size:var(--font-note);font-weight:500;font-style:italic;letter-spacing:0;margin-top:.25rem}
 .sidebar-collapsed .sidebar-brand{padding-inline:0;justify-content:center}
 .product-slogan{color:var(--cyan);font-weight:650;font-size:1rem}
+/* Keep absolute screen-reader labels inside the table's scroll container. */
+.alert-state-form{position:relative}
+.mfa-qr { display: block; background: #fff; padding: .6rem; max-width: 100%; height: auto; border-radius: .5rem; }
+#mfa-secret, #mfa-backup-codes code { overflow-wrap: anywhere; word-break: break-all; }

@@ -28,12 +28,51 @@ def verify_ai_analysis(browser,url,context,check,out,results,service,provider):
     sentinel='PRIVATE_PATH_PASSWORD_TOKEN_317829'
     response=context.request.get(url+'/download',params={'path':'../'+sentinel},timeout=2000)
     check('blocked response completes while API provider is still waiting',response.status==403 and provider.started.wait(2) and not provider.release.is_set())
+    live=context.request.get(url+'/dashboard/alerts/feed?after=0').json()
+    check('local alert exists before Gemini completes',bool(live['items']) and not provider.release.is_set())
     check('provider received no raw path IP token or filename',sentinel not in str(provider.calls) and '127.0.0.1' not in str(provider.calls) and set(provider.calls[0])=={'decision','ml_alert','parent_components','absolute_style','backslash','structural_encoding','remaining_decode_changes','length_bucket'})
     provider.release.set()
     done=threading.Event();threading.Thread(target=lambda:(service.queue.join(),done.set()),daemon=True).start()
     check('background explanation completes',done.wait(5))
     page.reload(wait_until='networkidle')
     check('Dashboard shows validated fixture explanation',page.locator('#ai-analysis').get_by_text('Adapter fixture:',exact=False).count()>0)
+    event_id=service.snapshot()['rows'][0]['event_id']
+    detail=context.new_page()
+    detail.on('pageerror',lambda error:results['browser_errors'].append(str(error)))
+    for mode in ['light','dark']:
+        for width in [1440,768,390]:
+            detail.set_viewport_size({'width':width,'height':1000})
+            detail.goto(url+'/dashboard/events/'+str(event_id),wait_until='networkidle')
+            detail.locator('#theme-toggle').click()
+            detail.locator('[data-theme-choice='+mode+']').click()
+            check('event detail theme '+mode+' '+str(width),detail.locator('html').get_attribute('data-bs-theme')==mode)
+            check('event detail '+mode+' '+str(width)+' displays fixture explanation',detail.get_by_text('Adapter fixture:',exact=False).count()>0)
+            bounds=detail.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})')
+            check('event detail '+mode+' '+str(width)+' no document overflow',bounds['scroll']<=bounds['width']+1,bounds)
+            filename='event_detail_fixture_'+mode+'_'+str(width)+'.png'
+            detail.screenshot(path=str(out/filename),full_page=True);results['screenshots'].append(filename)
+    detail.close()
+    alerts=context.new_page()
+    alerts.on('pageerror',lambda error:results['browser_errors'].append(str(error)))
+    alerts.goto(url+'/dashboard/alerts',wait_until='networkidle')
+    alerts.locator('#alert-live-status').filter(has_text='nhóm').wait_for(timeout=10000)
+    before=context.request.get(url+'/dashboard/alerts/feed').json()
+    context.request.get(url+'/download',params={'path':'../../'+sentinel})
+    from playwright.sync_api import expect
+    expect(alerts.locator('#alert-live-items')).to_contain_text('Cảnh báo #',timeout=15000)
+    check('Dashboard polling displays a new local alert',alerts.locator('#alert-live-items a').count()>0)
+    for mode in ['light','dark']:
+        for width in [1440,768,390]:
+            alerts.set_viewport_size({'width':width,'height':1000})
+            alerts.locator('#theme-toggle').click();alerts.locator('[data-theme-choice='+mode+']').click()
+            bounds=alerts.evaluate('({width:innerWidth,scroll:document.documentElement.scrollWidth})')
+            check('alert manager '+mode+' '+str(width)+' fits screen',bounds['scroll']<=bounds['width']+1,bounds)
+            filename='alerts_fixture_'+mode+'_'+str(width)+'.png';alerts.screenshot(path=str(out/filename),full_page=True);results['screenshots'].append(filename)
+    form=alerts.locator('form[action^="/dashboard/alerts/"][action$="/state"]').first
+    action=form.get_attribute('action')
+    form.locator('select').select_option('seen');form.locator('button').click();alerts.wait_for_load_state('networkidle')
+    check('Admin updates alert through real form',alerts.locator('form[action="'+action+'"]').locator('select').input_value()=='seen')
+    alerts.close()
     for mode in ['light','dark']:
         page.locator('#theme-toggle').click();page.locator('[data-theme-choice='+mode+']').click()
         page.locator('#ai-analysis details').first.locator('summary').click()

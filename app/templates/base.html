@@ -8,28 +8,29 @@
 <link href="{{url_for('static',filename='vendor/bootstrap.min.css')}}" rel="stylesheet">
 <link href="{{url_for('static',filename='style.css')}}" rel="stylesheet">
 <script defer src="{{url_for('static',filename='ui.js')}}"></script></head>
-{% set management = request.endpoint in ['dashboard','ai_evaluation','ai_training','change_password'] and session.get('role')=='admin' %}
+{% set management = request.endpoint in ['dashboard','admin_entry','application_ips','admin_documents','ai_evaluation','ai_training','change_password','event_detail','alert_manager','accounts.profile','accounts.manage','mfa.settings'] and session.get('role')=='admin' %}
 <body class="{{'management-shell' if management else 'public-shell'}} {{'login-page' if request.endpoint=='login' else ''}}">
 <a class="skip-link" href="#main-content">Đến nội dung chính</a>
 {% if management %}
 <aside class="sidebar" id="sidebar" aria-label="Điều hướng quản trị">
 <a class="brand sidebar-brand" href="{{url_for('dashboard')}}" aria-label="CANH GÁC SỐ · Overview">{% include '_brand.html' %}</a>
 <span class="nav-section">WORKSPACE</span><nav class="side-nav">
-{% for endpoint,label,icon,fragment in [('dashboard','Overview','◈','#overview'),('dashboard','Security Logs','≡','#security-logs'),('ai_evaluation','AI Evaluation','◷',''),('ai_training','AI Training','◇','')] %}
+<a href="{{url_for('application_ips')}}" aria-label="Application IPS" title="Application IPS" class="side-link {{'active' if request.endpoint=='application_ips' else ''}}" {% if request.endpoint=='application_ips' %}aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">⊣</span><span class="nav-label">Application IPS</span></a>
+{% for endpoint,label,icon,fragment in [('dashboard','Overview','◈','#overview'),('dashboard','Security Logs','≡','#security-logs'),('alert_manager','Security Alerts','!', ''),('ai_evaluation','AI Evaluation','◷',''),('ai_training','AI Training','◇',''),('admin_documents','Quyền tải tệp','↓',''),('accounts.manage','Accounts','@',''),('mfa.settings','2FA Security','◇','')] %}
 <a href="{{url_for(endpoint)}}{{fragment}}" aria-label="{{label}}" title="{{label}}" class="side-link {{'active' if request.endpoint==endpoint and fragment!='#security-logs' else ''}}" {% if request.endpoint==endpoint and fragment!='#security-logs' %}aria-current="page"{% endif %}><span class="nav-symbol" aria-hidden="true">{{icon}}</span><span class="nav-label">{{label}}</span></a>
 {% endfor %}</nav>
 <div class="sidebar-bottom"><a class="side-link" href="{{url_for('index')}}" aria-label="Kho tệp công khai" title="Kho tệp công khai"><span class="nav-symbol" aria-hidden="true">↗</span><span class="nav-label">Kho tệp công khai</span></a><div class="boundary-note"><span class="status-dot"></span><span class="nav-label">AI cảnh báo · Policy kiểm soát</span></div></div>
 </aside><button class="sidebar-backdrop" tabindex="-1" aria-label="Đóng điều hướng"></button>
 {% endif %}
 <div class="app-frame"><header class="topbar"><div class="topbar-inner">
-{% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{'Monitoring' if request.endpoint=='dashboard' else 'AI Evaluation' if request.endpoint=='ai_evaluation' else 'Tài khoản' if request.endpoint=='change_password' else 'AI Training'}}</strong></div>
+{% if management %}<button type="button" class="icon-button sidebar-toggle" aria-label="Thu gọn hoặc mở điều hướng" aria-controls="sidebar" aria-expanded="true">☰</button><div class="breadcrumb-label">WORKSPACE <span>/</span> <strong>{{{'admin_entry':'Monitoring','admin_documents':'Quyền tải tệp','dashboard':'Monitoring','ai_evaluation':'AI Evaluation','ai_training':'AI Training','change_password':'Tài khoản','accounts.profile':'Tài khoản','accounts.manage':'Quản lý tài khoản','mfa.settings':'Bảo mật 2FA','alert_manager':'Security Alerts','event_detail':'Event Detail'}.get(request.endpoint,'Workspace')}}</strong></div>
 {% else %}<a class="brand" href="{{url_for('index')}}">{% include '_brand.html' %}</a>{% endif %}
 <nav class="topbar-actions" aria-label="Tài khoản và kho tệp">
 <div id="text-size-controls" class="text-size-controls" role="group" aria-label="Cỡ chữ" hidden>{% for size,text,label in [('small','A−','Nhỏ · 16px'),('medium','A','Vừa · 18px'),('large','A+','Lớn · 20px')] %}<button type="button" data-text-size="{{size}}" aria-label="Cỡ chữ {{label}}" title="{{label}}" aria-pressed="false">{{text}}</button>{% endfor %}</div>
-{% if not management %}<a class="top-link" href="{{url_for('index')}}">Kho tệp</a><a class="top-link" href="{{url_for('dashboard')}}">Giám sát</a>{% endif %}
+{% if not management %}<a class="top-link" href="{{url_for('index')}}">Kho tệp</a><a class="top-link" href="{{url_for('admin_entry')}}">Quản trị</a>{% endif %}
 <div class="theme-picker" id="theme-picker" hidden><button type="button" class="theme-toggle" id="theme-toggle" aria-label="Chọn giao diện Sáng, Tối hoặc Theo hệ thống" aria-haspopup="menu" aria-controls="theme-menu" aria-expanded="false"><span data-theme-icon aria-hidden="true">☾</span><span class="theme-label">Giao diện</span></button>
 <div class="theme-menu" id="theme-menu" role="menu" aria-label="Chế độ giao diện" hidden>{% for value,label,icon in [('light','Sáng','☀'),('dark','Tối','☾'),('system','Theo hệ thống','◐')] %}<button type="button" role="menuitemradio" data-theme-choice="{{value}}" aria-checked="false"><span aria-hidden="true">{{icon}}</span>{{label}}<span class="theme-check" aria-hidden="true">✓</span></button>{% endfor %}</div></div>
-{% if session.get('role')=='admin' %}<a class="top-link account-link" href="{{url_for('change_password')}}">Tài khoản · Đổi mật khẩu</a>{% endif %}
+{% if session.get('role') and (session.get('user_id') or session.get('role')=='auditor') %}<a class="top-link account-link" href="{{url_for('accounts.profile')}}">Tài khoản</a>{% elif session.get('role')=='admin' %}<a class="top-link account-link" href="{{url_for('change_password')}}">Tài khoản · Đổi mật khẩu</a>{% endif %}
 {% if session.get('role') %}<span class="role-chip">{{session.get('role')}}</span><form method="post" action="{{url_for('logout')}}"><input type="hidden" name="csrf_token" value="{{csrf_token()}}"><button class="btn btn-outline-secondary btn-sm">Đăng xuất</button></form>{% else %}<a class="btn btn-outline-primary btn-sm" href="{{url_for('login')}}">Đăng nhập</a>{% endif %}
 </nav></div></header>
 <main id="main-content" class="main-content" tabindex="-1">

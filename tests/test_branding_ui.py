@@ -1,6 +1,7 @@
 """Product identity only; technical routes and credentials remain unchanged."""
 import pytest
 from app import create_app
+from tests.auth_support import login
 
 
 @pytest.mark.parametrize('path,status',[
@@ -11,9 +12,7 @@ def test_brand_identity_on_pages_and_errors(tmp_path,path,status):
     public=tmp_path/'public';public.mkdir()
     app=create_app({'TESTING':True,'FILES_ROOT':public,'DATABASE':tmp_path/'fixture.sqlite3'})
     client=app.test_client()
-    with client.session_transaction() as session:
-        session['role']='admin';session.permanent=True
-        session['_credential_version']=app.extensions['credentials'].version('admin')
+    login(client)
     response=client.get(path)
     assert response.status_code==status
     html=response.get_data(as_text=True)

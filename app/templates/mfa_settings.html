@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% block title %}Bảo mật hai yếu tố · CANH GÁC SỐ{% endblock %}
+{% block content %}<header class="page-heading"><div><span class="eyebrow">ACCOUNT / SECURITY</span><h1>Bảo mật hai yếu tố</h1><p>TOTP bắt buộc cho Admin. Còn {{remaining}} mã dự phòng chưa dùng.</p></div></header>
+<section class="panel account-panel">{% if error %}<p class="alert alert-danger" role="alert">{{error}}</p>{% endif %}
+<h2>Đổi thiết bị và cấp mã dự phòng mới</h2><p>Cần mật khẩu hiện tại và mã TOTP/mã dự phòng chưa dùng. Thiết bị cũ vẫn có hiệu lực đến khi thiết bị mới được xác nhận.</p><p class="table-note">Nếu vừa dùng TOTP để đăng nhập, chờ mã mới hoặc dùng mã dự phòng. Bật đồng bộ giờ tự động trên điện thoại và máy chủ.</p>
+<form method="post" data-navigation-form><input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+<label class="form-label" for="mfa-password">Mật khẩu hiện tại</label><input class="form-control mb-3" type="password" id="mfa-password" name="current_password" autocomplete="current-password" maxlength="128" required>
+<label class="form-label" for="mfa-code">Mã TOTP hoặc mã dự phòng</label><input class="form-control mb-3" type="password" id="mfa-code" name="code" autocomplete="one-time-code" maxlength="64" required>
+<button class="btn btn-primary" data-loading-label="Đang xác minh…">Xác minh và thiết lập thiết bị mới</button></form>
+<p class="table-note mt-3">Mất thiết bị và mọi mã dự phòng: dùng quy trình khôi phục trực tiếp trên máy chủ có kiểm tra quyền và mật khẩu. Không có nút tắt 2FA trên website.</p></section>{% endblock %}

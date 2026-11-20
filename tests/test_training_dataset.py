@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 from app import create_app
+from app.passwords import password_hash
+from tests.auth_support import login
 from app.training_view import read_dataset, dataset_stats, dataset_page
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,12 +18,10 @@ def browser(tmp_path):
     public = tmp_path/'public'
     public.mkdir()
     app = create_app({'TESTING':True, 'CSRF_ENABLED':True, 'FILES_ROOT':public,
-                      'DATABASE':tmp_path/'fixture.sqlite3', 'ADMIN_PASSWORD':'fixture-only'})
+                      'DATABASE':tmp_path/'fixture.sqlite3', 'ADMIN_PASSWORD':'fixture-only',
+                      'AUDITOR_PASSWORD_HASH':password_hash('auditor-fixture-only')})
     client = app.test_client()
-    with client.session_transaction() as s:
-        s['role'] = 'admin'
-        s['_credential_version'] = client.application.extensions['credentials'].version('admin')
-        s.permanent = True
+    login(client,password='fixture-only')
     return app, client
 
 
@@ -100,7 +100,7 @@ def test_full_export_csrf_and_roles(browser):
     for role,status in [('auditor',403),(None,302)]:
         with client.session_transaction() as session:
             session.clear()
-            if role:session['role']=role;session['_credential_version']=client.application.extensions['credentials'].version(role);session.permanent=True
+        if role:login(client,password='auditor-fixture-only',role='auditor')
         assert client.get('/dashboard/ai-training').status_code==status
         html=client.get('/login').get_data(as_text=True)
         csrf=re.search(r'name="csrf_token" value="([^"]+)"',html)[1]

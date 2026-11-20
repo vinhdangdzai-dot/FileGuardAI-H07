@@ -32,6 +32,9 @@ def verify_password_change(browser,url,context,check,out,results,password):
     check('previous admin session revoked by server',other.request.get(url+'/dashboard',max_redirects=0).status==302)
     page.locator('#pw').fill(password);page.locator('.login-panel button[type=submit]').click();page.wait_for_load_state('networkidle')
     check('old password rejected after change',page.url.endswith('/login') and page.locator('.login-feedback').count()==1)
-    page.locator('#pw').fill(new);page.locator('.login-panel button[type=submit]').click();page.wait_for_url('**/dashboard');page.wait_for_load_state('networkidle')
+    page.locator('#pw').fill(new);page.locator('.login-panel button[type=submit]').click()
+    from tools.mfa_fixture import complete_browser
+    complete_browser(page)
+    page.wait_for_url('**/dashboard');page.wait_for_load_state('networkidle')
     check('new password immediately authenticates',page.url.endswith('/dashboard'))
     page.close();other.close()

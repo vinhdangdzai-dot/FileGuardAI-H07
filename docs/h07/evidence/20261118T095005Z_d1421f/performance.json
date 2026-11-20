@@ -1,0 +1,1214 @@
+{
+  "created_at_utc": "2026-11-18T09:50:12.534273+00:00",
+  "workers": 4,
+  "trials": [
+    {
+      "trial": 1,
+      "requests": [
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 91.13489999981539,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 234.4228000001749,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 508.0364999998892,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 417.7871000001687,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 398.93919999985883,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 237.60659999970812,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 139.78439999982584,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 59.313400000064576,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 91.54530000023442,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 32.85989999994854,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 132.20730000011827,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 85.90520000007018,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 31.152600000041275,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 30.871899999965535,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 48.95379999970828,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 120.75570000024527,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 122.6409999999305,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 36.91320000007181,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 29.389599999831262,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 27.792500000032305,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 87.67859999989014,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 187.7582000001894,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 134.28490000023885,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 51.52769999995144,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 59.80040000031295,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 211.60899999995308,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 77.26930000035281,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 69.53680000015083,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 198.56849999996484,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 39.3976999998813,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 57.086100000105944,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 105.37280000016835,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 39.61830000025657,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 132.0455000000038,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 94.2003999998633,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 118.98739999969621,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 111.89199999989796,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 120.34910000011223,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 145.21990000002916,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 86.048899999696,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 123.0544000000009,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 98.96819999994477,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 92.76480000016818,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 98.80890000022191,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 47.25369999960094,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 94.60990000025049,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 47.548900000037975,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 48.45759999989241,
+          "no_leak": true,
+          "exact_public_content": true
+        }
+      ],
+      "wall_seconds": 1.4469226000001072,
+      "throughput_rps": 33.173854634654575,
+      "latency_ms_p50_p95_p99": [
+        93.48260000001574,
+        342.47278999980585,
+        465.6192820000207
+      ],
+      "policy_violations": 30,
+      "blocked_violations": 30,
+      "prevention_rate": 1.0,
+      "leaks": 0,
+      "failures": 0
+    },
+    {
+      "trial": 2,
+      "requests": [
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 50.80900000029942,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 60.91329999981099,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 125.23719999990135,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 202.4277999998958,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 54.600700000264624,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 90.9695999998803,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 77.57789999959641,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 171.36830000026748,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 47.043500000199856,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 49.89549999982046,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 112.71360000000641,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 51.84670000016922,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 139.66080000000147,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 80.8049000002029,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 92.70939999987604,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 143.7658999998348,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 87.35059999980876,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 275.348699999995,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 84.86159999984011,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 86.37140000018917,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 42.15260000000853,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 61.09040000001187,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 62.67049999996743,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 62.71010000000388,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 70.28940000009243,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 132.2125000001506,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 134.42179999992732,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 64.33080000033442,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 297.85739999988436,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 59.027100000093924,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 59.603600000173174,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 57.82150000004549,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 100.06920000023456,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 45.72680000001128,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 83.46800000026633,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 86.28150000004098,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 214.72129999983736,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 103.88990000001286,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 103.58519999999771,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 142.75839999982054,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 178.05940000016562,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 111.7645000003904,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 143.0728000000272,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 85.80789999996341,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 162.09329999992406,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 140.22209999984625,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 53.57960000037565,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 45.371800000339135,
+          "no_leak": true,
+          "exact_public_content": true
+        }
+      ],
+      "wall_seconds": 1.2859546999998201,
+      "throughput_rps": 37.32635371993019,
+      "latency_ms_p50_p95_p99": [
+        86.32645000011507,
+        210.41857499985778,
+        287.27831099993637
+      ],
+      "policy_violations": 30,
+      "blocked_violations": 30,
+      "prevention_rate": 1.0,
+      "leaks": 0,
+      "failures": 0
+    },
+    {
+      "trial": 3,
+      "requests": [
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 162.22970000035275,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 87.39149999973961,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 98.50950000009107,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 45.24779999974271,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 65.94459999996616,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 53.16900000025271,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 74.32730000027732,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 107.47119999996357,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 108.07180000028893,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 50.582399999711924,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 162.47980000025564,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 73.79769999988639,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 38.498400000207766,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 51.76759999994829,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 91.61929999982021,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 30.03420000004553,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 227.24150000021837,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 91.90200000011828,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 35.45159999976022,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 32.89200000017445,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 50.22550000012416,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 64.68710000035571,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 98.26070000008258,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 125.55449999990742,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 126.54569999995147,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 106.19550000001254,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 74.42450000007739,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 84.30570000018633,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 83.09110000027431,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 146.86910000000353,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 82.83200000005309,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 88.58460000010382,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 103.49189999988084,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 103.16779999993742,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 121.0547000000588,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 132.83950000004552,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 47.506000000339554,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 110.58599999978469,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 121.53479999960837,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 155.43350000007194,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "ok.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 83.9893999996093,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "t%C3%A0i%20li%E1%BB%87u/b%C3%A1o%20c%C3%A1o.txt",
+          "expected": 200,
+          "actual": 200,
+          "latency_ms": 133.3721000000878,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "missing.txt",
+          "expected": 404,
+          "actual": 404,
+          "latency_ms": 119.39620000021023,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "../secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 140.82310000003417,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%252e%252e%252fsecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 89.30700000018987,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "C%3A%5CUsers%5CHUU%20VINH%5CFileGuardAI_H07_MVP_10000_mau_khong_trung%5CFileGuardAI_H07%5Cdocs%5Ch07%5Cevidence%5C20261118T095005Z_d1421f%5Cfixtures%5Csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 147.8719000001547,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "%00secret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 102.34360000004017,
+          "no_leak": true,
+          "exact_public_content": true
+        },
+        {
+          "query": "..%5csecret.txt",
+          "expected": 403,
+          "actual": 403,
+          "latency_ms": 134.056899999905,
+          "no_leak": true,
+          "exact_public_content": true
+        }
+      ],
+      "wall_seconds": 1.2287693000002946,
+      "throughput_rps": 39.06347595109065,
+      "latency_ms_p50_p95_p99": [
+        95.08135000010043,
+        159.85103000025447,
+        196.80350100023597
+      ],
+      "policy_violations": 30,
+      "blocked_violations": 30,
+      "prevention_rate": 1.0,
+      "leaks": 0,
+      "failures": 0
+    }
+  ],
+  "http_requests": 144,
+  "sqlite_rows": 144,
+  "sqlite_integrity": "ok",
+  "failures": 0,
+  "method": "3 trials x48 requests; 4 workers; TCP localhost; end-to-end body read; includes Flask, model and SQLite; no production throughput claim"
+}

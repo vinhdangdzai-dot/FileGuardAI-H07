@@ -1,0 +1,6 @@
+{
+  "mode": "LIVE_GOOGLE_API",
+  "status": "NOT_RUN",
+  "created_at_utc": "2026-11-18T11:28:57.906436+00:00",
+  "reason": "missing_api_key_or_model"
+}

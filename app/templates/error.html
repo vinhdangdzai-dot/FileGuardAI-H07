@@ -1,3 +1,4 @@
 {% extends "base.html" %}{% block title %}HTTP {{code}} · CANH GÁC SỐ{% endblock %}{% block content %}
 <section class="panel error-panel" role="alert"><span class="eyebrow">REQUEST RESULT</span><div class="error-code">{{code}}</div><h1>{{'Truy cập bị từ chối' if code==403 else 'Không tìm thấy tệp' if code==404 else 'Yêu cầu không hợp lệ' if code==400 else 'Dịch vụ tạm thời gián đoạn'}}</h1><p class="text-secondary">{{message}}</p><p class="small text-secondary">Mã HTTP và thông báo này do backend trả về.</p><a href="{{url_for('index')}}" class="btn btn-primary">← Về kho tệp</a></section>
+{% if login_required %}<p class="notice mt-3">Đây là chính sách quyền tải, không phải kết luận tấn công Path Traversal. <a href="{{url_for('login')}}">Đăng nhập</a> · <a href="{{url_for('accounts.register')}}">Đăng ký User</a></p>{% endif %}
 {% endblock %}

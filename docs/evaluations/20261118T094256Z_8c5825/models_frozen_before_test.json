@@ -1,0 +1,67 @@
+{
+  "selected_C": 0.1,
+  "candidates": [
+    {
+      "C": 0.1,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            999,
+            0
+          ],
+          [
+            0,
+            1000
+          ]
+        ]
+      }
+    },
+    {
+      "C": 1,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            999,
+            0
+          ],
+          [
+            0,
+            1000
+          ]
+        ]
+      }
+    },
+    {
+      "C": 10,
+      "validation": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            999,
+            0
+          ],
+          [
+            0,
+            1000
+          ]
+        ]
+      }
+    }
+  ],
+  "validation_samples": 1999,
+  "fit_samples": 6500,
+  "refit_samples": 8499,
+  "v1_sha256": "28eee927ef2603b4dbbf9cfb88251660293aaf5d9df469899e5ab95cb95f005b",
+  "v2_sha256": "b14a3b3e4fb9f1763c18e1da50d7a9a4017d1967fe388cf8ce4afac11b84bc9c"
+}

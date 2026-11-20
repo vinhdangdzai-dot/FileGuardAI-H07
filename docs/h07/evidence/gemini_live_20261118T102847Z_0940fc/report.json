@@ -1,0 +1,110 @@
+{
+  "mode": "LIVE_GOOGLE_API",
+  "created_at_utc": "2026-11-18T10:28:47.909312+00:00",
+  "status": "FAIL",
+  "model": "gemini-2.5-flash",
+  "timeout_seconds": 20.0,
+  "max_tokens": 2048,
+  "checks": [
+    {
+      "name": "Admin authenticated over TCP",
+      "result": "PASS"
+    },
+    {
+      "name": "Traversal BLOCK 403 before waiting for Gemini",
+      "result": "PASS"
+    },
+    {
+      "name": "Security Alert already persisted",
+      "result": "PASS"
+    },
+    {
+      "name": "Gemini pipeline explanation succeeded",
+      "result": "FAIL"
+    },
+    {
+      "name": "API duration recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "Dashboard remains available on API failure",
+      "result": "PASS"
+    },
+    {
+      "name": "AI cannot modify BLOCK or alert",
+      "result": "PASS"
+    },
+    {
+      "name": "Benign file still downloads",
+      "result": "PASS"
+    },
+    {
+      "name": "Only allowlisted coarse fields sent",
+      "result": "PASS"
+    }
+  ],
+  "probe": {
+    "status": "FAIL",
+    "reason": "model_unavailable",
+    "duration_ms": 976.5987000000678
+  },
+  "download_http": 403,
+  "download_duration_ms": 43.28970000005938,
+  "event": {
+    "id": 1,
+    "action": "BLOCK",
+    "http_status": 403,
+    "ml_score": 0.9996994613367142,
+    "ml_label": "suspicious"
+  },
+  "pipeline_analysis": {
+    "event_id": 1,
+    "created": 1794997744.6600034,
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "started": 1794997744.6687546,
+    "completed": 1794997745.800483,
+    "duration_ms": 1116.1985999997341,
+    "status": "model_unavailable",
+    "analysis": null
+  },
+  "outbound_event_features": [
+    {
+      "decision": "BLOCK",
+      "ml_alert": true,
+      "parent_components": 1,
+      "absolute_style": false,
+      "backslash": false,
+      "structural_encoding": false,
+      "remaining_decode_changes": 0,
+      "length_bucket": "short"
+    },
+    {
+      "decision": "BLOCK",
+      "ml_alert": true,
+      "parent_components": 1,
+      "absolute_style": false,
+      "backslash": false,
+      "structural_encoding": true,
+      "remaining_decode_changes": 1,
+      "length_bucket": "short"
+    }
+  ],
+  "provider_diagnostics": [
+    {
+      "code": "model_unavailable",
+      "diagnostic": null
+    },
+    {
+      "code": "model_unavailable",
+      "diagnostic": null
+    }
+  ],
+  "runtime": ".test_runtime_pytest_4c7bd303c51c4dd98fe67a486fce0883",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "human_review_required": true
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="9" skipped="0" tests="22" time="16.528" timestamp="2026-11-19T01:16:40.015835+07:00" hostname="LAPTOP-AHTMUVAG"><testcase classname="tests.test_project_scope" name="test_guest_public_home_and_public_download_hide_restricted_names" time="0.866" /><testcase classname="tests.test_project_scope" name="test_guest_restricted_and_nonexistent_restricted_are_same_denial" time="0.639"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653A9C0FD0&gt;] == [('BLOCK', 40...'BLOCK', 403)]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653A9C1000&gt; != ('BLOCK', 403)&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_guest_restricted_and_none0/events.sqlite3'), ...})
+
+    def test_guest_restricted_and_nonexistent_restricted_are_same_denial(lab):
+        app,client,_=lab
+        one=client.get('/download?path=restricted/internal.txt')
+        two=client.get('/download?path=restricted/not-present.txt')
+        assert one.status_code==two.status_code==403 and one.data==two.data
+        assert b'RESTRICTED-SENTINEL' not in one.data and b'internal.txt' not in one.data
+&gt;       assert query(app,'SELECT action,http_status FROM access_logs ORDER BY id')==[('BLOCK',403),('BLOCK',403)]
+E       AssertionError: assert [&lt;sqlite3.Row...02653A9C0FD0&gt;] == [('BLOCK', 40...'BLOCK', 403)]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653A9C1000&gt; != ('BLOCK', 403)
+E         Use -v to get more diff
+
+tests\test_project_scope.py:57: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_fully_authenticated_roles_can_read_restricted_documents[user]" time="0.852" /><testcase classname="tests.test_project_scope" name="test_fully_authenticated_roles_can_read_restricted_documents[auditor]" time="0.862" /><testcase classname="tests.test_project_scope" name="test_fully_authenticated_roles_can_read_restricted_documents[admin]" time="0.962" /><testcase classname="tests.test_project_scope" name="test_admin_first_factor_does_not_grant_restricted_access" time="0.851" /><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[../outside.txt]" time="0.618"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653A9FF880&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653A9FF880&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_0/events.sqlite3'), ...})
+path = '../outside.txt'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653A9FF880&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653A9FF880&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[restricted/../../outside.txt]" time="0.625"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AB76C50&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AB76C50&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_1/events.sqlite3'), ...})
+path = 'restricted/../../outside.txt'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AB76C50&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AB76C50&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[..\\outside.txt]" time="0.595"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AB74790&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AB74790&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_2/events.sqlite3'), ...})
+path = '..\\outside.txt'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AB74790&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AB74790&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[/etc/passwd]" time="0.605"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AA43E50&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AA43E50&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_3/events.sqlite3'), ...})
+path = '/etc/passwd'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AA43E50&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AA43E50&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[C:/Windows/win.ini]" time="0.679"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AADD540&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AADD540&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_4/events.sqlite3'), ...})
+path = 'C:/Windows/win.ini'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AADD540&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AADD540&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[%2e%2e%2foutside.txt]" time="0.682"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AA3C430&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AA3C430&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_5/events.sqlite3'), ...})
+path = '%2e%2e%2foutside.txt'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AA3C430&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AA3C430&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_attack_cases_remain_path_policy_blocks_before_login_gate[%252e%252e%252foutside.txt]" time="0.622"><failure message="AssertionError: assert [&lt;sqlite3.Row...02653AAE16C0&gt;] == [('rejected',..._applicable')]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x000002653AAE16C0&gt; != ('rejected', 'not_applicable')&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_attack_cases_remain_path_6/events.sqlite3'), ...})
+path = '%252e%252e%252foutside.txt'
+
+    @pytest.mark.parametrize('path',['../outside.txt','restricted/../../outside.txt','..\\outside.txt',
+        '/etc/passwd','C:/Windows/win.ini','%2e%2e%2foutside.txt','%252e%252e%252foutside.txt'])
+    def test_attack_cases_remain_path_policy_blocks_before_login_gate(lab,path):
+        app,client,_=lab
+        response=client.get('/download',query_string={'path':path})
+        assert response.status_code==403 and b'OUTSIDE-SENTINEL' not in response.data
+&gt;       assert query(app,'SELECT path_outcome,access_outcome FROM download_context')==[('rejected','not_applicable')]
+E       AssertionError: assert [&lt;sqlite3.Row...02653AAE16C0&gt;] == [('rejected',..._applicable')]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x000002653AAE16C0&gt; != ('rejected', 'not_applicable')
+E         Use -v to get more diff
+
+tests\test_project_scope.py:91: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_opened_windows_path_is_reclassified_before_streaming" time="0.628" /><testcase classname="tests.test_project_scope" name="test_reserved_directory_case_variants_are_not_public" time="0.613" /><testcase classname="tests.test_project_scope" name="test_ml_errors_never_decide_access_and_auth_denial_is_not_path_alert[0.99-public.txt-200-ml_suspicious]" time="1.038" /><testcase classname="tests.test_project_scope" name="test_ml_errors_never_decide_access_and_auth_denial_is_not_path_alert[0.01-../outside.txt-403-policy_block]" time="0.679" /><testcase classname="tests.test_project_scope" name="test_ml_errors_never_decide_access_and_auth_denial_is_not_path_alert[0.99-missing.txt-404-ml_suspicious]" time="0.652" /><testcase classname="tests.test_project_scope" name="test_ml_errors_never_decide_access_and_auth_denial_is_not_path_alert[0.99-restricted/internal.txt-403-ml_suspicious]" time="0.630" /><testcase classname="tests.test_project_scope" name="test_dedup_retains_all_event_ids_and_admin_detail_works_offline" time="0.639"><failure message="assert [&lt;sqlite3.Row...0265521284C0&gt;] == [(3,)]&#10;  &#10;  At index 0 diff: &lt;sqlite3.Row object at 0x00000265521284C0&gt; != (3,)&#10;  Use -v to get more diff">lab = (&lt;Flask 'app.web'&gt;, &lt;FlaskClient &lt;Flask 'app.web'&gt;&gt;, {'TESTING': True, 'CSRF_ENABLED': True, 'SECRET_KEY': 'scope-test...07/.test_runtime_pytest_831a66f40d084b02aca42885c3efd519/pytest/test_dedup_retains_all_event_i0/events.sqlite3'), ...})
+
+    def test_dedup_retains_all_event_ids_and_admin_detail_works_offline(lab):
+        app,client,_=lab
+        for _ in range(3):assert client.get('/download?path=../outside.txt').status_code==403
+&gt;       assert query(app,'SELECT occurrences FROM alerts')==[(3,)]
+E       assert [&lt;sqlite3.Row...0265521284C0&gt;] == [(3,)]
+E         
+E         At index 0 diff: &lt;sqlite3.Row object at 0x00000265521284C0&gt; != (3,)
+E         Use -v to get more diff
+
+tests\test_project_scope.py:137: AssertionError</failure></testcase><testcase classname="tests.test_project_scope" name="test_context_migration_is_additive_and_append_only" time="0.614" /><testcase classname="tests.test_project_scope" name="test_auth_log_metadata_failure_withholds_restricted_content" time="0.847" /></testsuite></testsuites>

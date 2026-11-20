@@ -7,11 +7,16 @@ from pathlib import Path
 import re
 import threading
 import uuid
+import shutil
+from datetime import datetime, timezone
 
 _LOCK = threading.RLock()
 
 
 def validate_hash(value):
+    if isinstance(value,str) and value.startswith('$argon2'):
+        from .passwords import validate_argon_hash
+        return validate_argon_hash(value)
     if not isinstance(value,str) or not re.fullmatch(r'(scrypt:\d+:\d+:\d+|pbkdf2:[A-Za-z0-9_]+:\d+)\$[A-Za-z0-9]+\$[0-9a-f]+',value):
         raise ValueError('Invalid Werkzeug credential hash; restore with credential CLI')
     if value.startswith('pbkdf2:') and value.split(':')[1] not in hashlib.algorithms_available:
@@ -79,3 +84,17 @@ class Credentials:
         key=self.app.secret_key
         if isinstance(key,str):key=key.encode('utf-8')
         return hmac.new(key,(role+':'+str(self.current(role) if value is None else value)).encode('utf-8'),hashlib.sha256).hexdigest()
+
+    def upgrade(self,role,original,password):
+        from .passwords import needs_upgrade,password_hash
+        if not needs_upgrade(original):return original
+        path=Path(self.app.config['ADMIN_HASH_FILE' if role=='admin' else 'AUDITOR_HASH_FILE'])
+        if not path.is_file():return original  # Environment-only auditor hashes stay under operator control.
+        upgraded=password_hash(password)
+        with credential_lock(path):
+            if not hmac.compare_digest(read_hash(path),original):
+                raise ValueError('Credentials changed during authentication')
+            history=path.parent/'credential_history';history.mkdir(exist_ok=True)
+            shutil.copy2(path,history/(datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')+'_'+uuid.uuid4().hex+'.hash'))
+            atomic_hash_write(path,upgraded)
+        return upgraded

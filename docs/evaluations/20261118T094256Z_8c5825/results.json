@@ -1,0 +1,618 @@
+{
+  "schema_version": 2,
+  "experiment_type": "canonical_grouped_validation",
+  "created_at_utc": "2026-11-18T09:43:04.838978+00:00",
+  "seed": 2026,
+  "threshold": 0.5,
+  "sklearn_version": "1.9.1",
+  "audit": {
+    "rows": 10000,
+    "unique_paths": 10000,
+    "duplicate_excess_rows": 0,
+    "duplicate_path_groups": 0,
+    "label_counts": {
+      "0": 5000,
+      "1": 5000
+    },
+    "conflicting_path_labels": 0,
+    "mixed_label_families": 0,
+    "family_counts": {
+      "0-00": 334,
+      "0-01": 334,
+      "0-02": 334,
+      "0-03": 334,
+      "0-04": 334,
+      "0-05": 333,
+      "0-06": 333,
+      "0-07": 333,
+      "0-08": 333,
+      "0-09": 333,
+      "0-10": 333,
+      "0-11": 333,
+      "0-12": 333,
+      "0-13": 333,
+      "0-14": 333,
+      "1-00": 250,
+      "1-01": 250,
+      "1-02": 250,
+      "1-03": 250,
+      "1-04": 250,
+      "1-05": 250,
+      "1-06": 250,
+      "1-07": 250,
+      "1-08": 250,
+      "1-09": 250,
+      "1-10": 250,
+      "1-11": 250,
+      "1-12": 250,
+      "1-13": 250,
+      "1-14": 250,
+      "1-15": 250,
+      "1-16": 250,
+      "1-17": 250,
+      "1-18": 250,
+      "1-19": 250
+    }
+  },
+  "train_samples": 8499,
+  "test_samples": 1501,
+  "train_families": [
+    "0-00",
+    "0-03",
+    "0-04",
+    "0-05",
+    "0-06",
+    "0-07",
+    "0-08",
+    "0-09",
+    "0-10",
+    "0-12",
+    "0-13",
+    "0-14",
+    "1-00",
+    "1-01",
+    "1-02",
+    "1-03",
+    "1-04",
+    "1-05",
+    "1-06",
+    "1-07",
+    "1-08",
+    "1-09",
+    "1-11",
+    "1-13",
+    "1-14",
+    "1-15",
+    "1-16",
+    "1-17",
+    "1-18",
+    "1-19"
+  ],
+  "test_families": [
+    "0-01",
+    "0-02",
+    "0-11",
+    "1-10",
+    "1-12"
+  ],
+  "split": {
+    "seed": 2026,
+    "components": 26,
+    "family_overlap": [],
+    "path_overlap": [],
+    "canonical_overlap": [],
+    "rows": {
+      "train": 6500,
+      "validation": 1999,
+      "test": 1501
+    },
+    "labels": {
+      "train": {
+        "0": 3000,
+        "1": 3500
+      },
+      "validation": {
+        "0": 999,
+        "1": 1000
+      },
+      "test": {
+        "0": 1001,
+        "1": 500
+      }
+    }
+  },
+  "selection": {
+    "selected_C": 0.1,
+    "candidates": [
+      {
+        "C": 0.1,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              999,
+              0
+            ],
+            [
+              0,
+              1000
+            ]
+          ]
+        }
+      },
+      {
+        "C": 1,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              999,
+              0
+            ],
+            [
+              0,
+              1000
+            ]
+          ]
+        }
+      },
+      {
+        "C": 10,
+        "validation": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              999,
+              0
+            ],
+            [
+              0,
+              1000
+            ]
+          ]
+        }
+      }
+    ],
+    "validation_samples": 1999,
+    "fit_samples": 6500,
+    "refit_samples": 8499,
+    "v1_sha256": "28eee927ef2603b4dbbf9cfb88251660293aaf5d9df469899e5ab95cb95f005b",
+    "v2_sha256": "b14a3b3e4fb9f1763c18e1da50d7a9a4017d1967fe388cf8ce4afac11b84bc9c"
+  },
+  "timing": {
+    "lr_inference_only": {
+      "repeats": 7,
+      "samples_per_batch": 1501,
+      "batch_ms": [
+        1.305,
+        1.5002,
+        1.2592,
+        1.7951,
+        1.757,
+        1.4121,
+        1.3427
+      ],
+      "median_batch_ms": 1.4121,
+      "p95_batch_ms": 1.7836699999999999,
+      "amortized_us_per_path": 0.9407728181212525
+    },
+    "lr_end_to_end": {
+      "repeats": 7,
+      "samples_per_batch": 1501,
+      "batch_ms": [
+        64.6317,
+        66.293,
+        53.343,
+        51.8369,
+        70.0999,
+        74.2638,
+        56.605
+      ],
+      "median_batch_ms": 64.6317,
+      "p95_batch_ms": 73.01463,
+      "amortized_us_per_path": 43.05909393737508
+    },
+    "improved_inference_only": {
+      "repeats": 7,
+      "samples_per_batch": 1501,
+      "batch_ms": [
+        0.9934,
+        1.0223,
+        0.8938,
+        0.948,
+        0.8938,
+        1.1314,
+        1.2342
+      ],
+      "median_batch_ms": 0.9934,
+      "p95_batch_ms": 1.20336,
+      "amortized_us_per_path": 0.6618254497001999
+    },
+    "improved_end_to_end": {
+      "repeats": 7,
+      "samples_per_batch": 1501,
+      "batch_ms": [
+        152.3797,
+        147.0014,
+        160.3928,
+        149.4028,
+        151.5808,
+        162.5595,
+        154.2118
+      ],
+      "median_batch_ms": 152.3797,
+      "p95_batch_ms": 161.90949,
+      "amortized_us_per_path": 101.51878747501667
+    },
+    "regex_end_to_end": {
+      "repeats": 7,
+      "samples_per_batch": 1501,
+      "batch_ms": [
+        5.9614,
+        6.0058,
+        9.245,
+        5.4871,
+        10.5486,
+        5.5669,
+        6.0317
+      ],
+      "median_batch_ms": 6.0058,
+      "p95_batch_ms": 10.15752,
+      "amortized_us_per_path": 4.001199200532978
+    }
+  },
+  "logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        0,
+        500
+      ]
+    ]
+  },
+  "improved_logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        0,
+        500
+      ]
+    ]
+  },
+  "regex": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        0,
+        500
+      ]
+    ]
+  },
+  "datasets": {
+    "frozen_holdout": {
+      "samples": 1501,
+      "label_counts": {
+        "0": 1001,
+        "1": 500
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              0,
+              500
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              0,
+              500
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              1001,
+              0
+            ],
+            [
+              0,
+              500
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 1501,
+          "batch_ms": [
+            1.305,
+            1.5002,
+            1.2592,
+            1.7951,
+            1.757,
+            1.4121,
+            1.3427
+          ],
+          "median_batch_ms": 1.4121,
+          "p95_batch_ms": 1.7836699999999999,
+          "amortized_us_per_path": 0.9407728181212525
+        },
+        "lr_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 1501,
+          "batch_ms": [
+            64.6317,
+            66.293,
+            53.343,
+            51.8369,
+            70.0999,
+            74.2638,
+            56.605
+          ],
+          "median_batch_ms": 64.6317,
+          "p95_batch_ms": 73.01463,
+          "amortized_us_per_path": 43.05909393737508
+        },
+        "improved_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 1501,
+          "batch_ms": [
+            0.9934,
+            1.0223,
+            0.8938,
+            0.948,
+            0.8938,
+            1.1314,
+            1.2342
+          ],
+          "median_batch_ms": 0.9934,
+          "p95_batch_ms": 1.20336,
+          "amortized_us_per_path": 0.6618254497001999
+        },
+        "improved_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 1501,
+          "batch_ms": [
+            152.3797,
+            147.0014,
+            160.3928,
+            149.4028,
+            151.5808,
+            162.5595,
+            154.2118
+          ],
+          "median_batch_ms": 152.3797,
+          "p95_batch_ms": 161.90949,
+          "amortized_us_per_path": 101.51878747501667
+        },
+        "regex_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 1501,
+          "batch_ms": [
+            5.9614,
+            6.0058,
+            9.245,
+            5.4871,
+            10.5486,
+            5.5669,
+            6.0317
+          ],
+          "median_batch_ms": 6.0058,
+          "p95_batch_ms": 10.15752,
+          "amortized_us_per_path": 4.001199200532978
+        }
+      }
+    },
+    "external_public": {
+      "samples": 236,
+      "label_counts": {
+        "0": 118,
+        "1": 118
+      },
+      "models": {
+        "logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              118,
+              0
+            ],
+            [
+              0,
+              118
+            ]
+          ]
+        },
+        "improved_logistic_regression": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              118,
+              0
+            ],
+            [
+              0,
+              118
+            ]
+          ]
+        },
+        "regex": {
+          "accuracy": 1.0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "confusion_matrix": [
+            [
+              118,
+              0
+            ],
+            [
+              0,
+              118
+            ]
+          ]
+        }
+      },
+      "timing": {
+        "lr_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 236,
+          "batch_ms": [
+            0.93,
+            0.88,
+            0.9676,
+            0.8951,
+            0.8958,
+            0.8585,
+            0.8964
+          ],
+          "median_batch_ms": 0.8958,
+          "p95_batch_ms": 0.95632,
+          "amortized_us_per_path": 3.7957627118644073
+        },
+        "lr_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 236,
+          "batch_ms": [
+            10.2676,
+            14.3584,
+            13.7649,
+            12.8285,
+            31.1403,
+            12.0621,
+            11.742
+          ],
+          "median_batch_ms": 12.8285,
+          "p95_batch_ms": 26.105729999999987,
+          "amortized_us_per_path": 54.358050847457626
+        },
+        "improved_inference_only": {
+          "repeats": 7,
+          "samples_per_batch": 236,
+          "batch_ms": [
+            1.0082,
+            0.9678,
+            0.9018,
+            0.9311,
+            1.5046,
+            1.8518,
+            1.2829
+          ],
+          "median_batch_ms": 1.0082,
+          "p95_batch_ms": 1.7476399999999996,
+          "amortized_us_per_path": 4.272033898305084
+        },
+        "improved_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 236,
+          "batch_ms": [
+            26.2617,
+            26.6891,
+            28.3818,
+            26.009,
+            26.8659,
+            26.9608,
+            34.1123
+          ],
+          "median_batch_ms": 26.8659,
+          "p95_batch_ms": 32.39314999999999,
+          "amortized_us_per_path": 113.8385593220339
+        },
+        "regex_end_to_end": {
+          "repeats": 7,
+          "samples_per_batch": 236,
+          "batch_ms": [
+            0.3317,
+            0.3405,
+            0.3412,
+            0.3503,
+            0.3532,
+            0.3564,
+            0.3448
+          ],
+          "median_batch_ms": 0.3448,
+          "p95_batch_ms": 0.35544,
+          "amortized_us_per_path": 1.4610169491525424
+        }
+      }
+    }
+  },
+  "dataset_descriptions": {
+    "external_public": "LFISuite + Starlette: nguồn ngoài; nhãn lexical"
+  },
+  "policy_comparison": {
+    "0": {
+      "reject_policy": 0,
+      "relative_in_scope_may_be_missing": 1001,
+      "os_error_not_classified": 0
+    },
+    "1": {
+      "reject_policy": 500,
+      "relative_in_scope_may_be_missing": 0,
+      "os_error_not_classified": 0
+    }
+  },
+  "scope_note": "Authorization rejects/accepts path scope; not a classifier of attack intent, no implicit HTTP 200 for missing files.",
+  "protected_unchanged": true
+}

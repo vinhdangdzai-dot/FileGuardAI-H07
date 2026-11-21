@@ -45,11 +45,23 @@ def main():
              ('audit', ['tools/audit_project.py', '--output', str(out/'audit'), '--repeats', '7'])]
     results = {}
     for name, args in steps:
-        completed = subprocess.run([sys.executable, *args], cwd=ROOT, env=env, capture_output=True,
-                                   text=True, encoding='utf-8', errors='replace', timeout=240)
+        timeout_seconds = 3600 if name == 'pytest' else 240
+        timed_out = False
+        try:
+            completed = subprocess.run([sys.executable, *args], cwd=ROOT, env=env, capture_output=True,
+                                       text=True, encoding='utf-8', errors='replace', timeout=timeout_seconds)
+        except subprocess.TimeoutExpired as error:
+            # Preserve partial evidence and run remaining suites. A timeout is an ERROR,
+            # never a successful run or a skipped testcase.
+            timed_out = True
+            def decode(value):
+                return value.decode('utf-8', errors='replace') if isinstance(value, bytes) else value or ''
+            completed = subprocess.CompletedProcess(error.cmd, 124, decode(error.stdout), decode(error.stderr))
         (out/(name+'.stdout.txt')).write_text(completed.stdout, encoding='utf-8')
         (out/(name+'.stderr.txt')).write_text(completed.stderr, encoding='utf-8')
         results[name] = {'returncode': completed.returncode, 'command': [sys.executable, *args]}
+        if timed_out:
+            results[name].update(status='ERROR', reason='process_timeout', timeout_seconds=timeout_seconds)
         print(name, 'exit', completed.returncode, flush=True)
     if (out/'pytest.xml').is_file():
         results['pytest']['junit_counts'] = pytest_counts(out/'pytest.xml')

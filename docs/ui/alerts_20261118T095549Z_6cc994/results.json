@@ -1,0 +1,168 @@
+{
+  "checks": [
+    {
+      "name": "polling shows immediate offline alert",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "grouped two events",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "alerts light 1440 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "scrollers": [
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "alerts light 768 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "scrollers": [
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "alerts light 390 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "scrollers": [
+          {
+            "tag": "DIV",
+            "cls": "table-responsive",
+            "width": 323,
+            "scroll": 621,
+            "overflow": "auto",
+            "contain": "none"
+          },
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "alerts dark 1440 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "scrollers": [
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "alerts dark 768 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "scrollers": [
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "alerts dark 390 no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "scrollers": [
+          {
+            "tag": "DIV",
+            "cls": "table-responsive",
+            "width": 323,
+            "scroll": 621,
+            "overflow": "auto",
+            "contain": "none"
+          },
+          {
+            "tag": "LABEL",
+            "cls": "visually-hidden",
+            "width": 1,
+            "scroll": 162,
+            "overflow": "hidden",
+            "contain": "none"
+          }
+        ],
+        "offenders": []
+      }
+    },
+    {
+      "name": "seen status saved for exact alert",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "resolved status saved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin disables notifications",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "no JavaScript error",
+      "result": "PASS",
+      "actual": null
+    }
+  ],
+  "browser_errors": [],
+  "note": "Isolated offline fixtures; real browser/TCP, no Gemini network call.",
+  "passed": 12,
+  "failed": 0
+}

@@ -1,3 +1,23 @@
+## Giao diện Cybersecurity Dashboard — nhánh review
+
+> [API giải thích AI tùy chọn](docs/ai_api/README.md): mặc định offline, bật/tắt tại Admin Dashboard, chỉ gửi đặc trưng làm sạch; API không quyết định quyền tải. Có hướng dẫn key/model qua environment và báo cáo thực tế, gồm sự cố test TCP cổng5000 đã được ghi nhận và sửa bằng fixture port riêng.
+
+**CANH GÁC SỐ — *by HuuVinh*** · Giám sát thông minh – Bảo vệ dữ liệu an toàn.
+
+[Nhận diện mới, ảnh Light/Dark và kiểm thử thực tế](docs/ui/BRAND_CANH_GAC_SO.md). Đây là tên sản phẩm trên website; repository, định danh kỹ thuật và tên đề tài khóa luận giữ nguyên.
+
+> Tài khoản: [lưu hash qua restart và đổi mật khẩu trên website](docs/auth/PASSWORDS.md). Lần đầu chưa có hash: chạy `python tools/manage_credentials.py --role admin` để nhập kín, rồi `python run.py`. Không còn in mật khẩu tạm.
+
+> Cỡ chữ mới: [18px mặc định, A− / A / A+ và báo cáo kiểm thử](docs/ui/TEXT_SIZE.md).
+
+> Dataset 10.000 mẫu: [hướng dẫn xem, phân trang, xuất CSV và thực nghiệm thực tế](docs/datasets/INTEGRATION_10000.md).
+
+Mới nhất: [Light / Dark / Theo hệ thống](docs/ui/LIGHT_DARK_MODE.md) cho cả5 trang và lỗi403/404/503, lưu lựa chọn, đổi palette chart tại chỗ. Pytest143 PASS/3 SKIP,acceptance6 bước exit0;browser local241 PASS trên Edge, Chrome local/CI báo riêng với bằng chứng. Không thay backend, auth, dữ liệu hoặc mô hình.
+
+Đợt hoàn thiện mới: [Login, chọn run và giải thích kết quả AI](docs/ui/REFINEMENT_LOGIN_AI.md). Pytest135 PASS/0 FAIL/0 ERROR/3 SKIP;Chrome85 PASS ở1440/768/390px;acceptance6 bước exit0. Giữ nguyên auth/policy/model/dữ liệu; ảnh trước/sau và trường metadata thiếu được ghi rõ.
+
+[Bàn giao giao diện, ảnh thật và bằng chứng](docs/ui/README.md): dark theme, sidebar responsive, tìm kiếm tệp, biểu đồ dữ liệu thật và các trang AI chỉ đọc. Nhánh `h07/cybersecurity-ui` dựa trên `bb87b23`; không đổi backend hoặc mô hình. Kiểm thử đợt UI:127 pytest PASS/3 SKIP,42 browser checks PASS,acceptance6 bước exit0. Phần hồ sơ bên dưới giữ các số baseline trước nâng cấp UI theo mốc lịch sử.
+
 ## Hồ sơ nghiệm thu H07 hiện hành — 17/11/2026
 
 [12 tài liệu và ma trận nghiệm thu](docs/bao_cao_h07/12_MA_TRAN_NGHIEM_THU.md):[bản sửa temp Windows](docs/bao_cao_h07/13_SUA_LOI_PYTEST_WINDOWS11.md) đạt116 pytest PASS,0 FAIL,0 ERROR,3 SKIP trong môi trường Codex; cần chạy lại bằng tài khoản người dùng. TCP dashboard41 PASS,download33 PASS/3 SKIP;144 request hiệu năng không lỗi. Chính sách: chỉ admin xem dashboard/log/AI/CSV; auditor chỉ kho công khai. AI Training chỉ đọc, không tự fit/deploy. 11/12 PI PASS,PI3.1 PARTIAL do symlink thật thiếu quyền Windows11 cục bộ. Các số/quyền ở phần lịch sử bên dưới cần đọc theo mốc thời gian.
@@ -43,17 +63,18 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 python -m pip install -r requirements.txt
 python -m ml.train_model
 python -m pytest -q
+if (!(Test-Path instance/admin_password.hash)) { python tools/manage_credentials.py --role admin }
 python run.py
 ```
 
 Cách đơn giản hơn: **nhấp đúp `START_WINDOWS.bat`** để tự cài phụ thuộc, huấn luyện nếu chưa có model và khởi chạy website.
 
-Sau đó mở trình duyệt: **http://127.0.0.1:5000**. Khi `python run.py` chạy, mật khẩu quản trị được in ngay trên màn hình Terminal. Truy cập `http://127.0.0.1:5000/login` để mở trang thống kê.
+Trước lần chạy đầu chưa có hash, chạy `python tools/manage_credentials.py --role admin`. Sau đó mở **http://127.0.0.1:5000** và đăng nhập bằng mật khẩu riêng đã đặt. Terminal không in mật khẩu. Hash hợp lệ được giữ qua restart; Admin đổi mật khẩu tại **Tài khoản · Đổi mật khẩu**.
 
-Có thể đặt mật khẩu cố định bằng biến môi trường trước khi chạy (chỉ để demo local):
+Thiết lập lần đầu hoặc phục hồi bằng CLI có nhập kín (không đưa mật khẩu vào shell history):
 
 ```powershell
-$env:ADMIN_PASSWORD = "Thay-Bang-Mat-Khau-Rieng"
+python tools/manage_credentials.py --role admin
 python run.py
 ```
 
@@ -67,6 +88,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python -m ml.train_model
 pytest -q
+[ -f instance/admin_password.hash ] || python tools/manage_credentials.py --role admin
 python run.py
 ```
 
@@ -155,7 +177,7 @@ ghi đè file đã tồn tại; hãy chọn tên output mới cho một dataset 
 
 - Chỉ chạy trên **localhost**, không công khai Internet; `debug=False`.
 - **Không** để người khác có quyền ghi trực tiếp vào `shared_files/`. Trên Windows, rủi ro race condition do symlink/reparse point vẫn có nếu thư mục bị người không tin cậy sửa trong lúc hệ thống hoạt động. Trên POSIX có biện pháp `O_NOFOLLOW` nhưng không thay thế kiểm soát quyền hệ điều hành.
-- Mật khẩu quản trị được sinh ngẫu nhiên mỗi lần chạy nếu không đặt `ADMIN_PASSWORD`, phiên đăng nhập hết hiệu lực khi chạy lại. Ở production phải có HTTPS, quản trị người dùng, CSRF, giới hạn thử mật khẩu, phân quyền và lưu secret lâu dài; demo này **chưa** có đầy đủ các biện pháp đó.
+- Bản hiện hành lưu hash Argon2id, hỗ trợ tài khoản User/Admin, CSRF, giới hạn thử đăng nhập và bắt buộc TOTP cho Admin. Production phải dùng HTTPS, `SECRET_KEY` ổn định và khóa MFA riêng; xem `docs/h07/MFA_SECURITY.md` và `deploy/ubuntu/README.md`.
 - Đừng giải mã URL nhiều lần ở tầng truy cập tệp. Flask đọc `request.args` đã giải mã URL query; bộ đặc trưng AI có thể phân tích biểu diễn khác nhưng chỉ cho mục đích cảnh báo.
 - Không tải các tệp mã nguồn/model `.joblib` không tin cậy. `joblib.load` có thể thực thi mã khi tải tệp độc hại.
 - Trong thực tế nên sử dụng **ID tệp do máy chủ phát sinh** thay vì cho phép nhập trực tiếp đường dẫn, nếu yêu cầu nghiệp vụ cho phép.

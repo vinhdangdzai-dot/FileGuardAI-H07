@@ -34,7 +34,7 @@ def main():
     outside = out / 'fixtures/secret.txt'
     outside.write_bytes(secret)
     db = out / 'events.sqlite3'
-    app = create_app({'FILES_ROOT': base, 'DATABASE': db, 'ADMIN_PASSWORD': uuid.uuid4().hex})
+    app = create_app({'FILES_ROOT': base, 'DATABASE': db, 'ADMIN_HASH_FILE':db.parent/'admin_password.hash', 'AUDITOR_HASH_FILE':db.parent/'auditor_password.hash', 'ADMIN_PASSWORD': uuid.uuid4().hex})
     server = make_server('127.0.0.1', 0, app, threaded=True, request_handler=QuietHandler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()

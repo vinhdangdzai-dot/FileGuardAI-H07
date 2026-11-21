@@ -1,0 +1,194 @@
+{
+  "generated_at_utc": "2026-11-19T15:40:20.143891+00:00",
+  "bind": "127.0.0.1",
+  "real_model_sha256": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+  "cases": [
+    {
+      "case": "valid",
+      "input": "ok.txt",
+      "expected": 200,
+      "actual": 200,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "missing",
+      "input": "not-found.txt",
+      "expected": 404,
+      "actual": 404,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "parent",
+      "input": "../outside.txt",
+      "expected": 403,
+      "actual": 403,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "windows",
+      "input": "..\\outside.txt",
+      "expected": 403,
+      "actual": 403,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "absolute",
+      "input": "C:/Windows/win.ini",
+      "expected": 403,
+      "actual": 403,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "encoded",
+      "input": "%2e%2e%2foutside.txt",
+      "expected": 403,
+      "actual": 403,
+      "outside_exposed": false,
+      "pass": true
+    },
+    {
+      "case": "double_encoded",
+      "input": "%252e%252e%252foutside.txt",
+      "expected": 403,
+      "actual": 403,
+      "outside_exposed": false,
+      "pass": true
+    }
+  ],
+  "statistics": {
+    "totals": {
+      "total": 7,
+      "allowed": 1,
+      "missing": 1,
+      "blocked": 5,
+      "login_required": 0,
+      "ids_suspicious": 6
+    },
+    "reasons": [
+      {
+        "reason": "Đường dẫn chứa thành phần không hợp lệ",
+        "count": 2
+      },
+      {
+        "reason": "Đường dẫn tuyệt đối hoặc ký tự phân cách không hợp lệ",
+        "count": 2
+      },
+      {
+        "reason": "Đường dẫn chứa mã hóa cấu trúc URL còn sót lại",
+        "count": 1
+      }
+    ],
+    "timings": {
+      "samples": 7,
+      "ids_avg_ms": 4.145542857145301,
+      "ips_avg_ms": 15.224114285712988,
+      "total_avg_ms": 19.493214285749414,
+      "total_max_ms": 72.14140000007774
+    },
+    "logs": [
+      {
+        "id": 7,
+        "created_at": "2026-11-19T15:40:18+00:00",
+        "client_ip": "127.0.0.1",
+        "requested_path": "%2e%2e%2foutside.txt",
+        "ml_score": 0.9999616560347042,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403,
+        "reason": "Đường dẫn chứa mã hóa cấu trúc URL còn sót lại",
+        "duration_ms": 4.733400000077381,
+        "path_outcome": "rejected",
+        "visibility": "unknown",
+        "access_outcome": "not_applicable",
+        "ids_ms": 1.296300000035444,
+        "ips_ms": 3.3733000000211177,
+        "total_ms": 4.733400000077381
+      },
+      {
+        "id": 6,
+        "created_at": "2026-11-19T15:40:18+00:00",
+        "client_ip": "127.0.0.1",
+        "requested_path": "../outside.txt",
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403,
+        "reason": "Đường dẫn chứa thành phần không hợp lệ",
+        "duration_ms": 3.6939999999958673,
+        "path_outcome": "rejected",
+        "visibility": "unknown",
+        "access_outcome": "not_applicable",
+        "ids_ms": 1.7948999999362059,
+        "ips_ms": 1.8277000000352928,
+        "total_ms": 3.6939999999958673
+      },
+      {
+        "id": 5,
+        "created_at": "2026-11-19T15:40:18+00:00",
+        "client_ip": "127.0.0.1",
+        "requested_path": "C:/Windows/win.ini",
+        "ml_score": 0.9998996898925162,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403,
+        "reason": "Đường dẫn tuyệt đối hoặc ký tự phân cách không hợp lệ",
+        "duration_ms": 5.888000000027205,
+        "path_outcome": "rejected",
+        "visibility": "unknown",
+        "access_outcome": "not_applicable",
+        "ids_ms": 1.8989000000146916,
+        "ips_ms": 3.900100000009843,
+        "total_ms": 5.888000000027205
+      },
+      {
+        "id": 4,
+        "created_at": "2026-11-19T15:40:18+00:00",
+        "client_ip": "127.0.0.1",
+        "requested_path": "..\\outside.txt",
+        "ml_score": 0.9992498030075705,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403,
+        "reason": "Đường dẫn tuyệt đối hoặc ký tự phân cách không hợp lệ",
+        "duration_ms": 4.685500000050524,
+        "path_outcome": "rejected",
+        "visibility": "unknown",
+        "access_outcome": "not_applicable",
+        "ids_ms": 1.642100000026403,
+        "ips_ms": 2.962400000001253,
+        "total_ms": 4.685500000050524
+      },
+      {
+        "id": 3,
+        "created_at": "2026-11-19T15:40:18+00:00",
+        "client_ip": "127.0.0.1",
+        "requested_path": "../outside.txt",
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403,
+        "reason": "Đường dẫn chứa thành phần không hợp lệ",
+        "duration_ms": 3.297700000075565,
+        "path_outcome": "rejected",
+        "visibility": "unknown",
+        "access_outcome": "not_applicable",
+        "ids_ms": 1.5384000000722153,
+        "ips_ms": 1.410899999996218,
+        "total_ms": 3.297700000075565
+      }
+    ],
+    "trend": [
+      {
+        "minute": "2026-11-19T15:40",
+        "total": 7,
+        "blocked": 5
+      }
+    ]
+  },
+  "pass": true
+}

@@ -1,0 +1,1 @@
+﻿{"status":"ERROR","stage":"runtime allocation before HTTP checks","reason":"Initial tool invocation used unsupported purpose credentials; fixed to existing pytest allocator. No tests ran in this invocation."}

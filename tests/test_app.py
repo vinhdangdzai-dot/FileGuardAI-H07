@@ -79,6 +79,8 @@ def test_admin_dashboard_restricted(client):
     assert bad_login.status_code == 200
     good_login = c.post('/login', data={'password': 'test-only-secret'})
     assert good_login.status_code == 302
+    from tests.auth_support import complete_mfa
+    complete_mfa(c,good_login)
     assert c.get('/dashboard').status_code == 200
     assert c.post('/logout').status_code == 302
     assert c.get('/dashboard').status_code == 302

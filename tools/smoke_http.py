@@ -4,6 +4,7 @@ Uses raw HTTP paths, so the percent-encoding examples are not
 pre-encoded by a form or library.
 """
 import http.client
+import argparse
 
 CASES = [
     ('/download?path=baocao.pdf', 200),
@@ -19,10 +20,10 @@ CASES = [
 ]
 
 
-def main():
+def main(port=5000):
     passed = 0
     for path, expect in CASES:
-        con = http.client.HTTPConnection('127.0.0.1', 5000, timeout=5)
+        con = http.client.HTTPConnection('127.0.0.1', port, timeout=5)
         try:
             con.request('GET', path)
             response = con.getresponse()
@@ -39,4 +40,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--port',type=int,default=5000)
+    args=parser.parse_args()
+    if not 1 <= args.port <= 65535:parser.error('Port must be 1-65535')
+    main(args.port)

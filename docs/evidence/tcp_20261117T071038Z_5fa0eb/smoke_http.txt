@@ -1,0 +1,11 @@
+PASS HTTP 200 expected 200: /download?path=baocao.pdf
+PASS HTTP 200 expected 200: /download?path=b%C3%A1o%20c%C3%A1o%20t%E1%BB%91t%20nghi%E1%BB%87p.pdf
+PASS HTTP 200 expected 200: /download?path=tailieu%2Fchuong1.pdf
+PASS HTTP 403 expected 403: /download?path=..%2Fsecret.txt
+PASS HTTP 403 expected 403: /download?path=..%2F..%2Fconfig.txt
+PASS HTTP 403 expected 403: /download?path=..%5Csecret.txt
+PASS HTTP 403 expected 403: /download?path=%2e%2e%2fsecret.txt
+PASS HTTP 403 expected 403: /download?path=%252e%252e%252fsecret.txt
+PASS HTTP 403 expected 403: /download?path=%25252e%25252e%25252fsecret.txt
+PASS HTTP 404 expected 404: /download?path=notfound.pdf
+10/10 pass

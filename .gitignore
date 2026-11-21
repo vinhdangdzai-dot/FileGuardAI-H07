@@ -15,6 +15,7 @@ __pycache__/
 *.pyc
 
 # Secrets and local databases
+instance/
 .env
 .env.*
 !.env.example
@@ -34,3 +35,12 @@ instance/*.tmp
 .verification/
 .test_runtime/
 .test_runtime_*/
+# Local credential stores (including isolated test fixtures)
+**/admin_password.hash
+**/auditor_password.hash
+**/credential_history/
+**/.credential-update.lock
+**/.credential-*.tmp
+**/mfa_keys.json
+**/.mfa-key-*.tmp
+**/ai_explanations.sqlite3-*

@@ -1,0 +1,35 @@
+{
+  "tc": "TC03",
+  "name": "subdirectory",
+  "uri": "/download?path=tailieu/chuong1.pdf",
+  "framework_path": "tailieu/chuong1.pdf",
+  "expected_http": 200,
+  "actual_http": 200,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:30 GMT",
+    "Content-Disposition": "attachment; filename=chuong1.pdf",
+    "Content-Type": "application/octet-stream",
+    "Cache-Control": "no-store",
+    "Accept-Ranges": "bytes",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close"
+  },
+  "response_length": 1659,
+  "response_sha256": "875da24a97a9c09dc084031287aff64d67e9d4167452eb593bf10846d28d9bcf",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:30.319896+00:00",
+  "ended_utc": "2026-11-17T14:40:30.366134+00:00"
+}

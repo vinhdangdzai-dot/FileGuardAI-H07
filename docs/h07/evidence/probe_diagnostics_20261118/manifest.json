@@ -1,0 +1,8 @@
+{
+  "mock.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "mock.stdout.txt": "37cbafcf494b0a920524fac964df87a82cf5f745cd76edd1bc0daa150a113942",
+  "pytest.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "pytest.stdout.txt": "5642c1709805f99484505591c0f44615fb692c2aa43c54287a7a14a78dcf8ef8",
+  "REPORT.md": "ca7d28399a6d2d99e3d89a25a5af3b23de0045a127a1da0c2ba5d861d9b88b84",
+  "source_audit.json": "e8afb6e1cfac994aa01704d7603681dfc249e99b29a3a09248be35ad364449d6"
+}

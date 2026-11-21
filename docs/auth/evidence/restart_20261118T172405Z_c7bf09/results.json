@@ -1,0 +1,141 @@
+{
+  "mode": "Two separate OS processes, real TCP localhost, TESTING=False, isolated credentials and SQLite",
+  "checks": [
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "First process accepts original password",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "Password alone does not grant dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login/mfa",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login/mfa",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "Second factor verified over TCP",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /account/password",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /account/password",
+      "result": "PASS"
+    },
+    {
+      "name": "First process commits new password",
+      "result": "PASS"
+    },
+    {
+      "name": "Hash contains new password only through verification",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "Restart rejects old password",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login",
+      "result": "PASS"
+    },
+    {
+      "name": "Restart accepts persisted new password",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "Password alone does not grant dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login/mfa",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /login/mfa",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "Second factor verified over TCP",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /dashboard",
+      "result": "PASS"
+    },
+    {
+      "name": "Restart grants dashboard after valid login",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /download?path=ok.txt",
+      "result": "PASS"
+    },
+    {
+      "name": "Download still valid",
+      "result": "PASS"
+    },
+    {
+      "name": "No password reflected in /download?path=%252e%252e%252fsecret.txt",
+      "result": "PASS"
+    },
+    {
+      "name": "Encoded traversal still rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "Audit contains change success without passwords",
+      "result": "PASS"
+    }
+  ],
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "instance\\events.sqlite3": true,
+    "instance\\admin_password.hash": true
+  },
+  "passed": 32,
+  "failed": 0
+}

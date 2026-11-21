@@ -11,6 +11,11 @@ if not exist "artifacts\model.joblib" (
     ".venv\Scripts\python.exe" -m ml.train_model
     if errorlevel 1 goto failed
 )
+if not exist "instance\admin_password.hash" (
+    echo [H07] Configure your own admin password once. Input is hidden.
+    ".venv\Scripts\python.exe" tools/manage_credentials.py --role admin
+    if errorlevel 1 goto failed
+)
 ".venv\Scripts\python.exe" run.py
 exit /b %errorlevel%
 :failed

@@ -1,0 +1,1 @@
+﻿{"status":"ERROR","step":"performance","reason":"subprocess.TimeoutExpired with negative timeout (-577.704 seconds); no final summary. Prior pytest/dashboard/download steps returned 0. Rerun separately; do not treat as PASS."}

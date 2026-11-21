@@ -1,0 +1,35 @@
+{
+  "tc": "TC02",
+  "name": "Unicode and spaces",
+  "uri": "/download?path=b%C3%A1o%20c%C3%A1o%20t%E1%BB%91t%20nghi%E1%BB%87p.pdf",
+  "framework_path": "báo cáo tốt nghiệp.pdf",
+  "expected_http": 200,
+  "actual_http": 200,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:30 GMT",
+    "Content-Disposition": "attachment; filename=\"bao cao tot nghiep.pdf\"; filename*=UTF-8''b%C3%A1o%20c%C3%A1o%20t%E1%BB%91t%20nghi%E1%BB%87p.pdf",
+    "Content-Type": "application/octet-stream",
+    "Cache-Control": "no-store",
+    "Accept-Ranges": "bytes",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Transfer-Encoding": "chunked",
+    "Connection": "close"
+  },
+  "response_length": 1683,
+  "response_sha256": "35ad781316811e14e0a767ed24f67fc8fbbeb0422ef0942bae79a2439e480219",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:30.270427+00:00",
+  "ended_utc": "2026-11-17T14:40:30.310669+00:00"
+}

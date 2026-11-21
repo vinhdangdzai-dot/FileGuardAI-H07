@@ -1,0 +1,257 @@
+{
+  "scope": "Account + MFA work only; other pre-existing dirty changes are preserved and excluded. Source hashes are current inventory, not a claim that the entire git diff belongs to this task.",
+  "files": [
+    {
+      "path": "app/account_store.py",
+      "sha256": "5a20d98465784beb6dd11fd989539dfb71f9a1266411febab0b8206ce654bc21"
+    },
+    {
+      "path": "app/account_views.py",
+      "sha256": "ee026d6caf8d0a3526174af950364b3098f687e81fdff222688ab5ad8ae71dbc"
+    },
+    {
+      "path": "app/account_mail.py",
+      "sha256": "2ca5cec0b81668493d03df0ad3e956917947b65b5454a5009736d0868e9672c1"
+    },
+    {
+      "path": "app/auth.py",
+      "sha256": "842998eefe26e36eb56c96aa24b953b8b450383a6f59a1c8cd13af43005129ec"
+    },
+    {
+      "path": "app/web.py",
+      "sha256": "18b9646d398e804913147e1f4e09c144bf75a827e4a57ce08cbfbaa0ddfdd6d9"
+    },
+    {
+      "path": "app/database.py",
+      "sha256": "67ce27459070f1dffb266be90646edb44d8181b529912a997962d3a4e97ab886"
+    },
+    {
+      "path": "app/credential_store.py",
+      "sha256": "fb5a4bc17f95c893961ca67a13005727f7cf26a1a2e49e2cff8aa021e7a5cf2f"
+    },
+    {
+      "path": "app/passwords.py",
+      "sha256": "5e039b23734049163c2f4ec28b3f714367ad9dbbf6ffeedf73097e3a58be72f1"
+    },
+    {
+      "path": "app/mfa.py",
+      "sha256": "cff8d3db5b9327b9a5e1342a31bd36528d9720d5fbb10a64640d97acf67c22da"
+    },
+    {
+      "path": "app/mfa_keys.py",
+      "sha256": "cf2192eef5ded9704464e857fac878824713141cc1c500b8b9b411d733beb355"
+    },
+    {
+      "path": "app/mfa_views.py",
+      "sha256": "36066a89e51438bbef261eb317181a1dacde94f77e401c24adb4cef80edfc3c7"
+    },
+    {
+      "path": "app/static/account-reset.js",
+      "sha256": "0db0209a83e5452dd13ce5e133b0c50d922f07235741fffa4ee75040c2010a37"
+    },
+    {
+      "path": "app/static/style.css",
+      "sha256": "f962c23863c59e74d96d7d0ed2afa41e80d7f01f409beee496f240d87ec8a95d"
+    },
+    {
+      "path": "app/templates/base.html",
+      "sha256": "0460fdd83ac892f16a1c8d959d7ea3721dc4bbd1c52dc71ac101ea287ee9ee22"
+    },
+    {
+      "path": "app/templates/login.html",
+      "sha256": "2721b70fd7f83c335cfdbe8401e227096861583fd7e5aca5e9bfe255c5a64290"
+    },
+    {
+      "path": "app/templates/change_password.html",
+      "sha256": "46c3e8b30aa81cbc5157bf64e5c1de350ff3b38dc776d4c2e3496ddf419bf3e0"
+    },
+    {
+      "path": "app/templates/register.html",
+      "sha256": "04af85baa6d48080792844a48aa22215de5a8d4875726bbe5b2b083e48ba4f1d"
+    },
+    {
+      "path": "app/templates/forgot_password.html",
+      "sha256": "b7a190e2531b713395d4ef9b17120df862e2445e7e560062cb082bc0f42214e9"
+    },
+    {
+      "path": "app/templates/reset_password.html",
+      "sha256": "b493a44da77273b21e6ae0e5606f432b6044ca87c67536031373cdc1df34945c"
+    },
+    {
+      "path": "app/templates/account.html",
+      "sha256": "eb99d521913fd8f0a451c741e020d9cb179bc6d36560005f7d36ee504bb7788f"
+    },
+    {
+      "path": "app/templates/accounts_manage.html",
+      "sha256": "163b72e40cf567c7ae65c20f4a97033ad07d02e41deff6248b4ba8c9369a7ade"
+    },
+    {
+      "path": "app/templates/mfa_verify.html",
+      "sha256": "3694b94e921ecc4ca27b6ad267f591a88659c8220a577baefae7cc03de3cdf57"
+    },
+    {
+      "path": "app/templates/mfa_codes.html",
+      "sha256": "ba4e19f9e8a24e942c8033a49ba6bc0899315a128c0d26e79a909f2bb0a39cdd"
+    },
+    {
+      "path": "app/templates/mfa_settings.html",
+      "sha256": "56d404d1e3028587d5e6e18993110a9006d4368bcfd44654b3e230549e78bb46"
+    },
+    {
+      "path": "tests/auth_support.py",
+      "sha256": "daf1f6cc11fbf9ed9ca043d8e3985c980f099597e5b5b44bbcc214f5c8157c41"
+    },
+    {
+      "path": "tests/test_accounts.py",
+      "sha256": "0f7c9ac4ea61b30a46f23a071c3594f63fed132d966b92a1635de5d9b12e14ef"
+    },
+    {
+      "path": "tests/test_account_mail.py",
+      "sha256": "09938e611681d12f8498a31881991ab806006f478f40ba4df3d9eaeb03bbc1fb"
+    },
+    {
+      "path": "tests/test_acceptance_timeout.py",
+      "sha256": "ed7f5b09dcbe9dfcd431c2edde1c3ac3aaa23f5dcf43e603d4f553b903d9ed25"
+    },
+    {
+      "path": "tests/test_mfa.py",
+      "sha256": "2abba79695d0e96e598d5c904922171dccc0d235efb9dc3079ec7b931ffd657c"
+    },
+    {
+      "path": "tests/test_auth.py",
+      "sha256": "7951c920f1fa06bc5ff26dd5b973d7b242fe5d7b28280e5c3a9ae0a30a447dc1"
+    },
+    {
+      "path": "tests/test_password_change.py",
+      "sha256": "f97d99b337d2e33177fe5f6095e397cad948546743958ed27b99fa70501e4752"
+    },
+    {
+      "path": "tests/test_acceptance_extensions.py",
+      "sha256": "456247a603bfa3e6a48a33ce8239d0057189f6bc5c171ea3cff35110015a3fc6"
+    },
+    {
+      "path": "tests/test_ai_explanations.py",
+      "sha256": "6cac3457d7ecff2bdcb51137b9215ef21fb83c12814d527e002b082b68063df0"
+    },
+    {
+      "path": "tests/test_ui.py",
+      "sha256": "4af1b64aebf4ed0238c562d91118e3cb785f3e5397820cee88aa16d1274dc9c2"
+    },
+    {
+      "path": "tests/test_branding_ui.py",
+      "sha256": "6b4879d7b70ab49d7517a31ddfe493fc91755a89ecc382fcc031583b676f93a9"
+    },
+    {
+      "path": "tests/test_text_size_ui.py",
+      "sha256": "248aa7f48c094015c002f0d8f6760346eac74dbe64850d6fb800ccf4573ec4bb"
+    },
+    {
+      "path": "tests/test_training_dataset.py",
+      "sha256": "2a00dd5ae505a94050b8938db8e991593a5368a19d0ed4c074a62db13cb7af5b"
+    },
+    {
+      "path": "tests/test_ui_refinement.py",
+      "sha256": "d38454905e8759459de400cfed41c2a010440027589e2dfa04920c1fdfcfb2ed"
+    },
+    {
+      "path": "tests/test_gemini.py",
+      "sha256": "9807feb4c271ccb3d67d863b90c4bc4dad0c62fa359475ae5aec2e45158b44ca"
+    },
+    {
+      "path": "tests/test_alerts.py",
+      "sha256": "a3d6e2cbca22af9fc231e97e4c35729abf42499a2c453f66290258e0735cd9b7"
+    },
+    {
+      "path": "tests/test_app.py",
+      "sha256": "e48da947a55379af9334ae70de363fc90d74a2b7e9ab6a0cc68f6a61e80d060c"
+    },
+    {
+      "path": "tests/test_review.py",
+      "sha256": "0e87fb8784491865ca856d07f64be88bb713ef2f5b3af3cdffaa8a77d99d16fa"
+    },
+    {
+      "path": "tests/test_evaluation.py",
+      "sha256": "7e8f59baa5ca7d235e8ff13296f54703e1d46979e2792f628249bd4e6f11d2c8"
+    },
+    {
+      "path": "tests/test_improvement.py",
+      "sha256": "cc98ffad9d7d8eeac07274fa75175836bc8faa61f72e68cba6cba1b8c6f8de56"
+    },
+    {
+      "path": "tests/test_proxy_fix.py",
+      "sha256": "90c2945ef4519d62a8dcab5f4743cf4a281c855c0c4633964e45f04c9ccf9ef3"
+    },
+    {
+      "path": "tools/manage_credentials.py",
+      "sha256": "a2b07cae33e81f68f03055fcc7db40be9e65973a5dd433cefbeaaa301aadcaa6"
+    },
+    {
+      "path": "tools/manage_mfa.py",
+      "sha256": "95bc7a6f21d877b3a3c800ea0d0b4a8a183e312a1bb081bddbd1b43e2a0d3366"
+    },
+    {
+      "path": "tools/mfa_fixture.py",
+      "sha256": "1aa7c2222aa055a1298b5bafb967d497d108620739e2d90a0e66f3cada607199"
+    },
+    {
+      "path": "tools/run_h07_acceptance.py",
+      "sha256": "f55f91e1046ddcfee2d93318321b1c65ccdf89736e823ef23d42720f1b8e3ca1"
+    },
+    {
+      "path": "tools/verify_accounts_browser.py",
+      "sha256": "2539f8956b04950d05978c9b0b693398c288fd16844c5e30528d6d67dd17a2cd"
+    },
+    {
+      "path": "tools/verify_evaluation_http.py",
+      "sha256": "7a2a6542286900a2b7dc9465b8f873c9250a5e62b2b341c09e4177ee66fe8b4e"
+    },
+    {
+      "path": "tools/verify_gemini_live.py",
+      "sha256": "d8ef9db678f504bc0a3118f75a98c2dfae8d6f5eafc8894bbc38b5caa2476313"
+    },
+    {
+      "path": "tools/verify_ui_browser.py",
+      "sha256": "6fb93701b365c6664f8abadd1c11c4f364f0f4a4bec578bc87432e44beb19ab7"
+    },
+    {
+      "path": "tools/ui_password_checks.py",
+      "sha256": "4cf23ee12ef76c88b9299fd634c7f9eaf626b0704dacdfa4102fdd6d0d7a6281"
+    },
+    {
+      "path": "tools/verify_credentials_tcp.py",
+      "sha256": "00e975d6232b714a197f8627749ef8d3f7d31a5f5a4e11ee1b371170c8f10efb"
+    },
+    {
+      "path": "tools/verify_alerts_browser.py",
+      "sha256": "8742413beeb7eca9b1c5ae6be7211bc921ad12efb6ee075752134c04c8b2858f"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "95d979080e52edac92b75ea0ae47130c5691203e36c610edb7eb044aa7a93f61"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "1fad211adddaf1708fdc8b0e2a02579bcea6924eaca960f50719c6845339a643"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "a24d20fbd4f7e7ec18d6d10e0177bccc8750dd072e262f6c1d450940bc77830f"
+    },
+    {
+      "path": "docs/h07/USER_ACCOUNTS.md",
+      "sha256": "3b22822bca6d8e80042abb7b88dde67d2396039824f3a20fd90a33e1b2abe6b7"
+    },
+    {
+      "path": "docs/h07/MFA_SECURITY.md",
+      "sha256": "8be27222f22f434ba2157dc2b2ccfbb1220b068a375264bca8d2e79c324a5f7f"
+    },
+    {
+      "path": "docs/h07/evidence/accounts_20261118/REPORT.md",
+      "sha256": "d2ff0f613c1756bff56dfd6cd6ea030540e19fe92a68650db9126ead5921b1a6"
+    },
+    {
+      "path": "docs/h07/evidence/accounts_mfa_20261119/REPORT.md",
+      "sha256": "80dda998f11cd4b886962b38b4e4d23e37da40d34c423013c51257e47ec09e7c"
+    }
+  ]
+}

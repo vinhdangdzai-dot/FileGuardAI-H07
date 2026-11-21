@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block title %}Mã dự phòng 2FA · CANH GÁC SỐ{% endblock %}
+{% block content %}<header class="page-heading"><div><span class="eyebrow">ADMIN / RECOVERY CODES</span><h1>Lưu mã dự phòng 2FA</h1><p>Các mã chỉ xuất hiện trong phản hồi này. Máy chủ chỉ lưu hash, không thể hiển thị lại mã nguyên bản.</p></div></header>
+<section class="panel account-panel"><p class="alert alert-warning" role="alert">Mỗi mã dùng một lần cùng mật khẩu. Lưu riêng an toàn; không gửi vào chat, log, Git hoặc dịch vụ AI.</p>
+<ul id="mfa-backup-codes">{% for code in codes %}<li><code>{{code}}</code></li>{% endfor %}</ul>
+<p class="table-note">Đổi thiết bị TOTP sẽ thu hồi các mã và phiên cũ. Email khôi phục mật khẩu không tắt TOTP.</p><a class="btn btn-primary" href="{{url_for('dashboard')}}">Đã lưu — đến Dashboard</a></section>{% endblock %}

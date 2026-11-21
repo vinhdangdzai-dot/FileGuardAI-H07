@@ -1,0 +1,11 @@
+{
+  "source": "docs\\h07\\evidence\\gemini_live_20261118T111736Z_59c64d\\report.json",
+  "sha256": "c83c960d27dc5d1ee359e71c95c2257e73efbaa87a530564d9791c2a608d8962",
+  "model": "gemini-2.5-flash-lite",
+  "provider": "gemini",
+  "probe_http": 404,
+  "pipeline_status": "model_unavailable",
+  "discovery_contains_model": true,
+  "native_generation_tested_in_source": false,
+  "source_unchanged": true
+}

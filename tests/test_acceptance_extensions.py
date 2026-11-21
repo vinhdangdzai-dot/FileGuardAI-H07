@@ -12,6 +12,7 @@ from werkzeug.security import generate_password_hash
 
 from app import create_app, database
 from app import web
+from tests.auth_support import complete_mfa
 from app.log_filters import normalize_filters
 from ml.evaluate import sha256
 
@@ -42,7 +43,9 @@ def login(c, role='admin', csrf=False):
     fields = {'password': 'extension-test-secret' if role == 'admin' else 'auditor-password', 'role': role}
     if csrf:
         fields['csrf_token'] = token(c)
-    assert c.post('/login', data=fields).status_code == 302
+    response=c.post('/login', data=fields)
+    assert response.status_code == 302
+    complete_mfa(c,response)
 
 
 def test_all_log_filters_and_statistics_share_scope(tmp_path, monkeypatch):

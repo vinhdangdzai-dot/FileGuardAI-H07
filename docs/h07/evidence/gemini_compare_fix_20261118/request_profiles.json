@@ -1,0 +1,48 @@
+[
+  {
+    "provider": "gemini-native",
+    "model": "gemini-2.5-flash-lite",
+    "method": "POST",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent",
+    "header_names": [
+      "X-goog-api-key",
+      "Content-type"
+    ],
+    "body": {
+      "contents": [
+        {
+          "parts": [
+            {
+              "text": "Reply with OK."
+            }
+          ]
+        }
+      ],
+      "generationConfig": {
+        "maxOutputTokens": 256
+      }
+    },
+    "note": "Offline request construction, no HTTP call or live credential."
+  },
+  {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash-lite",
+    "method": "POST",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    "header_names": [
+      "Authorization",
+      "Content-type"
+    ],
+    "body": {
+      "model": "gemini-2.5-flash-lite",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Reply with OK."
+        }
+      ],
+      "max_tokens": 256
+    },
+    "note": "Offline request construction, no HTTP call or live credential."
+  }
+]

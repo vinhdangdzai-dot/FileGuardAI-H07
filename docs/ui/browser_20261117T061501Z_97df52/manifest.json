@@ -1,0 +1,21 @@
+{
+  "01_public_desktop.png": "852056b1e104d7e1e98b5f01411048bebeeb3c431e7fd4d5a2e467fa2b7069dd",
+  "02_blocked_request.png": "6e0cf5dd0585ad5d888e63812916b31230bda764f31af5327d7db173786b83d2",
+  "03_login_desktop.png": "96f72759d33144d73ba509172a555028129a4f42c551b6d296ca0b383be42f60",
+  "04_dashboard_desktop.png": "361123f62cde81367cbf4198391d0abc51146813b806c8cece07f6e9902288c7",
+  "05_evaluation_desktop.png": "407d48bbba49c4187c2465d3b5a90bee008f011d731d8bf7732484cdacb934ad",
+  "06_training_desktop.png": "9793bc33ab14753928d2bf95c0ae233a0988bcb35721692aad04035b3629230d",
+  "dashboard_mobile.png": "60148b382ba602c4ae374264acfae6211a83c042b9e00932f2ed577dd7fc6727",
+  "evaluation_legacy_desktop.png": "6068aa49d7cf32febdf5549d2dd302ea2de6c58148f1987c2583c40dbf997312",
+  "evaluation_mobile.png": "a0f3eb0cd065b0c701ee1c2441d68c90013ca648cb46caa6c0488360660d2cd4",
+  "evaluation_strict_desktop.png": "8327a9608df29c7f52dc6d5c51a2c39f022c149fb70c7cee91abe6a1cc4f35e1",
+  "login_error_desktop.png": "bb231dd82f3e5b3ff14bac6d9240b857b6ea571c3b44628f0619cd7b2ad73549",
+  "login_guest_1440.png": "96f72759d33144d73ba509172a555028129a4f42c551b6d296ca0b383be42f60",
+  "login_guest_390.png": "1600994cae6d3490f6b319f19be7fae04d62af847d916e1bd1378cb586be4c62",
+  "login_guest_768.png": "5f50e8823c28080573af69e6686851fad133178a889e8616af884fe5cae4394a",
+  "login_mobile.png": "21c5502f7e178f5ec79506d619e8120431e66d644474e88e493948bfbe127fe6",
+  "public_mobile.png": "191aeee0d8e623e68d31e062a8662275c5c15a632a5fa220e845eaaa68646717",
+  "results.json": "5c4afbcd43aad41c930e1626dda07aaa0306e1b56d45005f5f8a8b16ab2dfa4a",
+  "sidebar_mobile.png": "84f95802ec2624f5b2153f04c7cfde3370863f6ec39db9bc826688fdce900b66",
+  "training_mobile.png": "ebd11c2c04ac6014b330127a925b5978cf3beaefeb5652fe2d70f5b90dc9dfa4"
+}

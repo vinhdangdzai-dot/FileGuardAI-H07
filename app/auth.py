@@ -6,32 +6,87 @@ from pathlib import Path
 import secrets
 import sqlite3
 
-from flask import abort, redirect, request, session, url_for
-from werkzeug.security import generate_password_hash
+from flask import abort, redirect, request, session, url_for,g
+from flask.sessions import SecureCookieSessionInterface
+from .passwords import password_hash
 
 from .database import insert_security_event
 
 
 def configure_auth(app, base):
+    class TransportSessionInterface(SecureCookieSessionInterface):
+        def get_cookie_secure(self,application):
+            return bool(application.config['SESSION_COOKIE_SECURE'] or request.is_secure)
+    app.session_interface=TransportSessionInterface()
     app.config.setdefault('CSRF_ENABLED', not app.testing)
     app.config.setdefault('LOGIN_MAX_FAILURES', 5)
     app.config.setdefault('LOGIN_WINDOW_SECONDS', 300)
     app.config.setdefault('PERMANENT_SESSION_LIFETIME', timedelta(minutes=15))
-    stored = app.config.get('ADMIN_PASSWORD_HASH')
-    path = Path(app.config.get('ADMIN_HASH_FILE', base / 'instance/admin_password.hash'))
-    if not stored and path.is_file() and not app.testing:
-        stored = path.read_text(encoding='utf-8').strip()
-    if stored and not stored.startswith(('scrypt:', 'pbkdf2:')):
-        raise ValueError('ADMIN_PASSWORD_HASH must be a Werkzeug password hash')
-    app.config['ADMIN_HASH'] = stored or generate_password_hash(app.config['ADMIN_PASSWORD'])
-    auditor = app.config.get('AUDITOR_PASSWORD_HASH')
-    auditor_file = Path(app.config.get('AUDITOR_HASH_FILE', base / 'instance/auditor_password.hash'))
-    if not auditor and auditor_file.is_file() and not app.testing:
-        auditor = auditor_file.read_text(encoding='utf-8').strip()
-    if auditor and not auditor.startswith(('scrypt:', 'pbkdf2:')):
-        raise ValueError('AUDITOR_PASSWORD_HASH must be a Werkzeug password hash')
-    app.config['AUDITOR_HASH'] = auditor
-    app.config['BOOTSTRAP_PASSWORD'] = None if stored else app.config['ADMIN_PASSWORD']
+    from .credential_store import Credentials, credential_lock, atomic_hash_write, read_hash, validate_hash
+    path = Path(app.config['ADMIN_HASH_FILE'])
+    with credential_lock(path):
+        if not path.exists():
+            stored = app.config.get('ADMIN_PASSWORD_HASH')
+            password = app.config.get('ADMIN_PASSWORD')
+            if not stored and not password:
+                raise ValueError('Configure admin first: python tools/manage_credentials.py')
+            if not stored and not 6 <= len(password) <= 128:
+                raise ValueError('Bootstrap password must contain 6-128 characters')
+            atomic_hash_write(path, stored or password_hash(password))
+        stored = read_hash(path)  # Existing valid file always wins; no silent reset.
+    app.config['ADMIN_HASH'] = stored
+    auditor_file = Path(app.config['AUDITOR_HASH_FILE'])
+    app.config['AUDITOR_HASH'] = read_hash(auditor_file) if auditor_file.is_file() else app.config.get('AUDITOR_PASSWORD_HASH')
+    if app.config['AUDITOR_HASH']:
+        validate_hash(app.config['AUDITOR_HASH'])
+    app.config['BOOTSTRAP_PASSWORD'] = None
+    app.config.pop('ADMIN_PASSWORD', None)
+    app.extensions['credentials'] = Credentials(app)
+    app.config.setdefault('PASSWORD_CHANGE_MAX_FAILURES', 5)
+    app.config.setdefault('PASSWORD_CHANGE_WINDOW_SECONDS', 300)
+
+    @app.before_request
+    def check_session_version():
+        g.account=None
+        role = session.get('role')
+        if 'user_id' in session:
+            from .account_store import find
+            user_id=session.get('user_id')
+            try:
+                row=find(app.config['DATABASE'],user_id=user_id) if type(user_id) is int and 0<user_id<=9223372036854775807 else None
+                supplied=session.get('_credential_version','')
+                valid=bool(row and row['active'] and row['role']==role and isinstance(supplied,str) and supplied.isascii() and hmac.compare_digest(supplied,row['session_version']))
+                if valid:
+                    valid=app.extensions['mfa'].validate_session(app.extensions['mfa'].principal(user=row))
+            except sqlite3.Error:
+                session.clear();abort(503)
+            if not valid:session.clear()
+            else:g.account=row
+            return
+        if role:
+            if role not in {'admin','auditor'}:
+                session.clear();return
+            try:
+                expected = app.extensions['credentials'].version(role)
+            except (OSError, ValueError):
+                session.clear()
+                abort(503)
+            supplied = session.get('_credential_version', '')
+            try:
+                valid = isinstance(supplied, str) and hmac.compare_digest(supplied, expected)
+            except TypeError:
+                valid = False
+            if not valid:
+                session.clear()
+            elif not app.extensions['mfa'].validate_session(app.extensions['mfa'].principal(role=role)):
+                session.clear()
+
+    @app.before_request
+    def require_secure_account_transport():
+        sensitive=request.endpoint in {'login','change_password','logout'} or (request.endpoint or '').startswith(('accounts.','mfa.'))
+        if not app.testing and sensitive and not request.is_secure:
+            local=request.remote_addr in {'127.0.0.1','::1'} and request.host.split(':')[0] in {'localhost','127.0.0.1','[::1]'}
+            if not local:abort(400,description='HTTPS is required for account access')
 
     def csrf_token():
         if '_csrf' not in session:

@@ -5,15 +5,16 @@
 | Tài nguyên | Guest | Auditor | Admin | OS Operator |
 |---|---|---|---|---|
 | Kho public/download qua policy | Có | Có | Có | Qua OS theo ACL |
-| Dashboard/AI plots/security events | Không | Đọc | Đọc | Không tự có cookie |
-| Filter log | Không | Có | Có | CLI SQL read-only nếu có ACL |
+| Dashboard/AI plots/security events | Không | Không | Đọc | Không tự có cookie |
+| Filter log | Không | Không | Có | CLI SQL read-only nếu có ACL |
 | Export CSV | Không | Không | Có, POST + CSRF | Có qua công cụ local |
 | UPDATE/DELETE event qua app | Không | Không | Không | Trigger có thể bị operator có quyền DB gỡ: rủi ro còn lại |
-| Đặt hash/backup/deploy model | Không | Không | Không qua web | Có, bằng CLI/OS |
+| Đổi mật khẩu Admin hiện tại | Không | Không | Có, xác minh mật khẩu + CSRF | CLI có quyền filesystem |
+| Đặt hash Auditor/backup/deploy model | Không | Không | Không qua web | Có, bằng CLI/OS |
 
 ## Cấu hình tài khoản
 
-Chạy trong project bằng đúng Python venv đang dùng:
+Chỉ dùng CLI để thiết lập lần đầu hoặc chủ động đặt lại mật khẩu; không chạy lại CLI ở mỗi lần mở server. Chạy trong project bằng đúng Python venv đang dùng:
 
 ```powershell
 python tools/manage_credentials.py --role admin
@@ -24,10 +25,11 @@ python run.py
 Password nhập bằng getpass, không qua command-line/history. Chỉ scrypt
 hash Werkzeug được lưu trong `instance/admin_password.hash` hoặc
 `auditor_password.hash`; hash cũ vào credential_history, không xóa.
-Restart sau đổi hash. Env ADMIN_PASSWORD_HASH/AUDITOR_PASSWORD_HASH được
-ưu tiên; plaintext ADMIN_PASSWORD chỉ là tương thích bootstrap demo.
-Nếu chưa có hash admin, run.py in mật khẩu tạm ngẫu nhiên local; không
-chụp/publish terminal đó. Auditor chưa cấu hình thì không đăng nhập được.
+Hash Admin hợp lệ đã có luôn được ưu tiên và không ghi lại khi startup.
+CLI và website đổi hash có hiệu lực ngay; phiên Admin cũ bị thu hồi bằng
+kiểm tra phiên bản hash phía server. Không còn in mật khẩu tạm. Khi chưa
+có hash, dùng CLI nhập kín. Biến môi trường chỉ còn là bootstrap tương thích
+lần đầu, không ghi đè file có sẵn. Chi tiết và giới hạn: [PASSWORDS](../auth/PASSWORDS.md).
 
 Session 15 phút, HttpOnly + SameSite=Lax. HTTPS thực tế cần đặt
 COOKIE_SECURE=1 và secret bền vững trong secret manager/env. Demo mặc định

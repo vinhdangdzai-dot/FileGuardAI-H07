@@ -1,0 +1,38 @@
+{
+  "seed": 2026,
+  "candidate_C": [
+    0.1,
+    1,
+    10
+  ],
+  "threshold": 0.5,
+  "data_sha256": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+  "selection": "highest validation F1, ties choose smallest C",
+  "split": {
+    "seed": 2026,
+    "components": 26,
+    "family_overlap": [],
+    "path_overlap": [],
+    "canonical_overlap": [],
+    "rows": {
+      "train": 6500,
+      "validation": 1999,
+      "test": 1501
+    },
+    "labels": {
+      "train": {
+        "0": 3000,
+        "1": 3500
+      },
+      "validation": {
+        "0": 999,
+        "1": 1000
+      },
+      "test": {
+        "0": 1001,
+        "1": 500
+      }
+    }
+  },
+  "caveat": "New split of previously disclosed synthetic data, not a blind real-world test; no old artifact overwritten"
+}

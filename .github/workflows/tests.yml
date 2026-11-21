@@ -11,8 +11,17 @@ jobs:
       - run: python -m pip install -r requirements-ci.txt
       - run: python tools/prepare_workspace.py
       - run: python -m pytest -q -rs -W error::sklearn.exceptions.InconsistentVersionWarning --junitxml=pytest.xml
+      - name: Install isolated browser test dependency
+        run: python -m pip install --target .verification/ui_browser_lib playwright==1.65.2
+      - name: Verify Chrome UI and Light Dark System themes
+        run: python tools/verify_ui_browser.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pytest-results
           path: pytest.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-browser-evidence
+          path: docs/ui/browser_*/

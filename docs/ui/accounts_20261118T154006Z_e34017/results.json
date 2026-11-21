@@ -1,0 +1,470 @@
+{
+  "note": "Real TCP/Chrome; synthetic accounts and mailbox; no SMTP/Gemini calls or business DB writes.",
+  "checks": [
+    {
+      "name": "registration password reveal works",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "User registered and logged in using email",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "User cannot access Admin endpoints",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "User account route enforces CSRF",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Unicode profile update works",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "wrong current password rejected",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password change revokes other session",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "new password logs in",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "reset token stays out of URL and server query",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "reset password logs in",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin lock revokes User immediately",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin unlock restores login",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "downloads and boundary unchanged",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "/register light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/register light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/register light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/register dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/register dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/register dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/login light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/login light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/login light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/login dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/login dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/login dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/forgot-password light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/forgot-password light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/forgot-password light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/forgot-password dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/forgot-password dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/forgot-password dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/reset-password light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/reset-password light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/reset-password light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/reset-password dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/reset-password dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/reset-password dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/account light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/account light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/account light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/account dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/account dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/account dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/account/password light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/account/password light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/account/password light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/account/password dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/account/password dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/account/password dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/admin/accounts light 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/admin/accounts light 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/admin/accounts light 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "/admin/accounts dark 1440 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "/admin/accounts dark 768 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "/admin/accounts dark 390 fits viewport",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "no JavaScript errors",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "static assets load",
+      "result": "PASS",
+      "actual": null
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "screenshots": [
+    "register_light_1440.png",
+    "register_light_768.png",
+    "register_light_390.png",
+    "register_dark_1440.png",
+    "register_dark_768.png",
+    "register_dark_390.png",
+    "login_light_1440.png",
+    "login_light_768.png",
+    "login_light_390.png",
+    "login_dark_1440.png",
+    "login_dark_768.png",
+    "login_dark_390.png",
+    "forgot-password_light_1440.png",
+    "forgot-password_light_768.png",
+    "forgot-password_light_390.png",
+    "forgot-password_dark_1440.png",
+    "forgot-password_dark_768.png",
+    "forgot-password_dark_390.png",
+    "reset-password_light_1440.png",
+    "reset-password_light_768.png",
+    "reset-password_light_390.png",
+    "reset-password_dark_1440.png",
+    "reset-password_dark_768.png",
+    "reset-password_dark_390.png",
+    "account_light_1440.png",
+    "account_light_768.png",
+    "account_light_390.png",
+    "account_dark_1440.png",
+    "account_dark_768.png",
+    "account_dark_390.png",
+    "account_password_light_1440.png",
+    "account_password_light_768.png",
+    "account_password_light_390.png",
+    "account_password_dark_1440.png",
+    "account_password_dark_768.png",
+    "account_password_dark_390.png",
+    "admin_accounts_light_1440.png",
+    "admin_accounts_light_768.png",
+    "admin_accounts_light_390.png",
+    "admin_accounts_dark_1440.png",
+    "admin_accounts_dark_768.png",
+    "admin_accounts_dark_390.png"
+  ],
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "instance\\events.sqlite3": true,
+    "instance\\admin_password.hash": true
+  },
+  "passed": 57,
+  "failed": 0
+}

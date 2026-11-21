@@ -1,0 +1,156 @@
+Audit: C:\Users\HUU VINH\FileGuardAI_H07_MVP_10000_mau_khong_trung\FileGuardAI_H07\docs\bao_cao_h07\evidence\20261118T182316Z_57cb8b\audit\audit.json
+13 checks PASS; 0 FAIL; 94 Python files parsed
+{
+  "frozen_holdout": {
+    "logistic_regression": {
+      "accuracy": 0.8750624687656172,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "confusion_matrix": [
+        [
+          1001,
+          0
+        ],
+        [
+          250,
+          750
+        ]
+      ]
+    },
+    "improved_logistic_regression": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "confusion_matrix": [
+        [
+          1001,
+          0
+        ],
+        [
+          0,
+          1000
+        ]
+      ]
+    },
+    "regex": {
+      "accuracy": 0.8750624687656172,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.8571428571428571,
+      "confusion_matrix": [
+        [
+          1001,
+          0
+        ],
+        [
+          250,
+          750
+        ]
+      ]
+    }
+  },
+  "external_public": {
+    "logistic_regression": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "confusion_matrix": [
+        [
+          200,
+          0
+        ],
+        [
+          0,
+          200
+        ]
+      ]
+    },
+    "improved_logistic_regression": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "confusion_matrix": [
+        [
+          200,
+          0
+        ],
+        [
+          0,
+          200
+        ]
+      ]
+    },
+    "regex": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "confusion_matrix": [
+        [
+          200,
+          0
+        ],
+        [
+          0,
+          200
+        ]
+      ]
+    }
+  }
+}
+Methodology: C:\Users\HUU VINH\FileGuardAI_H07_MVP_10000_mau_khong_trung\FileGuardAI_H07\docs\bao_cao_h07\evidence\20261118T182316Z_57cb8b\audit\methodology.json
+Canonical-equivalent test rows excluded: 15 ; remaining: 1986
+{
+  "logistic_regression": {
+    "accuracy": 0.879154078549849,
+    "precision": 1.0,
+    "recall": 0.7563451776649747,
+    "f1": 0.861271676300578,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        240,
+        745
+      ]
+    ]
+  },
+  "improved_logistic_regression": {
+    "accuracy": 1.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        0,
+        985
+      ]
+    ]
+  },
+  "regex": {
+    "accuracy": 0.879154078549849,
+    "precision": 1.0,
+    "recall": 0.7563451776649747,
+    "f1": 0.861271676300578,
+    "confusion_matrix": [
+      [
+        1001,
+        0
+      ],
+      [
+        240,
+        745
+      ]
+    ]
+  }
+}

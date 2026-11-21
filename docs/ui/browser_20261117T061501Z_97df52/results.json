@@ -1,0 +1,542 @@
+{
+  "created_at_utc": "2026-11-17T06:15:02.454069+00:00",
+  "transport": "TCP localhost, real Chromium",
+  "fixture_note": "Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.",
+  "checks": [
+    {
+      "name": "public desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "NFC Unicode file search",
+      "result": "PASS",
+      "actual": 1
+    },
+    {
+      "name": "search empty state",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "extension filter",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native Unicode download exact body",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "download status does not fabricate success",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native form traversal rejected",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %2e%2e%2fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %252e%252e%252fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP missing.txt",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "login desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "login desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login CSRF present",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard reveals password without submitting",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard hides password and preserves value",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "real login submit shows loading on submit, not reveal",
+      "result": "PASS",
+      "actual": [
+        {
+          "busy": "true",
+          "label": "Đang xác thực…",
+          "revealBusy": null
+        }
+      ]
+    },
+    {
+      "name": "failed login is clear and generic",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "four real overview cards",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard charts rendered",
+      "result": "PASS",
+      "actual": {
+        "charts_rendered": true
+      }
+    },
+    {
+      "name": "chart data equals backend counts",
+      "result": "PASS",
+      "actual": {
+        "data": [
+          1,
+          3,
+          1
+        ],
+        "source": {
+          "allowed": 1,
+          "blocked": 3,
+          "missed": 1
+        }
+      }
+    },
+    {
+      "name": "desktop sidebar collapses",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "compact sidebar keeps accessible links",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "filtered log rows BLOCK",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "filtered CSV export",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "evaluation desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation metrics and confusion images",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation comparison chart rendered",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "scientific warning visible",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "selector includes historical and strict canonical runs",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run metadata is exact without fabricated validation",
+      "result": "PASS",
+      "actual": {
+        "fit_samples": "7999",
+        "validation_samples": "Không được cung cấp",
+        "test_samples": "2001",
+        "refit_samples": "7999",
+        "canonical_overlap": "Không được cung cấp"
+      }
+    },
+    {
+      "name": "legacy run metrics equal its results.json",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run plotted metrics equal source",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run image sources remain pinned",
+      "result": "PASS",
+      "actual": [
+        "20261116T153450Z_e5b13b",
+        "20261116T153450Z_e5b13b",
+        "20261116T153450Z_e5b13b"
+      ]
+    },
+    {
+      "name": "strict run metadata is exact without fabricated validation",
+      "result": "PASS",
+      "actual": {
+        "fit_samples": "6500",
+        "validation_samples": "1999",
+        "test_samples": "1501",
+        "refit_samples": "8499",
+        "canonical_overlap": "0"
+      }
+    },
+    {
+      "name": "strict run metrics equal its results.json",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "strict run plotted metrics equal source",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "strict run image sources remain pinned",
+      "result": "PASS",
+      "actual": [
+        "20261116T181019Z_dea9ec",
+        "20261116T181019Z_dea9ec",
+        "20261116T181019Z_dea9ec"
+      ]
+    },
+    {
+      "name": "glossary expands with all key terms",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "invalid run does not expose or silently substitute data",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "training desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training real features and read-only labels",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training chart equals CSV counts",
+      "result": "PASS",
+      "actual": {
+        "data": [
+          5000,
+          5000
+        ],
+        "source": {
+          "0": 5000,
+          "1": 5000
+        }
+      }
+    },
+    {
+      "name": "public tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "dashboard tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "evaluation tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "training tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "login tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "tablet sidebar initially closed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "tablet sidebar opens",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "tablet sidebar Escape closes",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "public mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "dashboard mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "dashboard mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "evaluation mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "training mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "login mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "mobile sidebar initially closed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "mobile sidebar opens",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "mobile sidebar Escape closes",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "no-JS native file links available",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 1440 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 1440 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 768 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 768 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 390 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 390 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "no JavaScript runtime errors",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "all local static assets load",
+      "result": "PASS",
+      "actual": []
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "screenshots": [
+    "01_public_desktop.png",
+    "02_blocked_request.png",
+    "03_login_desktop.png",
+    "login_error_desktop.png",
+    "04_dashboard_desktop.png",
+    "05_evaluation_desktop.png",
+    "evaluation_legacy_desktop.png",
+    "evaluation_strict_desktop.png",
+    "06_training_desktop.png",
+    "public_mobile.png",
+    "dashboard_mobile.png",
+    "evaluation_mobile.png",
+    "training_mobile.png",
+    "login_mobile.png",
+    "sidebar_mobile.png",
+    "login_guest_1440.png",
+    "login_guest_768.png",
+    "login_guest_390.png"
+  ],
+  "browser_version": "157.0.8103.52",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "passed": 82,
+  "failed": 0
+}

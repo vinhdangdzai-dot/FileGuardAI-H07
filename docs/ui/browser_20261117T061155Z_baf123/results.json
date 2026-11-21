@@ -1,0 +1,115 @@
+{
+  "created_at_utc": "2026-11-17T06:11:55.469430+00:00",
+  "transport": "TCP localhost, real Chromium",
+  "fixture_note": "Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.",
+  "checks": [
+    {
+      "name": "public desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "NFC Unicode file search",
+      "result": "PASS",
+      "actual": 1
+    },
+    {
+      "name": "search empty state",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "extension filter",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native Unicode download exact body",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "download status does not fabricate success",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native form traversal rejected",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %2e%2e%2fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %252e%252e%252fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP missing.txt",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "login desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "login desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login CSRF present",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard reveals password without submitting",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard hides password and preserves value",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "browser suite completed",
+      "result": "FAIL",
+      "actual": "Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\".login-panel button[type=submit]\")\n    - locator resolved to <button type=\"submit\" class=\"btn btn-primary w-100\" data-loading-label=\"Đang xác thực…\">…</button>\n  - attempting click action\n    - waiting for element to be visible, enabled and stable\n    - element is visible, enabled and stable\n    - scrolling into view if needed\n    - done scrolling\n    - performing click action\n    - click action done\n    - waiting for scheduled navigations to finish\n"
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "screenshots": [
+    "01_public_desktop.png",
+    "02_blocked_request.png",
+    "03_login_desktop.png"
+  ],
+  "browser_version": "157.0.8103.52",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "passed": 16,
+  "failed": 1
+}

@@ -37,7 +37,31 @@ def dataset_stats(rows, path):
             'family_counts': dict(sorted(Counter(r['family'] for r in rows).items())),
             'exact_duplicate_excess': len(rows) - len({r['path'] for r in rows}),
             'canonical_duplicate_excess': len(rows) - len({key(r['path']) for r in rows}),
-            'sha256': hashlib.sha256(Path(path).read_bytes()).hexdigest(), 'preview': rows[:20]}
+            'sha256': hashlib.sha256(Path(path).read_bytes()).hexdigest()}
+
+
+def dataset_page(rows, args):
+    """Bounded presentation only; never mutate source rows or export selection."""
+    query = args.get('q', '').strip()
+    label, family = args.get('label', ''), args.get('family', '')
+    try:
+        page = int(args.get('page', '1'))
+        per_page = int(args.get('per_page', '50'))
+    except (ValueError, TypeError):
+        raise ValueError('Invalid pagination') from None
+    if page < 1 or per_page not in {50, 100} or len(query) > 500:
+        raise ValueError('Invalid pagination or search')
+    if label not in {'', '0', '1'} or (family and family not in {r['family'] for r in rows}):
+        raise ValueError('Invalid dataset filter')
+    selected = [(i, r) for i, r in enumerate(rows, 1)
+                if (not query or query.casefold() in r['path'].casefold())
+                and (not label or label == r['label']) and (not family or family == r['family'])]
+    pages = max(1, math.ceil(len(selected) / per_page))
+    page = min(page, pages)
+    start = (page - 1) * per_page
+    return {'items': [{'index': i, **r} for i, r in selected[start:start + per_page]],
+            'total': len(selected), 'page': page, 'pages': pages, 'per_page': per_page,
+            'q': query, 'label': label, 'family': family}
 
 
 def model_weights(model, names):
@@ -92,6 +116,7 @@ def evaluation_history(root):
                 continue
             data = validate_evaluation(json.loads(file.read_text(encoding='utf-8')))
             history.append({'run': folder.name, 'created_at_utc': data['created_at_utc'],
+                            'experiment_type': data.get('experiment_type'),
                             'test_samples': data['test_samples'], 'v1_f1': data['logistic_regression']['f1'],
                             'v2_f1': data.get('improved_logistic_regression', {}).get('f1')})
         except (OSError, ValueError, TypeError, KeyError):

@@ -1,0 +1,33 @@
+{
+  "tc": "TC12",
+  "name": "double encoding / form encoded payload",
+  "uri": "/download?path=%252e%252e%252fsecret.txt",
+  "framework_path": "%2e%2e%2fsecret.txt",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:30 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3585",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3585,
+  "response_sha256": "3b4e05e92a195e19f3a64461023361f4038d91c7d1636fa41256460a37b957a5",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:30.688859+00:00",
+  "ended_utc": "2026-11-17T14:40:30.773248+00:00"
+}

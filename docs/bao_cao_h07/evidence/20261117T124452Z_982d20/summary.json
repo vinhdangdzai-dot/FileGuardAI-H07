@@ -1,0 +1,98 @@
+{
+  "created_at_utc": "2026-11-17T12:46:45.060626+00:00",
+  "steps": {
+    "pytest": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-rs",
+        "-W",
+        "error::sklearn.exceptions.InconsistentVersionWarning",
+        "-p",
+        "no:cacheprovider",
+        "--basetemp=C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\.test_runtime_acceptance_2db93401a93648adb1cf7bab4aebc845\\pytest",
+        "--junitxml=C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\bao_cao_h07\\evidence\\20261117T124452Z_982d20\\pytest.xml"
+      ],
+      "junit_counts": {
+        "PASS": 214,
+        "FAIL": 0,
+        "ERROR": 0,
+        "SKIP": 3
+      },
+      "counting_note": "Serialized JUnit testcase nodes only; console subtest totals are retained separately and not added here."
+    },
+    "dashboard_tcp": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "tools/verify_evaluation_http.py"
+      ],
+      "evidence": "docs\\evaluations\\dashboard_http_20261116T172733Z_800c38_http_9779787dc1ad.json",
+      "passed": 41,
+      "failed": 0
+    },
+    "download_tcp": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "tools/verify_tcp.py"
+      ],
+      "evidence": "docs\\evidence\\tcp_20261117T124627Z_2ed6c5",
+      "counts": {
+        "PASS": 33,
+        "FAIL": 0,
+        "SKIP": 3
+      }
+    },
+    "performance": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "tools/h07_acceptance.py"
+      ],
+      "evidence": "docs\\h07\\evidence\\20261117T124630Z_c8d860",
+      "requests": 144,
+      "failures": 0,
+      "sqlite_rows": 144
+    },
+    "symlinks": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "tools/check_symlinks.py"
+      ]
+    },
+    "audit": {
+      "returncode": 0,
+      "command": [
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+        "tools/audit_project.py",
+        "--output",
+        "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\bao_cao_h07\\evidence\\20261117T124452Z_982d20\\audit",
+        "--repeats",
+        "7"
+      ]
+    }
+  },
+  "test_runtime": {
+    "root": ".test_runtime_acceptance_2db93401a93648adb1cf7bab4aebc845",
+    "basetemp": ".test_runtime_acceptance_2db93401a93648adb1cf7bab4aebc845\\pytest",
+    "temporary": ".test_runtime_acceptance_2db93401a93648adb1cf7bab4aebc845\\os_tmp"
+  },
+  "protected_sha256_before": {
+    "data\\paths_synthetic.csv": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+    "artifacts\\model.joblib": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+    "instance\\events.sqlite3": "aa4a6f8a6fb5ad2db5c672780c812d966aa19f013c7d5bcf9407db6e58ec544d"
+  },
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "note": "Zero process exit for symlink probe does not mean PASS: inspect per-case SKIP/1314. No model deployment or merging."
+}

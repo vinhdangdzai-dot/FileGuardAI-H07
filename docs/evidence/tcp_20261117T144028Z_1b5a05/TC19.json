@@ -1,0 +1,33 @@
+{
+  "tc": "TC19",
+  "name": "directory is not a file",
+  "uri": "/download?path=tailieu",
+  "framework_path": "tailieu",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:31 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3571",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3571,
+  "response_sha256": "2eaea65a2d87922d821eebbd17a7eb5310b0d6dbc07367c23a785d87c20e6eaa",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:31.119328+00:00",
+  "ended_utc": "2026-11-17T14:40:31.144878+00:00"
+}

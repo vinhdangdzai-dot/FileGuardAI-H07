@@ -1,0 +1,13 @@
+Evidence: docs\h07\evidence\20261117T110428Z_94720b
+{
+  "created_at_utc": "2026-11-17T11:04:33.680523+00:00",
+  "workers": 4,
+  "http_requests": 144,
+  "sqlite_rows": 144,
+  "sqlite_integrity": "ok",
+  "failures": 0,
+  "method": "3 trials x48 requests; 4 workers; TCP localhost; end-to-end body read; includes Flask, model and SQLite; no production throughput claim"
+}
+1 RPS 65.45 p50/p95/p99 ms [54.44164999789791, 140.44287999349763, 192.2150100015279] blocked 30 / 30
+2 RPS 71.32 p50/p95/p99 ms [52.48270000447519, 110.24786999769276, 127.29190100348205] blocked 30 / 30
+3 RPS 63.11 p50/p95/p99 ms [55.20059999980731, 126.11421999899902, 165.54841499440954] blocked 30 / 30

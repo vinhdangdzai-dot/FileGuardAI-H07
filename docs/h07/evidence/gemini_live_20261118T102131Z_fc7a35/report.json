@@ -1,0 +1,6 @@
+{
+  "mode": "LIVE_GOOGLE_API",
+  "created_at_utc": "2026-11-18T10:21:31.439985+00:00",
+  "status": "NOT_RUN",
+  "reason": "invalid_configuration_or_secure_terminal_required"
+}

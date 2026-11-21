@@ -1,0 +1,22 @@
+{
+  "cases": [
+    {
+      "case": "file_policy",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "A required privilege is not held by the client"
+    },
+    {
+      "case": "directory_policy",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "A required privilege is not held by the client"
+    },
+    {
+      "case": "http_file",
+      "result": "SKIP",
+      "winerror": 1314,
+      "reason": "A required privilege is not held by the client"
+    }
+  ]
+}

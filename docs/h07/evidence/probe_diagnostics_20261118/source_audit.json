@@ -1,0 +1,26 @@
+{
+  "source": "docs\\h07\\evidence\\gemini_live_20261118T105847Z_e2e2e8\\report.json",
+  "source_sha256": "e5b40fb20cb7264bd7a99ee91970b0ec14a1e5035b34add523833f640635a69c",
+  "strict_utf8_decode": true,
+  "bom": false,
+  "replacement_characters": 0,
+  "suspicious_mojibake_sequences": {
+    "\u00c3\u00a1": 0,
+    "\u00c3\u00a9": 0,
+    "\u00e1\u00ba": 0,
+    "\u00e1\u00bb": 0
+  },
+  "feature_differences": {
+    "structural_encoding": [
+      false,
+      true
+    ],
+    "remaining_decode_changes": [
+      0,
+      1
+    ]
+  },
+  "original_overall_status": "FAIL",
+  "original_probe_status": "FAIL",
+  "original_pipeline_status": "success"
+}

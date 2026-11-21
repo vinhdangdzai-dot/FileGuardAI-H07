@@ -1,0 +1,33 @@
+{
+  "tc": "TC16",
+  "name": "encoded missing Unicode",
+  "uri": "/download?path=tailieu/kh%C3%B4ng%20t%E1%BB%93n%20t%E1%BA%A1i%2099b139b71bb6482f812621d75e5ad962.txt",
+  "framework_path": "tailieu/không tồn tại 99b139b71bb6482f812621d75e5ad962.txt",
+  "expected_http": 404,
+  "actual_http": 404,
+  "result": "FAIL",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": false
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 14:40:31 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3543",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3543,
+  "response_sha256": "1eeda6835b68f77445a77a71b62ec00d0de3c994ed6492a0dd2ce8fdabbfc76d",
+  "sqlite_rows": [],
+  "started_utc": "2026-11-17T14:40:31.000865+00:00",
+  "ended_utc": "2026-11-17T14:40:31.047244+00:00"
+}

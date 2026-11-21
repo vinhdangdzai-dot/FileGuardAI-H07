@@ -1,0 +1,11 @@
+{
+  "mode": "LIVE_GOOGLE_API",
+  "created_at_utc": "2026-11-18T10:58:15.229894+00:00",
+  "status": "FAIL",
+  "provider_diagnostics": [
+    {
+      "code": "authentication",
+      "diagnostic": "api_key_invalid"
+    }
+  ]
+}

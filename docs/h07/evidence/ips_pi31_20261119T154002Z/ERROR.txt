@@ -1,0 +1,4 @@
+Trạng thái: ERROR trước khi gửi HTTP.
+Nguyên nhân: script ban đầu chưa thêm project root vào sys.path nên không import được package app.
+Không có test case nào được chạy trong thư mục này và không được tính là PASS/SKIP.
+Lỗi đã được sửa trong tools/verify_ips_http.py; run xác minh kế tiếp là ips_pi31_20261119T154012Z.

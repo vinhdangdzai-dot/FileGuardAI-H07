@@ -1,0 +1,55 @@
+{
+  "tc": "TC15",
+  "name": "missing file",
+  "uri": "/download?path=h07_missing_d56f73d64910457b93f0bd083ec7eb54.txt",
+  "framework_path": "h07_missing_d56f73d64910457b93f0bd083ec7eb54.txt",
+  "expected_http": 404,
+  "actual_http": 404,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Wed, 18 Nov 2026 17:42:24 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "3543",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 3543,
+  "response_sha256": "1eeda6835b68f77445a77a71b62ec00d0de3c994ed6492a0dd2ce8fdabbfc76d",
+  "sqlite_rows": [
+    {
+      "id": 25,
+      "created_at": "2026-11-18T17:42:24+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "h07_missing_d56f73d64910457b93f0bd083ec7eb54.txt",
+      "ml_score": 1.9188914803873655e-06,
+      "ml_label": "benign",
+      "action": "MISS",
+      "http_status": 404,
+      "reason": "Không tìm thấy tệp",
+      "duration_ms": 3.1968999974196777
+    }
+  ],
+  "started_utc": "2026-11-18T17:42:24.230981+00:00",
+  "ended_utc": "2026-11-18T17:42:24.256426+00:00"
+}

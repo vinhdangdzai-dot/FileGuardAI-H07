@@ -1,0 +1,4249 @@
+{
+  "created_at_utc": "2026-11-17T10:59:55.412514+00:00",
+  "transport": "TCP localhost, real Chromium",
+  "fixture_note": "Screenshots use isolated UI files and real fixture requests, original training/model artifacts read-only; no business DB.",
+  "checks": [
+    {
+      "name": "public desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "public desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "NFC Unicode file search",
+      "result": "PASS",
+      "actual": 1
+    },
+    {
+      "name": "search empty state",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "extension filter",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native Unicode download exact body",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "download status does not fabricate success",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "native form traversal rejected",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %2e%2e%2fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP %252e%252e%252fprivate-secret.txt",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "HTTP missing.txt",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "login desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "login desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login CSRF present",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "critical login text contrast at least 4.5 to 1",
+      "result": "PASS",
+      "actual": [
+        {
+          "selector": ".login-panel .form-label",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 17
+        },
+        {
+          "selector": ".login-panel>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 18
+        },
+        {
+          "selector": ".login-panel #password-help",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        },
+        {
+          "selector": ".login-visual>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(244, 247, 251)",
+          "ratio": 5.644188934059945,
+          "font_px": 18
+        },
+        {
+          "selector": ".password-toggle",
+          "color": "rgb(0, 101, 129)",
+          "background": "rgb(233, 244, 250)",
+          "ratio": 5.910214170873395,
+          "font_px": 18
+        }
+      ]
+    },
+    {
+      "name": "presentation login labels and descriptions enlarged",
+      "result": "PASS",
+      "actual": [
+        {
+          "selector": ".login-panel .form-label",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 17
+        },
+        {
+          "selector": ".login-panel>p",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 18
+        },
+        {
+          "selector": ".login-panel #password-help",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        }
+      ]
+    },
+    {
+      "name": "keyboard reveals password without submitting",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "keyboard hides password and preserves value",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "real login submit shows loading on submit, not reveal",
+      "result": "PASS",
+      "actual": [
+        {
+          "busy": "true",
+          "label": "Đang xác thực…",
+          "revealBusy": null
+        }
+      ]
+    },
+    {
+      "name": "failed login is clear and generic",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "dashboard desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "four real overview cards",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard charts rendered",
+      "result": "PASS",
+      "actual": {
+        "charts_rendered": true
+      }
+    },
+    {
+      "name": "chart data equals backend counts",
+      "result": "PASS",
+      "actual": {
+        "data": [
+          1,
+          3,
+          1
+        ],
+        "source": {
+          "allowed": 1,
+          "blocked": 3,
+          "missed": 1
+        }
+      }
+    },
+    {
+      "name": "desktop sidebar collapses",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "compact sidebar keeps accessible links",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "filtered log rows BLOCK",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "filtered CSV export",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "evaluation desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation metrics and confusion images",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation comparison chart rendered",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "scientific warning visible",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "scientific warning and metadata text contrast at least 4.5 to 1",
+      "result": "PASS",
+      "actual": [
+        {
+          "selector": ".science-warning p",
+          "color": "rgb(98, 72, 7)",
+          "background": "rgb(255, 247, 223)",
+          "ratio": 8.011049492231455,
+          "font_px": 18
+        },
+        {
+          "selector": ".science-warning h2",
+          "color": "rgb(134, 87, 0)",
+          "background": "rgb(255, 247, 223)",
+          "ratio": 5.8105332873208075,
+          "font_px": 24
+        },
+        {
+          "selector": ".context-facts dt",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        },
+        {
+          "selector": ".context-note",
+          "color": "rgb(82, 100, 122)",
+          "background": "rgb(255, 255, 255)",
+          "ratio": 6.064694032650392,
+          "font_px": 16
+        }
+      ]
+    },
+    {
+      "name": "selector includes historical and strict canonical runs",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run metadata is exact without fabricated validation",
+      "result": "PASS",
+      "actual": {
+        "fit_samples": "7999",
+        "validation_samples": "Không được cung cấp",
+        "test_samples": "2001",
+        "refit_samples": "7999",
+        "canonical_overlap": "Không được cung cấp"
+      }
+    },
+    {
+      "name": "legacy run metrics equal its results.json",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run plotted metrics equal source",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "legacy run image sources remain pinned",
+      "result": "PASS",
+      "actual": [
+        "20261116T153450Z_e5b13b",
+        "20261116T153450Z_e5b13b",
+        "20261116T153450Z_e5b13b"
+      ]
+    },
+    {
+      "name": "strict run metadata is exact without fabricated validation",
+      "result": "PASS",
+      "actual": {
+        "fit_samples": "6500",
+        "validation_samples": "1999",
+        "test_samples": "1501",
+        "refit_samples": "8499",
+        "canonical_overlap": "0"
+      }
+    },
+    {
+      "name": "strict run metrics equal its results.json",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "strict run plotted metrics equal source",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "strict run image sources remain pinned",
+      "result": "PASS",
+      "actual": [
+        "20261117T081416Z_5cb7da",
+        "20261117T081416Z_5cb7da",
+        "20261117T081416Z_5cb7da"
+      ]
+    },
+    {
+      "name": "glossary expands with all key terms",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "invalid run does not expose or silently substitute data",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training desktop no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440
+      }
+    },
+    {
+      "name": "training desktop no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training real features and read-only labels",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training chart equals CSV counts",
+      "result": "PASS",
+      "actual": {
+        "data": [
+          5000,
+          5000
+        ],
+        "source": {
+          "0": 5000,
+          "1": 5000
+        }
+      }
+    },
+    {
+      "name": "training first page contains 50 of 10000 real rows",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training defaults to newest validated strict run",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training TCP last page has original CSV indices",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training last page disables next navigation",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training TCP combined search label family matches CSV",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training filtered page exports full 10000 rows via CSRF",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training TCP empty results remain truthful",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "public tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "dashboard tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "dashboard tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "evaluation tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "training tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login tablet no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768
+      }
+    },
+    {
+      "name": "login tablet no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "tablet sidebar initially closed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "tablet sidebar opens",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "tablet sidebar Escape closes",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "public mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "dashboard mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "dashboard mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "evaluation mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "evaluation mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "training mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "training mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "login mobile no document overflow",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390
+      }
+    },
+    {
+      "name": "login mobile no document overflow navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "mobile sidebar initially closed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "mobile sidebar opens",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "mobile sidebar Escape closes",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "no-JS native file links available",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 1440 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 1440 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 768 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 768 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest login 390 navbar text/buttons not clipped",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "guest login 390 no document overflow",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 1440 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 1440 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 1440 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "public 1440 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 1440 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 1440 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 1440 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "public 1440 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 1440 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 1440 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 1440 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "login 1440 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 1440 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 1440 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 1440 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "login 1440 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 1440 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 1440 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 1440 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "dashboard 1440 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 1440 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a",
+        "#52647a"
+      ]
+    },
+    {
+      "name": "dashboard 1440 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 1440 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 1440 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "dashboard 1440 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 1440 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8",
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "evaluation 1440 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 1440 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 1440 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "evaluation 1440 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 1440 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "evaluation 1440 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 1440 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 1440 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "evaluation 1440 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 1440 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "training 1440 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 1440 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 1440 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "training 1440 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 1440 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "training 1440 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 1440 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 1440,
+        "scroll": 1440,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 1440 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "training 1440 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 1440 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "public 768 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 768 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 768 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "public 768 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 768 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 768 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 768 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "public 768 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 768 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 768 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 768 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "login 768 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 768 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 768 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 768 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "login 768 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 768 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 768 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 768 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "dashboard 768 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 768 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a",
+        "#52647a"
+      ]
+    },
+    {
+      "name": "dashboard 768 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 768 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 768 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "dashboard 768 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 768 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8",
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "evaluation 768 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 768 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 768 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "evaluation 768 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 768 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "evaluation 768 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 768 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 768 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "evaluation 768 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 768 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "training 768 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 768 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 768 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "training 768 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 768 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "training 768 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 768 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 768,
+        "scroll": 768,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 768 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "training 768 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 768 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "public 390 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 390 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 390 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "public 390 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 390 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public 390 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "public 390 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "public 390 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 390 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 390 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 390 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "login 390 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 390 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "login 390 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "login 390 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "login 390 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 390 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 390 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 390 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "dashboard 390 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 390 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a",
+        "#52647a"
+      ]
+    },
+    {
+      "name": "dashboard 390 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 390 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "dashboard 390 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "dashboard 390 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dashboard 390 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8",
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "evaluation 390 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 390 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 390 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "evaluation 390 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 390 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "evaluation 390 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 390 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "evaluation 390 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "evaluation 390 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "evaluation 390 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "training 390 light immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 390 light no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 390 light correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "body": "rgb(244, 247, 251)",
+        "surface": "rgb(255, 255, 255)",
+        "text": "rgb(20, 35, 61)",
+        "muted": "#52647a"
+      }
+    },
+    {
+      "name": "training 390 light chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 390 light chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#52647a"
+      ]
+    },
+    {
+      "name": "training 390 dark immediate preference",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 390 dark no page/nav clipping",
+      "result": "PASS",
+      "actual": {
+        "width": 390,
+        "scroll": 390,
+        "bad": []
+      }
+    },
+    {
+      "name": "training 390 dark correct background palette",
+      "result": "PASS",
+      "actual": {
+        "theme": "dark",
+        "body": "rgb(9, 14, 26)",
+        "surface": "rgb(16, 24, 39)",
+        "text": "rgb(229, 237, 248)",
+        "muted": "#a1b1c8"
+      }
+    },
+    {
+      "name": "training 390 dark chart values/instances preserved",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "training 390 dark chart text recolored",
+      "result": "PASS",
+      "actual": [
+        "#a1b1c8"
+      ]
+    },
+    {
+      "name": "theme changes chart palette without changing numbers",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "stored light applies before CSS despite dark OS",
+      "result": "PASS",
+      "actual": {
+        "theme": "light",
+        "ready": "loading",
+        "styles": 0
+      }
+    },
+    {
+      "name": "theme menu keyboard opens on selected choice",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "theme menu keyboard selects dark and returns focus",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "theme menu Escape closes",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "system preference follows live OS light",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "system preference follows live OS dark",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "explicit preference overrides OS",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "preference synchronizes across tabs",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "preference survives real browser restart",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "blocked storage falls back to system without crashing",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "blocked storage still allows in-page switching",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "light error 403 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "light error 404 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "light error 503 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dark error 403 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dark error 404 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "dark error 503 themed",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "type light 1440 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 1440 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 1440 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 1440 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type light 1440 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 1440 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 1440 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type light 768 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 768 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 768 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 768 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type light 768 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 768 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 768 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type light 390 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type light 390 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 390 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 390 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type light 390 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type light 390 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type light 390 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 1440 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 768 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 768 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 768 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 768 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 768 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 768 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 768 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 390 public small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 public medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 public large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 login small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 15.1111,
+          ".form-control": 15.1111,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 login medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 17,
+          ".form-control": 17,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 login large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 18.8889,
+          ".form-control": 18.8889,
+          ".table": null,
+          ".table th": null,
+          ".status": null,
+          ".side-link": null,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 dashboard small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 dashboard medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 dashboard large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": null
+        }
+      }
+    },
+    {
+      "name": "type dark 390 evaluation small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": null,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 390 evaluation medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": null,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 390 evaluation large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": null,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "type dark 390 training small: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 16,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 16,
+          "h1": 32,
+          "h2": 21.3333,
+          ".btn": 14.2222,
+          ".form-control": 15.1111,
+          ".table": 15.1111,
+          ".table th": 14.2222,
+          ".status": 14.2222,
+          ".side-link": 16,
+          ".context-note": 14.2222
+        }
+      }
+    },
+    {
+      "name": "type dark 390 training medium: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 18,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 18,
+          "h1": 36,
+          "h2": 24,
+          ".btn": 16,
+          ".form-control": 17,
+          ".table": 17,
+          ".table th": 16,
+          ".status": 16,
+          ".side-link": 18,
+          ".context-note": 16
+        }
+      }
+    },
+    {
+      "name": "type dark 390 training large: scale and reflow",
+      "result": "PASS",
+      "actual": {
+        "root": 20,
+        "clipped": [],
+        "overflow": false,
+        "fonts": {
+          "body": 20,
+          "h1": 40,
+          "h2": 26.6667,
+          ".btn": 17.7778,
+          ".form-control": 18.8889,
+          ".table": 18.8889,
+          ".table th": 17.7778,
+          ".status": 17.7778,
+          ".side-link": 20,
+          ".context-note": 17.7778
+        }
+      }
+    },
+    {
+      "name": "text controls keyboard and chart labels scale",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "text preference persists through reload",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "zoom reflow emulated 1440 125% public",
+      "result": "PASS",
+      "actual": {
+        "width": 1152,
+        "scroll": 1152,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 125% login",
+      "result": "PASS",
+      "actual": {
+        "width": 1152,
+        "scroll": 1152,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 125% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 1152,
+        "scroll": 1152,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 125% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 1152,
+        "scroll": 1152,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 125% training",
+      "result": "PASS",
+      "actual": {
+        "width": 1152,
+        "scroll": 1152,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 150% public",
+      "result": "PASS",
+      "actual": {
+        "width": 960,
+        "scroll": 960,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 150% login",
+      "result": "PASS",
+      "actual": {
+        "width": 960,
+        "scroll": 960,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 150% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 960,
+        "scroll": 960,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 150% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 960,
+        "scroll": 960,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 150% training",
+      "result": "PASS",
+      "actual": {
+        "width": 960,
+        "scroll": 960,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 200% public",
+      "result": "PASS",
+      "actual": {
+        "width": 720,
+        "scroll": 720,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 200% login",
+      "result": "PASS",
+      "actual": {
+        "width": 720,
+        "scroll": 720,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 200% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 720,
+        "scroll": 720,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 200% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 720,
+        "scroll": 720,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 1440 200% training",
+      "result": "PASS",
+      "actual": {
+        "width": 720,
+        "scroll": 720,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 125% public",
+      "result": "PASS",
+      "actual": {
+        "width": 614,
+        "scroll": 614,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 125% login",
+      "result": "PASS",
+      "actual": {
+        "width": 614,
+        "scroll": 614,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 125% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 614,
+        "scroll": 614,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 125% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 614,
+        "scroll": 614,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 125% training",
+      "result": "PASS",
+      "actual": {
+        "width": 614,
+        "scroll": 614,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 150% public",
+      "result": "PASS",
+      "actual": {
+        "width": 512,
+        "scroll": 512,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 150% login",
+      "result": "PASS",
+      "actual": {
+        "width": 512,
+        "scroll": 512,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 150% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 512,
+        "scroll": 512,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 150% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 512,
+        "scroll": 512,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 150% training",
+      "result": "PASS",
+      "actual": {
+        "width": 512,
+        "scroll": 512,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 200% public",
+      "result": "PASS",
+      "actual": {
+        "width": 384,
+        "scroll": 384,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 200% login",
+      "result": "PASS",
+      "actual": {
+        "width": 384,
+        "scroll": 384,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 200% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 384,
+        "scroll": 384,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 200% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 384,
+        "scroll": 384,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 768 200% training",
+      "result": "PASS",
+      "actual": {
+        "width": 384,
+        "scroll": 384,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 125% public",
+      "result": "PASS",
+      "actual": {
+        "width": 312,
+        "scroll": 312,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 125% login",
+      "result": "PASS",
+      "actual": {
+        "width": 312,
+        "scroll": 312,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 125% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 312,
+        "scroll": 312,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 125% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 312,
+        "scroll": 312,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 125% training",
+      "result": "PASS",
+      "actual": {
+        "width": 312,
+        "scroll": 312,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 150% public",
+      "result": "PASS",
+      "actual": {
+        "width": 260,
+        "scroll": 260,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 150% login",
+      "result": "PASS",
+      "actual": {
+        "width": 260,
+        "scroll": 260,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 150% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 260,
+        "scroll": 260,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 150% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 260,
+        "scroll": 260,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 150% training",
+      "result": "PASS",
+      "actual": {
+        "width": 260,
+        "scroll": 260,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 200% public",
+      "result": "PASS",
+      "actual": {
+        "width": 195,
+        "scroll": 195,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 200% login",
+      "result": "PASS",
+      "actual": {
+        "width": 195,
+        "scroll": 195,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 200% dashboard",
+      "result": "PASS",
+      "actual": {
+        "width": 195,
+        "scroll": 195,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 200% evaluation",
+      "result": "PASS",
+      "actual": {
+        "width": 195,
+        "scroll": 195,
+        "buttons": true
+      }
+    },
+    {
+      "name": "zoom reflow emulated 390 200% training",
+      "result": "PASS",
+      "actual": {
+        "width": 195,
+        "scroll": 195,
+        "buttons": true
+      }
+    },
+    {
+      "name": "account link visible for admin",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password form dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password keyboard reveal current_password",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password keyboard reveal new_password",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password keyboard reveal confirm_password",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "other admin session valid before password change",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password TCP CSRF rejected",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password TCP incorrect current rejected without reflection",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "password UI success forces reauthentication",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "previous admin session revoked by server",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "old password rejected after change",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "new password immediately authenticates",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "no JavaScript runtime errors",
+      "result": "PASS",
+      "actual": []
+    },
+    {
+      "name": "all local static assets load",
+      "result": "PASS",
+      "actual": []
+    }
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "launch_args": [],
+  "screenshots": [
+    "01_public_desktop.png",
+    "02_blocked_request.png",
+    "03_login_desktop.png",
+    "login_error_desktop.png",
+    "04_dashboard_desktop.png",
+    "05_evaluation_desktop.png",
+    "evaluation_legacy_desktop.png",
+    "evaluation_strict_desktop.png",
+    "06_training_desktop.png",
+    "public_mobile.png",
+    "dashboard_mobile.png",
+    "evaluation_mobile.png",
+    "training_mobile.png",
+    "login_mobile.png",
+    "sidebar_mobile.png",
+    "login_guest_1440.png",
+    "login_guest_768.png",
+    "login_guest_390.png",
+    "theme_light_public_1440.png",
+    "theme_dark_public_1440.png",
+    "theme_light_login_1440.png",
+    "theme_dark_login_1440.png",
+    "theme_light_dashboard_1440.png",
+    "theme_dark_dashboard_1440.png",
+    "theme_light_evaluation_1440.png",
+    "theme_dark_evaluation_1440.png",
+    "theme_light_training_1440.png",
+    "theme_dark_training_1440.png",
+    "theme_light_public_390.png",
+    "theme_dark_public_390.png",
+    "theme_light_login_390.png",
+    "theme_dark_login_390.png",
+    "theme_light_dashboard_390.png",
+    "theme_dark_dashboard_390.png",
+    "theme_light_evaluation_390.png",
+    "theme_dark_evaluation_390.png",
+    "theme_light_training_390.png",
+    "theme_dark_training_390.png",
+    "theme_light_error_403.png",
+    "theme_light_error_404.png",
+    "theme_light_error_503.png",
+    "theme_dark_error_403.png",
+    "theme_dark_error_404.png",
+    "theme_dark_error_503.png",
+    "type_medium_public_1440.png",
+    "type_large_public_1440.png",
+    "type_medium_login_1440.png",
+    "type_large_login_1440.png",
+    "type_medium_dashboard_1440.png",
+    "type_large_dashboard_1440.png",
+    "type_medium_evaluation_1440.png",
+    "type_large_evaluation_1440.png",
+    "type_medium_training_1440.png",
+    "type_large_training_1440.png",
+    "type_medium_public_390.png",
+    "type_large_public_390.png",
+    "type_medium_login_390.png",
+    "type_large_login_390.png",
+    "type_medium_dashboard_390.png",
+    "type_large_dashboard_390.png",
+    "type_medium_evaluation_390.png",
+    "type_large_evaluation_390.png",
+    "type_medium_training_390.png",
+    "type_large_training_390.png",
+    "password_light_1440.png",
+    "password_light_768.png",
+    "password_light_390.png",
+    "password_dark_1440.png",
+    "password_dark_768.png",
+    "password_dark_390.png"
+  ],
+  "browser_version": "157.0.4341.60",
+  "text_zoom_method": "CDP viewport/device-scale emulation of desktop zoom reflow; native browser zoom shortcuts not verified",
+  "protected_unchanged": {
+    "data\\paths_synthetic.csv": true,
+    "artifacts\\model.joblib": true,
+    "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+    "instance\\events.sqlite3": true
+  },
+  "passed": 402,
+  "failed": 0
+}

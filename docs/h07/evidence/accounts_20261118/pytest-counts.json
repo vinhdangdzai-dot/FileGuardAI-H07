@@ -1,0 +1,11 @@
+{
+  "junit_counts": {
+    "PASS": 349,
+    "FAIL": 0,
+    "ERROR": 0,
+    "SKIP": 3
+  },
+  "account_testcase_count": 20,
+  "account_failures": [],
+  "subtest_note": "Console subtest totals are separate; not added to JUnit testcase totals."
+}

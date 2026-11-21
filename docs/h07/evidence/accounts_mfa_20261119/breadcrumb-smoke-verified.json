@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/dashboard",
+    "http": 200,
+    "expected_label": "Monitoring",
+    "result": "PASS"
+  },
+  {
+    "path": "/dashboard/ai-evaluation",
+    "http": 200,
+    "expected_label": "AI Evaluation",
+    "result": "PASS"
+  },
+  {
+    "path": "/dashboard/ai-training",
+    "http": 200,
+    "expected_label": "AI Training",
+    "result": "PASS"
+  },
+  {
+    "path": "/account/password",
+    "http": 200,
+    "expected_label": "Tài khoản",
+    "result": "PASS"
+  },
+  {
+    "path": "/account",
+    "http": 200,
+    "expected_label": "Tài khoản",
+    "result": "PASS"
+  },
+  {
+    "path": "/admin/accounts",
+    "http": 200,
+    "expected_label": "Quản lý tài khoản",
+    "result": "PASS"
+  },
+  {
+    "path": "/account/mfa",
+    "http": 200,
+    "expected_label": "Bảo mật 2FA",
+    "result": "PASS"
+  },
+  {
+    "path": "/dashboard/alerts",
+    "http": 200,
+    "expected_label": "Security Alerts",
+    "result": "PASS"
+  }
+]

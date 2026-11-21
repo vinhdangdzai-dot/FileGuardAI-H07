@@ -1,0 +1,638 @@
+{
+  "transport": "localhost TCP",
+  "lr_model": "artifacts/model.joblib (read only)",
+  "gemini": "offline; no external API calls",
+  "checks": [
+    {
+      "name": "Guest public home hides restricted names",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "public",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Unicode",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "subfolder",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "restricted guest",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "restricted nonexistent guest",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "direct traversal",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Windows separator",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Windows absolute",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "URL encoded",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "double encoded",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "missing public",
+      "result": "PASS",
+      "actual": 404
+    },
+    {
+      "name": "legitimate lexical passwd",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "Guest admin denied",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin password step",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Partial Admin cannot enter admin",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Partial Admin restricted denied",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Admin TOTP verified",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin area and classification",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin event detail includes local offline recommendations",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Admin traversal still blocked",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Registration always User",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "User login cannot choose admin",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "User restricted allowed",
+      "result": "PASS",
+      "actual": 200
+    },
+    {
+      "name": "User private analysis denied",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Repeated traversal keeps Event ID",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Repeated traversal keeps Event ID",
+      "result": "PASS",
+      "actual": 403
+    },
+    {
+      "name": "Every download has a unique preserved Event ID",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Context linked to every Event ID",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "Repeated alert grouping retains links",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest page HTTP 200",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "guest dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user page HTTP 200",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "user dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin page HTTP 200",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "admin dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents page HTTP 200",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "documents dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event page HTTP 200",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event light 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event light 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event light 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event dark 1440 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event dark 768 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "event dark 390 responsive",
+      "result": "PASS",
+      "actual": null
+    },
+    {
+      "name": "No browser JS or static errors",
+      "result": "PASS",
+      "actual": null
+    }
+  ],
+  "downloads": [
+    {
+      "TC": "DL01",
+      "name": "public",
+      "input": "/download?path=public.txt",
+      "expected_http": 200,
+      "actual_http": 200,
+      "result": "PASS",
+      "event": {
+        "id": 1,
+        "ml_score": 0.07087397704637077,
+        "ml_label": "benign",
+        "action": "ALLOW",
+        "http_status": 200
+      }
+    },
+    {
+      "TC": "DL02",
+      "name": "Unicode",
+      "input": "/download?path=b%C3%A1o+c%C3%A1o.txt",
+      "expected_http": 200,
+      "actual_http": 200,
+      "result": "PASS",
+      "event": {
+        "id": 2,
+        "ml_score": 0.012218910093295373,
+        "ml_label": "benign",
+        "action": "ALLOW",
+        "http_status": 200
+      }
+    },
+    {
+      "TC": "DL03",
+      "name": "subfolder",
+      "input": "/download?path=docs/chapter.txt",
+      "expected_http": 200,
+      "actual_http": 200,
+      "result": "PASS",
+      "event": {
+        "id": 3,
+        "ml_score": 0.027335132786762136,
+        "ml_label": "benign",
+        "action": "ALLOW",
+        "http_status": 200
+      }
+    },
+    {
+      "TC": "DL04",
+      "name": "restricted guest",
+      "input": "/download?path=restricted/internal-secret.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 4,
+        "ml_score": 0.0018576894113190516,
+        "ml_label": "benign",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL05",
+      "name": "restricted nonexistent guest",
+      "input": "/download?path=restricted/absent.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 5,
+        "ml_score": 0.01398310451678804,
+        "ml_label": "benign",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL06",
+      "name": "direct traversal",
+      "input": "/download?path=../outside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 6,
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL07",
+      "name": "Windows separator",
+      "input": "/download?path=..%5Coutside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 7,
+        "ml_score": 0.9992498030075705,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL08",
+      "name": "Windows absolute",
+      "input": "/download?path=C:/Windows/win.ini",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 8,
+        "ml_score": 0.9998996898925162,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL09",
+      "name": "URL encoded",
+      "input": "/download?path=%2e%2e%2foutside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 9,
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL10",
+      "name": "double encoded",
+      "input": "/download?path=%252e%252e%252foutside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 10,
+        "ml_score": 0.9999616560347042,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL11",
+      "name": "missing public",
+      "input": "/download?path=absent.txt",
+      "expected_http": 404,
+      "actual_http": 404,
+      "result": "PASS",
+      "event": {
+        "id": 11,
+        "ml_score": 0.13027644525064583,
+        "ml_label": "benign",
+        "action": "MISS",
+        "http_status": 404
+      }
+    },
+    {
+      "TC": "DL12",
+      "name": "legitimate lexical passwd",
+      "input": "/download?path=etc/passwd",
+      "expected_http": 200,
+      "actual_http": 200,
+      "result": "PASS",
+      "event": {
+        "id": 12,
+        "ml_score": 0.23540095503560035,
+        "ml_label": "benign",
+        "action": "ALLOW",
+        "http_status": 200
+      }
+    },
+    {
+      "TC": "DL13",
+      "name": "Partial Admin restricted denied",
+      "input": "/download?path=restricted/internal-secret.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 13,
+        "ml_score": 0.0018576894113190516,
+        "ml_label": "benign",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL14",
+      "name": "Admin traversal still blocked",
+      "input": "/download?path=../outside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 14,
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL15",
+      "name": "User restricted allowed",
+      "input": "/download?path=restricted/internal-secret.txt",
+      "expected_http": 200,
+      "actual_http": 200,
+      "result": "PASS",
+      "event": {
+        "id": 15,
+        "ml_score": 0.0018576894113190516,
+        "ml_label": "benign",
+        "action": "ALLOW",
+        "http_status": 200
+      }
+    },
+    {
+      "TC": "DL16",
+      "name": "Repeated traversal keeps Event ID",
+      "input": "/download?path=../outside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 16,
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    },
+    {
+      "TC": "DL17",
+      "name": "Repeated traversal keeps Event ID",
+      "input": "/download?path=../outside.txt",
+      "expected_http": 403,
+      "actual_http": 403,
+      "result": "PASS",
+      "event": {
+        "id": 17,
+        "ml_score": 0.9978578773879508,
+        "ml_label": "suspicious",
+        "action": "BLOCK",
+        "http_status": 403
+      }
+    }
+  ],
+  "screenshots": [
+    "guest_light_1440.png",
+    "guest_light_768.png",
+    "guest_light_390.png",
+    "guest_dark_1440.png",
+    "guest_dark_768.png",
+    "guest_dark_390.png",
+    "user_light_1440.png",
+    "user_light_768.png",
+    "user_light_390.png",
+    "user_dark_1440.png",
+    "user_dark_768.png",
+    "user_dark_390.png",
+    "admin_light_1440.png",
+    "admin_light_768.png",
+    "admin_light_390.png",
+    "admin_dark_1440.png",
+    "admin_dark_768.png",
+    "admin_dark_390.png",
+    "documents_light_1440.png",
+    "documents_light_768.png",
+    "documents_light_390.png",
+    "documents_dark_1440.png",
+    "documents_dark_768.png",
+    "documents_dark_390.png",
+    "event_light_1440.png",
+    "event_light_768.png",
+    "event_light_390.png",
+    "event_dark_1440.png",
+    "event_dark_768.png",
+    "event_dark_390.png"
+  ],
+  "browser_errors": [],
+  "static_errors": [],
+  "observed_lr_disagreements": [],
+  "protected_unchanged": {
+    "data/paths_synthetic.csv": true,
+    "artifacts/model.joblib": true,
+    "instance/events.sqlite3": true,
+    "instance/admin_password.hash": true,
+    "docs/evaluations/latest.json": true
+  },
+  "passed": 66,
+  "failed": 0
+}

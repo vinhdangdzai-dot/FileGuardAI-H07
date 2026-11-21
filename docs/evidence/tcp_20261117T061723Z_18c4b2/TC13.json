@@ -1,0 +1,55 @@
+{
+  "tc": "TC13",
+  "name": "triple encoding",
+  "uri": "/download?path=%25252e%25252e%25252fsecret.txt",
+  "framework_path": "%252e%252e%252fsecret.txt",
+  "expected_http": 403,
+  "actual_http": 403,
+  "result": "PASS",
+  "checks": {
+    "http": true,
+    "no_external_secret": true,
+    "exact_content": true,
+    "one_sqlite_row": true,
+    "ip": true,
+    "path": true,
+    "ml_score": true,
+    "ml_label": true,
+    "decision": true,
+    "logged_http": true,
+    "duration_ms": true,
+    "timestamp_utc": true,
+    "reason": true
+  },
+  "headers": {
+    "Server": "Werkzeug/3.1.9 Python/3.12.10",
+    "Date": "Tue, 17 Nov 2026 06:17:26 GMT",
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": "1808",
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'",
+    "Vary": "Cookie",
+    "Connection": "close"
+  },
+  "response_length": 1808,
+  "response_sha256": "bea6d02fd1a4be8ae3b0e3f15b9e33ba3742e32c5fb1c07199f5ca5c4d977718",
+  "sqlite_rows": [
+    {
+      "id": 23,
+      "created_at": "2026-11-17T06:17:26+00:00",
+      "client_ip": "127.0.0.1",
+      "requested_path": "%252e%252e%252fsecret.txt",
+      "ml_score": 0.2525678499464351,
+      "ml_label": "benign",
+      "action": "BLOCK",
+      "http_status": 403,
+      "reason": "Đường dẫn chứa mã hóa cấu trúc URL còn sót lại",
+      "duration_ms": 3.2850999996298924
+    }
+  ],
+  "started_utc": "2026-11-17T06:17:26.068456+00:00",
+  "ended_utc": "2026-11-17T06:17:26.101717+00:00"
+}

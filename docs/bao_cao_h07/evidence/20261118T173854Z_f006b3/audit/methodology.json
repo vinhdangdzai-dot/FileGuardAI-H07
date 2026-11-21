@@ -1,0 +1,152 @@
+{
+  "created_at_utc": "2026-11-18T17:42:39.082002+00:00",
+  "canonical_definition": "Unicode NFC, exactly two URL decode views, backslash->slash, casefold; no filesystem resolution",
+  "locked_test_samples": 2001,
+  "overlapping_canonical_keys": 15,
+  "excluded_test_rows": 15,
+  "remaining_test_rows": 1986,
+  "frozen_test_canonical_disjoint": false,
+  "remaining_canonical_disjoint": true,
+  "selection_uses_test_labels_or_predictions": false,
+  "models_refitted": false,
+  "sensitivity_results": {
+    "samples": 1986,
+    "label_counts": {
+      "0": 1001,
+      "1": 985
+    },
+    "models": {
+      "logistic_regression": {
+        "accuracy": 0.879154078549849,
+        "precision": 1.0,
+        "recall": 0.7563451776649747,
+        "f1": 0.861271676300578,
+        "confusion_matrix": [
+          [
+            1001,
+            0
+          ],
+          [
+            240,
+            745
+          ]
+        ]
+      },
+      "improved_logistic_regression": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "confusion_matrix": [
+          [
+            1001,
+            0
+          ],
+          [
+            0,
+            985
+          ]
+        ]
+      },
+      "regex": {
+        "accuracy": 0.879154078549849,
+        "precision": 1.0,
+        "recall": 0.7563451776649747,
+        "f1": 0.861271676300578,
+        "confusion_matrix": [
+          [
+            1001,
+            0
+          ],
+          [
+            240,
+            745
+          ]
+        ]
+      }
+    },
+    "timing": {
+      "lr_inference_only": {
+        "repeats": 7,
+        "samples_per_batch": 1986,
+        "batch_ms": [
+          0.4488,
+          0.4503,
+          0.4161,
+          0.4181,
+          0.9227,
+          0.4601,
+          0.4232
+        ],
+        "median_batch_ms": 0.4488,
+        "p95_batch_ms": 0.7839199999999996,
+        "amortized_us_per_path": 0.22598187311178244
+      },
+      "lr_end_to_end": {
+        "repeats": 7,
+        "samples_per_batch": 1986,
+        "batch_ms": [
+          35.9366,
+          36.7177,
+          34.1394,
+          35.0431,
+          33.1641,
+          33.1637,
+          40.7456
+        ],
+        "median_batch_ms": 35.0431,
+        "p95_batch_ms": 39.53723,
+        "amortized_us_per_path": 17.645065458207455
+      },
+      "improved_inference_only": {
+        "repeats": 7,
+        "samples_per_batch": 1986,
+        "batch_ms": [
+          0.9239,
+          0.5317,
+          0.4989,
+          0.466,
+          0.5105,
+          0.4704,
+          0.4526
+        ],
+        "median_batch_ms": 0.4989,
+        "p95_batch_ms": 0.8062399999999997,
+        "amortized_us_per_path": 0.2512084592145015
+      },
+      "improved_end_to_end": {
+        "repeats": 7,
+        "samples_per_batch": 1986,
+        "batch_ms": [
+          68.2313,
+          69.2002,
+          69.5438,
+          69.1559,
+          67.1029,
+          72.5457,
+          65.9666
+        ],
+        "median_batch_ms": 69.1559,
+        "p95_batch_ms": 71.64513,
+        "amortized_us_per_path": 34.82170191339376
+      },
+      "regex_end_to_end": {
+        "repeats": 7,
+        "samples_per_batch": 1986,
+        "batch_ms": [
+          2.2277,
+          2.6196,
+          2.2528,
+          2.2542,
+          2.2271,
+          2.2094,
+          2.226
+        ],
+        "median_batch_ms": 2.2277,
+        "p95_batch_ms": 2.5099799999999997,
+        "amortized_us_per_path": 1.1217019133937562
+      }
+    }
+  },
+  "interpretation": "Post-hoc sensitivity subset, not a new blind benchmark. Original locked test, models and dashboard scores are unchanged. Family-generator correlation and prior disclosure remain."
+}

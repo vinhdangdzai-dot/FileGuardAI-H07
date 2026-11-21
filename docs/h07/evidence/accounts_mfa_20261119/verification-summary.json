@@ -1,0 +1,248 @@
+{
+  "created_at_utc": "2026-11-18T17:54:20.567792+00:00",
+  "pytest": {
+    "counts": {
+      "PASS": 372,
+      "FAIL": 0,
+      "ERROR": 0,
+      "SKIP": 3
+    },
+    "console_summary": "372 passed, 3 skipped, 15 subtests passed in 211.16s (0:03:31)",
+    "evidence": "pytest-verified.xml"
+  },
+  "execution": {
+    "pytest_exit": 0,
+    "acceptance_exit": 0
+  },
+  "browser_execution": {
+    "credentials_tcp_exit": 0,
+    "regression_browser_exit": 0,
+    "accounts_browser_exit": 0
+  },
+  "acceptance": {
+    "evidence": "docs/bao_cao_h07/evidence/20261118T174808Z_56b9fa",
+    "created_at_utc": "2026-11-18T17:51:53.968101+00:00",
+    "steps": {
+      "pytest": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "-q",
+          "-rs",
+          "-W",
+          "error::sklearn.exceptions.InconsistentVersionWarning",
+          "-p",
+          "no:cacheprovider",
+          "--basetemp=C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\.test_runtime_acceptance_ad072aaa3a654e968f8ef8a396e4003d\\pytest",
+          "--junitxml=C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\bao_cao_h07\\evidence\\20261118T174808Z_56b9fa\\pytest.xml"
+        ],
+        "junit_counts": {
+          "PASS": 372,
+          "FAIL": 0,
+          "ERROR": 0,
+          "SKIP": 3
+        },
+        "counting_note": "Serialized JUnit testcase nodes only; console subtest totals are retained separately and not added here."
+      },
+      "dashboard_tcp": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "tools/verify_evaluation_http.py"
+        ],
+        "evidence": "docs\\evaluations\\dashboard_http_20261116T172733Z_800c38_http_5ac3546fef2d.json",
+        "passed": 43,
+        "failed": 0
+      },
+      "download_tcp": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "tools/verify_tcp.py"
+        ],
+        "evidence": "docs\\evidence\\tcp_20261118T175135Z_102f35",
+        "counts": {
+          "PASS": 33,
+          "FAIL": 0,
+          "SKIP": 3
+        }
+      },
+      "performance": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "tools/h07_acceptance.py"
+        ],
+        "evidence": "docs\\h07\\evidence\\20261118T175139Z_066f55",
+        "requests": 144,
+        "failures": 0,
+        "sqlite_rows": 144
+      },
+      "symlinks": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "tools/check_symlinks.py"
+        ]
+      },
+      "audit": {
+        "returncode": 0,
+        "command": [
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\.venv\\Scripts\\python.exe",
+          "tools/audit_project.py",
+          "--output",
+          "C:\\Users\\HUU VINH\\FileGuardAI_H07_MVP_10000_mau_khong_trung\\FileGuardAI_H07\\docs\\bao_cao_h07\\evidence\\20261118T174808Z_56b9fa\\audit",
+          "--repeats",
+          "7"
+        ]
+      }
+    },
+    "test_runtime": {
+      "root": ".test_runtime_acceptance_ad072aaa3a654e968f8ef8a396e4003d",
+      "basetemp": ".test_runtime_acceptance_ad072aaa3a654e968f8ef8a396e4003d\\pytest",
+      "temporary": ".test_runtime_acceptance_ad072aaa3a654e968f8ef8a396e4003d\\os_tmp"
+    },
+    "protected_sha256_before": {
+      "data\\paths_synthetic.csv": "2a2f427ddf77c27815839a29ec9fbf0448feeb7ad1b4a9675cff56e0166182d0",
+      "artifacts\\model.joblib": "4d7324aa302ecb3d1b731561210a0041e4aef3f740cc68d9187097a80e5a6322",
+      "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": "07e73c85cdbbd4a8acbc785565514a8330e3252483602c191c34208e04f8e368",
+      "instance\\events.sqlite3": "43ae5538b192dcb7478ba97fef2f1941c85f53ad625bdfacd6ead2467839c88c"
+    },
+    "protected_unchanged": {
+      "data\\paths_synthetic.csv": true,
+      "artifacts\\model.joblib": true,
+      "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+      "instance\\events.sqlite3": true
+    },
+    "note": "Zero process exit for symlink probe does not mean PASS: inspect per-case SKIP/1314. No model deployment or merging."
+  },
+  "mfa_raw_testcases": 23,
+  "smtp_live_tested": false,
+  "gemini_live_tested": false,
+  "physical_authenticator_tested": false,
+  "vps_deployed": false,
+  "accounts_browser": {
+    "passed": 74,
+    "failed": 0,
+    "protected_unchanged": {
+      "data\\paths_synthetic.csv": true,
+      "artifacts\\model.joblib": true,
+      "instance\\events.sqlite3": true,
+      "instance\\admin_password.hash": true
+    },
+    "screenshots": 54,
+    "evidence": "docs/ui/accounts_20261118T174446Z_d1d768/results.json"
+  },
+  "regression_browser": {
+    "passed": 475,
+    "failed": 0,
+    "protected_unchanged": {
+      "data\\paths_synthetic.csv": true,
+      "artifacts\\model.joblib": true,
+      "docs\\evaluations\\20261116T154448Z_7a27a7\\improved_model.joblib": true,
+      "instance\\events.sqlite3": true
+    },
+    "screenshots": 110,
+    "evidence": "docs/ui/browser_20261118T174520Z_fbef9d/results.json"
+  },
+  "credentials_tcp": {
+    "passed": 32,
+    "failed": 0,
+    "protected_unchanged": {
+      "data\\paths_synthetic.csv": true,
+      "artifacts\\model.joblib": true,
+      "instance\\events.sqlite3": true,
+      "instance\\admin_password.hash": true
+    },
+    "screenshots": 0,
+    "evidence": "docs/auth/evidence/restart_20261118T174841Z_3dd918/results.json"
+  },
+  "symlink_probe": {
+    "cases": [
+      {
+        "case": "file_policy",
+        "result": "SKIP",
+        "winerror": 1314,
+        "reason": "A required privilege is not held by the client"
+      },
+      {
+        "case": "directory_policy",
+        "result": "SKIP",
+        "winerror": 1314,
+        "reason": "A required privilege is not held by the client"
+      },
+      {
+        "case": "http_file",
+        "result": "SKIP",
+        "winerror": 1314,
+        "reason": "A required privilege is not held by the client"
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "sqlite": "3.49.1",
+    "packages": {
+      "Flask": "3.1.3",
+      "scikit-learn": "1.9.1",
+      "argon2-cffi": "25.1.0",
+      "cryptography": "46.0.7",
+      "pyotp": "2.12.0",
+      "qrcode": "8.2",
+      "pytest": "9.2.0"
+    }
+  },
+  "template_smoke": [
+    {
+      "path": "/dashboard",
+      "http": 200,
+      "expected_label": "Monitoring",
+      "result": "PASS"
+    },
+    {
+      "path": "/dashboard/ai-evaluation",
+      "http": 200,
+      "expected_label": "AI Evaluation",
+      "result": "PASS"
+    },
+    {
+      "path": "/dashboard/ai-training",
+      "http": 200,
+      "expected_label": "AI Training",
+      "result": "PASS"
+    },
+    {
+      "path": "/account/password",
+      "http": 200,
+      "expected_label": "Tài khoản",
+      "result": "PASS"
+    },
+    {
+      "path": "/account",
+      "http": 200,
+      "expected_label": "Tài khoản",
+      "result": "PASS"
+    },
+    {
+      "path": "/admin/accounts",
+      "http": 200,
+      "expected_label": "Quản lý tài khoản",
+      "result": "PASS"
+    },
+    {
+      "path": "/account/mfa",
+      "http": 200,
+      "expected_label": "Bảo mật 2FA",
+      "result": "PASS"
+    },
+    {
+      "path": "/dashboard/alerts",
+      "http": 200,
+      "expected_label": "Security Alerts",
+      "result": "PASS"
+    }
+  ]
+}

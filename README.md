@@ -177,7 +177,7 @@ ghi đè file đã tồn tại; hãy chọn tên output mới cho một dataset 
 
 - Chỉ chạy trên **localhost**, không công khai Internet; `debug=False`.
 - **Không** để người khác có quyền ghi trực tiếp vào `shared_files/`. Trên Windows, rủi ro race condition do symlink/reparse point vẫn có nếu thư mục bị người không tin cậy sửa trong lúc hệ thống hoạt động. Trên POSIX có biện pháp `O_NOFOLLOW` nhưng không thay thế kiểm soát quyền hệ điều hành.
-- Mật khẩu quản trị được sinh ngẫu nhiên mỗi lần chạy nếu không đặt `ADMIN_PASSWORD`, phiên đăng nhập hết hiệu lực khi chạy lại. Ở production phải có HTTPS, quản trị người dùng, CSRF, giới hạn thử mật khẩu, phân quyền và lưu secret lâu dài; demo này **chưa** có đầy đủ các biện pháp đó.
+- Bản hiện hành lưu hash Argon2id, hỗ trợ tài khoản User/Admin, CSRF, giới hạn thử đăng nhập và bắt buộc TOTP cho Admin. Production phải dùng HTTPS, `SECRET_KEY` ổn định và khóa MFA riêng; xem `docs/h07/MFA_SECURITY.md` và `deploy/ubuntu/README.md`.
 - Đừng giải mã URL nhiều lần ở tầng truy cập tệp. Flask đọc `request.args` đã giải mã URL query; bộ đặc trưng AI có thể phân tích biểu diễn khác nhưng chỉ cho mục đích cảnh báo.
 - Không tải các tệp mã nguồn/model `.joblib` không tin cậy. `joblib.load` có thể thực thi mã khi tải tệp độc hại.
 - Trong thực tế nên sử dụng **ID tệp do máy chủ phát sinh** thay vì cho phép nhập trực tiếp đường dẫn, nếu yêu cầu nghiệp vụ cho phép.
